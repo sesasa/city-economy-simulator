@@ -1,0 +1,9 @@
+# Experiment 5: 30% harvest cut for 3 ticks, with storage.
+inherits: stage1_base.yaml
+name: stage1_shock_storage
+ticks: 150
+layers:
+  storage: {enabled: true}
+  harvest_shocks:
+    enabled: true
+    shocks: [{start: 60, duration: 3, multiplier: 0.7}]

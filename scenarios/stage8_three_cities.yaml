@@ -1,0 +1,18 @@
+# Stage 8: three towns. Millford (poor land, skilled bakers) can buy wheat from Grainbridge or Cornhill.
+name: stage8_three_cities
+description: Millford with one or two wheat suppliers, for the single-partner dependency experiment.
+seed: 42
+ticks: 300
+cities:
+  grainbridge:
+    scenario: stage5_government.yaml
+    params: {farm_output_per_worker: 9.0, factory_variable_labor: 0.35}
+  millford:
+    scenario: stage5_government.yaml
+    params: {farm_output_per_worker: 3.5, factory_variable_labor: 0.04}
+  cornhill:
+    scenario: stage5_government.yaml
+    params: {farm_output_per_worker: 8.5, factory_variable_labor: 0.3}
+trade:
+  currency: floating
+  transport_cost: 0.05

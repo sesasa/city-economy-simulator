@@ -1,0 +1,25 @@
+# Stage 2 base scenario: a market economy with money replaces the planner.
+name: stage2_market
+description: Firms set prices and wages, households choose jobs by expected income, money pays for everything.
+seed: 42
+ticks: 300
+layers:
+  market:
+    farm_output_per_worker: 5
+    consumption_per_person: 1
+    conversion_rate: 1
+    factory_fixed_crew: 50
+    factory_variable_labor: 0.1
+    distribution_labor: 0.1
+    maintenance_fixed_crew: 30
+    depreciation_rate: 0.05
+    factory_capacity: 1000
+    initial_population: 150
+    exchange: money
+    initial_allocation: planner
+  demography:
+    enabled: false
+  land_limits:
+    enabled: false
+  harvest_shocks:
+    enabled: false

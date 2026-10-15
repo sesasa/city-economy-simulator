@@ -1,0 +1,25 @@
+# Stage 10: a centrally planned economy with the same people, technology and research as the
+# modern market economy. The planner feeds everyone, invests 30% of the free labor and puts
+# most of the rest into services.
+inherits: stage1_base.yaml
+name: stage10_planned
+description: Central planning with the modern technology, research and planned services.
+ticks: 600
+layers:
+  real_economy:
+    initial_population: 1000
+    initial_factories: 2
+    farm_output_per_worker: 40.0
+    factory_variable_labor: 0.06
+    factory_fixed_crew: 30.0
+    distribution_labor: 0.06
+    maintenance_fixed_crew: 20.0
+  investment:
+    investment_share: 0.3
+  storage:
+    enabled: true
+  technology:
+    research_share: 0.03
+    lbd_exponent: 0.05
+  planned_services:
+    share_of_free_labor: 0.8

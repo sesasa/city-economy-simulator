@@ -1,0 +1,12 @@
+# Stage 7 base scenario: the Stage 6 economy plus a stock market (value traders, trend followers,
+# margin loans) and risk sharing for farmers (off until hedge/cover are set).
+inherits: stage6_central_bank.yaml
+name: stage7_markets
+description: Shares traded by fundamentalists and trend followers with margin loans; harvest futures and crop insurance.
+ticks: 400
+layers:
+  stock_market:
+    margin_requirement: 0.5
+  risk_sharing:
+    futures_hedge: 0.0
+    insurance_cover: 0.0

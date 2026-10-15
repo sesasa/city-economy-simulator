@@ -1,0 +1,11 @@
+# Stage 11: the modern town meets the internet (the first popular web browser, 1993 Q2 = tick 70).
+inherits: stage11_town.yaml
+name: stage11_internet
+description: The modern town through the arrival of the internet, the dot-com boom and bust, and after.
+ticks: 140
+layers:
+  internet:
+    start: 70
+  modern_town:
+    start_year: 1976
+    rate_floor: 0.01

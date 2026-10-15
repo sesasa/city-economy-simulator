@@ -1,0 +1,11 @@
+# Stage 5 base scenario: Stage 4's economy (with bank) plus a government with a safety net and roads.
+inherits: stage4_competition.yaml
+name: stage5_government
+description: Taxes, unemployment benefits, roads and public debt on top of the Stage 4 economy.
+ticks: 400
+layers:
+  government:
+    income_tax: 0.1
+    profit_tax: 0.2
+    unemployment_benefit: 0.4
+    road_target: 5

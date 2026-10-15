@@ -1,0 +1,5 @@
+# Experiment 5: 30% harvest cut for 3 ticks, without storage.
+inherits: stage1_shock_storage.yaml
+name: stage1_shock_no_storage
+layers:
+  storage: {enabled: false}

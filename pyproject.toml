@@ -1,0 +1,12 @@
+[project]
+name = "citysim"
+version = "0.1.0"
+description = "A modular, stage-by-stage simulator of a closed city economy"
+requires-python = ">=3.11"
+dependencies = ["numpy", "pandas", "pydantic>=2", "pyyaml", "plotly", "pyarrow"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+include = ["citysim*"]

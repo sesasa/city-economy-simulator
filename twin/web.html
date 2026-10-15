@@ -1,0 +1,696 @@
+<title>The Wiring of Grainbridge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* A documentary screen. The town fills the frame like a specimen under glass; the narrator's words run
+   beneath it; a vital-signs strip reads the organism's health beside it; chapters and a timeline run
+   below. Dark-first: the network glows as it grows, and goes dark when it is not used. */
+:root {
+  --bg: #0f1416; --panel: #161d20; --ink: #e8ece8; --ink-2: #b4bfba; --ink-3: #85928c; --line: #27323a;
+  --accent: #7fe3d2; --accent-ink: #062520; --amber: #f2b45a; --rose: #f07a7a; --leaf: #8fd17a; --band: #7fe3d222;
+  --ground: #1d2623; --ground-2: #222c28; --water: #193b4a; --road: #2c3431; --field: #4d5a2e; --wheat: #8e7a2e;
+  --brick: #7a4b3a; --roof: #4a3a33; --stone: #5b6560; --glass: #2e4550; --window: #3a3a2c; --lit: #ffd77a;
+  --nerve: #7fe3d2; --money: #f2c14e; --ads: #7aa8ff; --shop: #f29a52; --portal: #7aa8ff; --dead: #5a5f5c; --debt: #f07a7a;
+  --balloon: #f2b45a;
+  --display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif;
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) {
+  --bg: #eef1ee; --panel: #fbfcfa; --ink: #18211d; --ink-2: #44514b; --ink-3: #66736d; --line: #d3dbd6;
+  --accent: #0f7d6e; --accent-ink: #ffffff; --amber: #a86512; --rose: #b33a3a; --leaf: #3d7d2c; --band: #0f7d6e1f;
+  --ground: #dfe6d6; --ground-2: #d3ddc8; --water: #a9cbd9; --road: #c9c4b6; --field: #b9c27a; --wheat: #d6b14a;
+  --brick: #b0634a; --roof: #6b4f44; --stone: #9aa39d; --glass: #a7c4cf; --window: #efe6c8; --lit: #ffcf55;
+  --nerve: #0f9a88; --money: #c88a10; --ads: #2f62d6; --shop: #d0702a; --portal: #2f62d6; --dead: #8f9590; --debt: #c0392b;
+  --balloon: #d98a1c;
+  color-scheme: light;
+} }
+:root[data-theme="light"] {
+  --bg: #eef1ee; --panel: #fbfcfa; --ink: #18211d; --ink-2: #44514b; --ink-3: #66736d; --line: #d3dbd6;
+  --accent: #0f7d6e; --accent-ink: #ffffff; --amber: #a86512; --rose: #b33a3a; --leaf: #3d7d2c; --band: #0f7d6e1f;
+  --ground: #dfe6d6; --ground-2: #d3ddc8; --water: #a9cbd9; --road: #c9c4b6; --field: #b9c27a; --wheat: #d6b14a;
+  --brick: #b0634a; --roof: #6b4f44; --stone: #9aa39d; --glass: #a7c4cf; --window: #efe6c8; --lit: #ffcf55;
+  --nerve: #0f9a88; --money: #c88a10; --ads: #2f62d6; --shop: #d0702a; --portal: #2f62d6; --dead: #8f9590; --debt: #c0392b;
+  --balloon: #d98a1c;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font: 16px/1.5 var(--serif); }
+.wrap { max-width: 1400px; margin: 0 auto; padding-inline: 16px; padding-block: 16px 48px; display: grid; gap: 14px; }
+header { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: end; justify-content: space-between; }
+h1 { margin: 0; font: 700 clamp(30px, 4.2vw, 50px)/1 var(--display); letter-spacing: .01em; text-transform: uppercase; text-wrap: balance; }
+h2 { margin: 0; font: 700 22px/1.1 var(--display); letter-spacing: .04em; text-transform: uppercase; }
+.lede { margin: 6px 0 0; color: var(--ink-2); max-width: 64ch; font-size: 16px; }
+.eyebrow { font: 600 13px var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
+button, select { font: 600 15px var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); background: transparent;
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px; cursor: pointer; }
+select { text-transform: none; letter-spacing: .02em; max-width: 220px; background: var(--panel); }
+button:hover, select:hover { border-color: var(--ink-3); }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+.screen { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 14px; align-items: start; }
+.film { display: grid; gap: 0; min-width: 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--panel); }
+.stage { position: relative; background: var(--ground); min-width: 0; }
+.stage canvas { display: block; width: 100%; height: auto; aspect-ratio: 12 / 7; max-width: 100%; }
+.yearmark { position: absolute; top: 12px; left: 14px; font: 700 clamp(26px, 4vw, 52px)/1 var(--display); letter-spacing: .02em;
+  color: var(--ink); text-shadow: 0 2px 12px var(--bg); font-variant-numeric: tabular-nums; pointer-events: none; }
+.yearmark small { display: block; font: 600 13px var(--display); letter-spacing: .14em; color: var(--ink-2); text-transform: uppercase; margin-bottom: 2px; }
+.subbar { min-height: 5.6em; padding: 12px 18px; border-top: 1px solid var(--line); display: grid; align-content: center;
+  font: 400 clamp(15px, 1.5vw, 19px)/1.5 var(--serif); color: var(--ink); text-wrap: pretty; }
+.subbar .speaker { font: 600 12px var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 2px; }
+.subbar.quiet #subtitle { color: var(--ink-3); font-style: italic; }
+.curtain { position: absolute; inset: 0; display: grid; place-items: center; background: color-mix(in srgb, var(--bg) 72%, transparent); padding: 16px; }
+.curtain > div { max-width: 540px; display: grid; gap: 12px; text-align: center; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 14px; padding: 22px; }
+.curtain h2 { font-size: 30px; line-height: 1.05; }
+.curtain p { margin: 0; color: var(--ink-2); }
+.curtain .row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+.vitals { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 9px;
+  align-content: start; min-width: 0; }
+.vital { display: grid; grid-template-columns: 1fr auto; gap: 0 8px; align-items: baseline; }
+.vital .k { font: 600 13px var(--display); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
+.vital .v { font: 600 20px/1.1 var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+.vital .what { grid-column: 1 / -1; font-size: 13px; color: var(--ink-2); font-style: italic; }
+.vital canvas { grid-column: 1 / -1; width: 100%; height: 30px; display: block; }
+.vital.out .v { color: var(--rose); }
+.vital.out .what::after { content: " · outside the healthy range"; color: var(--rose); font-style: normal; }
+.vitals .key { font-size: 12px; color: var(--ink-3); }
+.vitals .key i { display: inline-block; width: 18px; height: 8px; background: var(--band); border-radius: 2px; margin-right: 5px; vertical-align: 0; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 12px; padding: 10px 12px; }
+.controls .grow { flex: 1 1 280px; min-width: 0; }
+.timeline { position: relative; height: 40px; }
+.timeline input { width: 100%; accent-color: var(--accent); position: absolute; top: 16px; left: 0; margin: 0; }
+.timeline .mark { position: absolute; top: 2px; width: 2px; height: 10px; background: var(--amber); border-radius: 1px; transform: translateX(-1px); }
+.timeline .mark.chap { height: 14px; top: 0; background: var(--ink-2); width: 3px; }
+.seg { display: inline-flex; gap: 4px; }
+.chapters { display: flex; flex-wrap: wrap; gap: 6px; }
+.chapters button { font-size: 13px; padding: 5px 10px; text-transform: none; letter-spacing: .03em; }
+.chapters button[aria-current="true"] { border-color: var(--accent); color: var(--accent); }
+.scenarios { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chip { font: 600 14px var(--display); letter-spacing: .05em; text-transform: none; border-radius: 999px; padding: 6px 12px; }
+.chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font: 14px var(--serif); color: var(--ink-2); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.legend i.sq { border-radius: 2px; }
+.notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 900px) { .notes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .notes { grid-template-columns: 1fr; } }
+.note { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; min-width: 0; }
+.note h3 { margin: 0 0 4px; font: 700 18px var(--display); letter-spacing: .04em; text-transform: uppercase; }
+.note p { margin: 0; color: var(--ink-2); font-size: 15px; }
+.note b { color: var(--ink); font-family: var(--mono); font-weight: 600; font-size: 14px; }
+.note.later { border-style: dashed; }
+.note.later h3 { color: var(--ink-3); }
+.note.later p { color: var(--ink-3); font-style: italic; }
+.score { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 10px; min-width: 0; }
+.score p { margin: 0; color: var(--ink-2); max-width: 80ch; font-size: 15px; }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 13px var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.ok { color: var(--leaf); font-weight: 600; } td.no { color: var(--rose); font-weight: 600; }
+.foot { font-size: 13px; color: var(--ink-3); max-width: 96ch; margin: 0; }
+@media (max-width: 1020px) { .screen { grid-template-columns: 1fr; } .vitals { grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <span class="eyebrow">A living model of an economy · 1985–2010</span>
+      <h1>The Wiring of Grainbridge</h1>
+      <p class="lede">A town of ten thousand people, its organs in quiet balance, until a breakthrough gives it a nervous system. Every frame is a run of the simulation; the narrator only reads out what the run did.</p>
+    </div>
+    <div class="scenarios" role="group" aria-label="What if" id="scenarios"></div>
+  </header>
+
+  <div class="screen">
+    <div class="film">
+      <div class="stage" id="stage">
+        <canvas id="town" width="1200" height="700" role="img" aria-label="Animated map of the town: farms, factories, the Corelink router works, three fibre carriers, the high street, services, the finance district with bank, exchange and central bank, city hall, the university, homes, Investors' Hill and Silicon Lane, where every startup is a small building. Glowing lines are the network; a balloon over the exchange swells with internet share prices."></canvas>
+        <div class="yearmark" id="yearmark"><small id="chapter">Chapter 1 · A town in balance</small><span id="year">1985</span></div>
+        <div class="curtain" id="curtain">
+          <div>
+            <span class="eyebrow">A documentary in about ten minutes</span>
+            <h2>The town that grew a nervous system</h2>
+            <p>Twenty-five years of an economy: the calm, the arrival of the internet, the gold rush, the crash, and what remained.</p>
+            <div class="row"><button class="primary" id="startVoice">Play with narration</button><button id="startSilent">Subtitles only</button></div>
+            <p style="font-size:13px">The narration is read by your device's own speech voice, in the manner of a nature documentary (a British English voice where one is installed). It imitates no real narrator.</p>
+          </div>
+        </div>
+      </div>
+      <div class="subbar quiet" id="subbar"><span class="speaker">Narrator</span><span id="subtitle" aria-live="polite">Press play to begin.</span></div>
+    </div>
+    <aside class="vitals" aria-label="Vital signs">
+      <span class="eyebrow">Vital signs</span>
+      <div class="vital" id="vGrowth"><span class="k">Heartbeat</span><span class="v"></span><span class="what">output growth over a year</span><canvas></canvas></div>
+      <div class="vital" id="vInfl"><span class="k">Temperature</span><span class="v"></span><span class="what">prices, a year</span><canvas></canvas></div>
+      <div class="vital" id="vJobs"><span class="k">Breathing</span><span class="v"></span><span class="what">people without work</span><canvas></canvas></div>
+      <div class="vital" id="vRate"><span class="k">Central bank</span><span class="v"></span><span class="what">its interest rate</span><canvas></canvas></div>
+      <div class="vital" id="vMood"><span class="k">Adrenaline</span><span class="v"></span><span class="what">the new-economy mood</span><canvas></canvas></div>
+      <div class="vital" id="vNerves"><span class="k">Nerves</span><span class="v"></span><span class="what">homes online</span><canvas></canvas></div>
+      <div class="vital" id="vFiber"><span class="k">Fibre in use</span><span class="v"></span><span class="what">share of network capacity lit</span><canvas></canvas></div>
+      <div class="vital" id="vStartups"><span class="k">Silicon Lane</span><span class="v"></span><span class="what">startups alive · failed so far</span><canvas></canvas></div>
+      <span class="key"><i></i>a healthy range</span>
+    </aside>
+  </div>
+
+  <div class="controls">
+    <button class="primary" id="play">Play</button>
+    <button id="voice" aria-pressed="true">Narrator on</button>
+    <select id="voicePick" aria-label="Narrator voice"></select>
+    <span class="seg" role="group" aria-label="Speed">
+      <button id="sp1" aria-pressed="false">Slow</button><button id="sp2" aria-pressed="true">Normal</button><button id="sp4" aria-pressed="false">Fast</button>
+    </span>
+    <div class="grow"><div class="timeline" id="timeline"><input type="range" id="scrub" min="0" max="139" value="0" aria-label="Quarter"></div></div>
+  </div>
+  <nav class="chapters" id="chapters" aria-label="Chapters"></nav>
+
+  <div class="legend">
+    <span><i style="background:var(--nerve)"></i>the network: bright when busy, dark when idle</span>
+    <span><i style="background:var(--money)"></i>investors' money into startups</span>
+    <span><i style="background:var(--debt)"></i>bank loans for fibre</span>
+    <span><i style="background:var(--nerve)"></i>routers and computers from Corelink</span>
+    <span><i class="sq" style="background:var(--shop)"></i>online shops</span>
+    <span><i class="sq" style="background:var(--portal)"></i>portals and search</span>
+    <span><i class="sq" style="background:var(--dead)"></i>tombstones of failed startups</span>
+
+    <span><i style="background:var(--balloon)"></i>the balloon: internet share prices ÷ sales</span>
+  </div>
+
+  <section class="notes" id="notes" aria-label="What the run showed"></section>
+
+  <section class="score" aria-labelledby="scoreTitle">
+    <h2 id="scoreTitle">How close to history?</h2>
+    <p id="scoreLede"></p>
+    <div class="tablewrap"><table id="scoreTable"></table></div>
+  </section>
+
+  <p class="foot">Model: citysim Stage 11, a stock-flow consistent town (one tick = a quarter, every dollar and unit of output booked in a double-entry ledger and checked every tick). Money is in the model's dollars (a town of 10,000; $1 in the model ≈ $1,000). The central bank follows a rule (inflation and jobs, with extra cuts when shares slide and jobs are being lost); only four moments are scripted from history: the 1996 warning, the 1998 rescue cuts, the Y2K liquidity, and the 2003 promise to hold rates at 1%. Everything else — the bubble, the crash, the fibre glut, the bankruptcies and the winners — comes out of the mechanisms. Known gaps: the slump arrives about two years late, the 2001 rate cuts are too slow, and the fibre build-out is magnified about six times. Company names are fictional. Narration is spoken by your browser's speech engine.</p>
+</div>
+
+<script src="web_data.js"></script>
+<script>
+(() => {
+"use strict";
+const D = window.WEB;
+const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $ = (id) => document.getElementById(id);
+let C = {};
+const readTokens = () => { for (const k of ["bg","panel","ink","ink-2","ink-3","line","accent","amber","rose","leaf","band","ground","ground-2","water","road",
+  "field","wheat","brick","roof","stone","glass","window","lit","nerve","money","ads","shop","portal","dead","debt","balloon"]) C[k] = css("--" + k); };
+readTokens();
+matchMedia("(prefers-color-scheme: light)").addEventListener("change", readTokens);
+new MutationObserver(readTokens).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+// ------------------------------------------------------------------ data
+let scen = "history";
+const S = () => D.scenarios[scen];
+const ser = (k) => S().series[k] || [];
+const N = () => ser("tick").length;
+const val = (k, i) => { const a = ser(k); return a.length ? a[Math.max(0, Math.min(a.length - 1, i))] : 0; };
+const yearOf = (i) => val("year", i);
+const I0 = Math.max(0, D.scenarios.history.series.year.findIndex((y) => y >= D.show_from));   // the documentary starts here
+const START = (D.scenarios.history.events.find((e) => e.key === "browser") || { tick: 70 }).tick - 1;   // index of the breakthrough
+const qName = (i) => { const y = yearOf(i); return Math.floor(y + 1e-6) + (y % 1 > 0.01 ? " Q" + (Math.round((y % 1) * 4) + 1) : ""); };
+const seasonName = (i) => { const y = yearOf(i), q = Math.round((y % 1) * 4); return ["the winter of", "the spring of", "the summer of", "the autumn of"][q] + " " + Math.floor(y + 1e-6); };
+const pct = (x, d = 0) => (x * 100).toFixed(d) + "%";
+const money = (x) => { const v = x * 1000; if (v >= 1e9) return "$" + (v / 1e9).toFixed(1) + " billion"; if (v >= 1e6) return "$" + Math.round(v / 1e6) + " million"; return "$" + Math.round(v / 1e3) + " thousand"; };
+const words = (n) => ["no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"][n] ?? String(n);
+const list = (xs) => xs.length < 2 ? (xs[0] || "") : xs.slice(0, -1).join(", ") + " and " + xs[xs.length - 1];
+const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+const ev = (key) => S().events.find((e) => e.key === key);
+const evH = (key) => D.scenarios.history.events.find((e) => e.key === key);
+
+// ------------------------------------------------------------------ narration script (every number is the run's own)
+const LINES = {
+  intro: () => "This is Grainbridge, a town of ten thousand people. Like any living creature, it is built from organs, each with its own work. The farms feed it. The factories make its tools. The high street carries goods to every door. And through the bank, money flows like blood, its pressure kept steady by the central bank at the town's heart.",
+  steady: (e) => `The town has settled into a rhythm. Its output grows by about ${pct(e.growth, 1)} a year. Around ${pct(e.u, 1)} of its people are between jobs, prices rise by ${pct(e.infl, 1)} a year, and the central bank's rate sits near ${pct(e.rate, 1)}. It is never perfectly still. No living thing is. But it is in balance.`,
+  browser: (e) => `Then, in ${seasonName(e.tick - 1)}, something stirs in the university laboratory. A way has been found for any computer to show pages from any other. It is the first thread of a nervous system, and the town has never had one before.`,
+  first_startup: () => "Within months, a new kind of creature appears on Silicon Lane: a handful of people, an idea, and a cheque from a wealthy family on Investors' Hill. Others soon follow.",
+  warning: () => "The central bank's chairman wonders aloud whether investors have grown irrationally exuberant. The market flinches, and carries on.",
+  first_ipo: (e) => `In ${qName(e.tick - 1)}, the first of the young companies sells its shares on the town's exchange. There are ${Math.round(e.n_alive)} startups on the Lane now, and the public wants a piece of the future.`,
+  adoption_quarter: (e) => `Homes are joining the network. Already ${pct(e.share)} are online, and every new connection makes it more valuable to all the others.`,
+  fiber: (e) => `The fibre carriers, Longwire, TransMeridian and Beacon Fiber, are convinced that traffic will double every hundred days. They borrow heavily and lay fibre beneath every street, buying routers from Corelink as fast as it can make them. Their debts already reach ${money(e.debt)}.`,
+  scare: () => "In the autumn of 1998, a financial storm blows in from abroad. Investors panic, and the central bank cuts its rate three times to calm them. On Silicon Lane, it is taken as a promise: if the market falls, the central bank will catch it.",
+  tight_labor: (e) => `Every pair of hands is wanted now. Unemployment falls to ${pct(e.u, 1)}, the lowest in a generation, and wages begin to climb.`,
+  exuberance: (e) => `And now the mood turns giddy. Investors pay ${Math.round(e.multiple)} times a company's yearly sales, for firms that have rarely made a profit. Money pours into the Lane faster than ideas can use it. Watch the balloon over the exchange.`,
+  fed_hikes: (e) => `The central bank grows wary of an overheating town. Step by step, it raises its rate, from ${pct(e.start, 1)} towards ${pct(e.peak, 1)}.`,
+  y2k: () => "As the millennium turns, the central bank floods the town with cash, in case the computers fail at midnight. They do not. Some will later say the extra money fed the frenzy; here, spirits on the Lane rise one more notch.",
+  peak: (e) => `In ${qName(e.tick - 1)}, the young companies reach their summit: together worth ${money(e.value)}, ${Math.round(e.multiple)} times what they sell in a year. ${Math.round(e.alive)} of them crowd the Lane, and ${Math.round(e.public)} trade on the exchange.`,
+  crash: (e) => `And then, the balloon bursts. The mood breaks, and the selling feeds on itself. By ${qName(e.trough_tick - 1)}, the young companies' shares have lost ${pct(e.drop)} of their value. Without new funding, the weakest begin to starve: within three years, ${Math.round(e.failed)} will have failed, and ${Math.round(e.acquired)} more are swallowed by stronger rivals.`,
+  fed_cuts: (e) => `The central bank changes course. From ${pct(e.high, 1)}, it starts to cut, steadying the markets and cushioning the fall.`,
+  corelink: (e) => `At Corelink, the orders stop. Businesses already have more computers than they need, and the carriers have stopped building. Its sales fall from ${money(e.peak)} a quarter to ${money(e.now)}, and the router works begins to lay off its staff.`,
+  dark_fiber: (e) => `Beneath the streets, the carriers' fibre lies mostly dark. At its lowest, only ${pct(e.util)} of it carries light. Desperate for customers, the carriers slash their prices: bandwidth sells for ${pct(1 - e.price)} less than before the boom. Their debts, ${money(e.debt)} at the top, do not shrink.`,
+  recession: (e) => `The frenzy's orders are gone. Business investment has fallen ${pct(e.inv_drop)} from its peak: no more fibre to lay, no new offices to equip. The factories that made the machines have been laying off workers, and unemployment has climbed from ${pct(e.u_before, 1)} to ${pct(e.u, 1)}. Here, the slump arrives later than it did in history.`,
+  bankruptcy: (e) => `Then the debts come due. ${list(e.names)} cannot pay. ${cap(words(e.so_far))} of the ${words(e.total)} fibre carriers are now bankrupt, and the bank writes off ${money(e.written_off)}. The fibre stays in the ground. In a year, the carriers will be reorganised under their creditors, their debts written down.`,
+  flameout: (e) => `Among the fallen is ${e.name}. At its height, investors valued it at ${money(e.peak)}. Today, its doors are locked.`,
+  hold: (e) => `With prices barely rising, the central bank begins to fear that they might fall. It takes its rate down to one per cent, and promises to keep it there for a considerable period. Money has rarely been so cheap.`,
+  winners: (e) => `Of the ${Math.round(e.founded)} companies founded on the Lane, ${Math.round(e.failed)} have died and ${Math.round(e.acquired)} were swallowed by rivals. But a few survivors have grown enormous.${e.winner_portal ? ` ${e.winner_portal} now takes ${pct(e.portal)} of all online advertising.` : ""}${e.winner_shop ? ` ${e.winner_shop} leads the online shops.` : ""}${e.survivors && e.survivors.length ? ` Of the carriers, only ${list(e.survivors)} never went bankrupt.` : ""} In this new world, the winners take most.`,
+  legacy: (e) => `The change runs deep. Each shop worker now handles ${e.retail_prod.toFixed(1)} times as much as in 1993, and the town produces ${pct(e.gain_vs_none)} more than it would have without the network. ${e.retail_jobs_now < 0.95 * e.retail_jobs_then ? "The high street employs fewer people; new kinds of work have taken their place." : "Yet the high street employs as many people as before: the town spends its new wealth there too."}${e.lit_year > 0 ? ` And the fibre laid in the frenzy? By ${Math.floor(e.lit_year)} every strand was lit, carrying ${Math.round(e.traffic_x)} times the traffic of the year 2000. The folly of one generation became the foundation of the next.` : ""}`,
+  coda: () => "A bubble came and went. It ruined many, and enriched a few. But like an embryo growing its nerves, the town that emerged was faster, more connected, and changed for good.",
+};
+// chapters begin at story events, not at fixed years
+const CHAPTERS = [["intro", "A town in balance"], ["browser", "A spark in the laboratory"], ["first_ipo", "The gold rush"],
+  ["exuberance", "Exuberance"], ["crash", "The crash"], ["bankruptcy", "The reckoning"], ["winners", "What remained"]];
+const WHATIF = {
+  history: () => "",
+  no_internet: (f) => `In this version of history, the laboratory's idea never leaves the building. No gold rush, no crash. And by 2010, the town produces ${pct(1 - f.gdp_2010 / D.scenarios.history.facts.gdp_2010)} less than the one that got wired.`,
+  lean: (f) => { const h = D.scenarios.history.facts;
+    return `Here, the central bank leans against the bubble, raising its rate as shares soar, up to ${pct(f.rate_peak, 1)}. Yet investors still pay ${Math.round(f.peak_price_to_sales)} times sales at the peak: a mania is hard to talk down. ${f.unemployment_max_after > h.unemployment_max_after + 0.003 ? `And the dearer money costs jobs: unemployment reaches ${pct(f.unemployment_max_after, 1)}, against ${pct(h.unemployment_max_after, 1)} in the history we watched.` : `Unemployment later reaches ${pct(f.unemployment_max_after, 1)}, against ${pct(h.unemployment_max_after, 1)} in the history we watched.`}`; },
+  fixed: (f) => { const h = D.scenarios.history.facts;
+    return `Here, the central bank never moves its rate. Surprisingly, the bust is gentler. With no rises to prick it, ${f.net_peak_year > h.net_peak_year + 0.5 ? `the bubble runs on until ${Math.floor(f.net_peak_year)},` : "the bubble runs just as hot,"} ${Math.round(f.founded)} startups are founded, and prices run hotter, rising by up to ${pct(f.inflation_max, 1)} a year. Unemployment later peaks at ${pct(f.unemployment_max_after, 1)}, against ${pct(h.unemployment_max_after, 1)} when the central bank acted. In this model, it is rising rates that prick the bubble.`; },
+};
+
+// ------------------------------------------------------------------ voice
+let voiceOn = true, voice = null, voices = [];
+const PREFS = [/Natural.*United Kingdom/i, /Ryan.*Natural/i, /Thomas.*Natural/i, /Daniel/i, /Google UK English Male/i, /Arthur/i, /Oliver/i, /George/i,
+  /Malcolm/i, /en-GB/i, /English.*United Kingdom/i, /^en/i];
+function rankVoices() {
+  const vs = "speechSynthesis" in window ? speechSynthesis.getVoices().filter((v) => /^en/i.test(v.lang)) : [];
+  const score = (v) => { const k = PREFS.findIndex((p) => p.test(v.name) || p.test(v.lang)); return k < 0 ? 99 : k; };
+  return vs.sort((a, b) => score(a) - score(b));
+}
+function loadVoices() {
+  voices = rankVoices();
+  const sel = $("voicePick");
+  sel.hidden = !voices.length;
+  if (!voices.length) return;
+  const keep = voice && voices.find((v) => v.name === voice.name);
+  voice = keep || voices[0];
+  sel.innerHTML = voices.map((v) => `<option value="${v.name.replace(/"/g, "&quot;")}">${v.name.replace(/\s*\(.*?\)\s*/g, " ").trim()}</option>`).join("");
+  sel.value = voice.name;
+}
+if ("speechSynthesis" in window) { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; } else $("voicePick").hidden = true;
+$("voicePick").onchange = () => { voice = voices.find((v) => v.name === $("voicePick").value) || voice; };
+let speaking = false, holdUntil = 0;
+function say(text, quiet) {
+  $("subtitle").textContent = text;
+  $("subbar").classList.toggle("quiet", !!quiet);
+}
+function narrate(text) {
+  say(text);
+  const n = text.split(/\s+/).length;
+  holdUntil = performance.now() + Math.max(3800, n * 340) / (speed > 2 ? 1.7 : 1);
+  if (voiceOn && "speechSynthesis" in window && started) {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    if (voice) { u.voice = voice; u.lang = voice.lang; }
+    u.rate = 0.88; u.pitch = 0.82;
+    speaking = true;
+    u.onend = u.onerror = () => { speaking = false; holdUntil = performance.now() + 700; };
+    speechSynthesis.speak(u);
+  }
+}
+
+// ------------------------------------------------------------------ the town map (logical 1200 x 700)
+const W = 1200, H = 700;
+const cv = $("town"), ctx = cv.getContext("2d");
+function fit() { const r = cv.getBoundingClientRect(); const dpr = Math.min(2, devicePixelRatio || 1); if (!r.width) return;
+  cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.width * dpr * H / W); ctx.setTransform(cv.width / W, 0, 0, cv.height / H, 0, 0); }
+new ResizeObserver(fit).observe(cv); fit();
+const NODES = {
+  farms: { x: 140, y: 560, label: "Farms" }, factories: { x: 160, y: 325, label: "Factories" }, corelink: { x: 360, y: 285, label: "Corelink routers" },
+  shops: { x: 480, y: 560, label: "High street" }, services: { x: 760, y: 590, label: "Services" }, bank: { x: 560, y: 380, label: "Bank" },
+  exchange: { x: 682, y: 380, label: "Exchange" }, cb: { x: 600, y: 300, label: "Central bank" }, hall: { x: 560, y: 155, label: "City hall" },
+  uni: { x: 765, y: 147, label: "University" }, homes: { x: 1050, y: 410, label: "Homes" }, telecom: { x: 410, y: 410, label: "Telecom" },
+  lane: { x: 1020, y: 190, label: "Silicon Lane" }, insurer: { x: 800, y: 380, label: "Insurer" }, owners: { x: 1080, y: 600, label: "Investors' Hill" },
+};
+const CARRIERS = { "Longwire": { x: 70, y: 190 }, "TransMeridian": { x: 175, y: 190 }, "Beacon Fiber": { x: 280, y: 190 } };
+const LANE = { x: 868, y: 66, w: 314, h: 252 };
+// nerves grow outward from the laboratory as the town adopts the network
+const LINKS = [["uni", "telecom"], ["telecom", "homes"], ["telecom", "lane"], ["uni", "lane"], ["telecom", "exchange"], ["telecom", "bank"],
+  ["telecom", "shops"], ["lane", "homes"], ["telecom", "services"], ["telecom", "factories"], ["telecom", "hall"], ["telecom", "corelink"],
+  ["shops", "homes"], ["factories", "lane"], ["bank", "exchange"], ["services", "homes"], ["insurer", "telecom"], ["farms", "telecom"]];
+
+function rr(x, y, w, h, r, fill) { ctx.fillStyle = fill; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, y, w, h, r) : ctx.rect(x, y, w, h); ctx.fill(); }
+function house(x, y, w, h, wall, roof, lit) {
+  rr(x, y, w, h, 2, wall);
+  ctx.fillStyle = roof; ctx.beginPath(); ctx.moveTo(x - 3, y); ctx.lineTo(x + w / 2, y - h * 0.5); ctx.lineTo(x + w + 3, y); ctx.fill();
+  rr(x + w * 0.3, y + h * 0.3, w * 0.4, h * 0.35, 1, lit ? C.lit : C.window);
+}
+function label(x, y, t, col) {
+  ctx.font = "600 14px " + css("--display"); ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  const w = ctx.measureText(t.toUpperCase()).width + 12;
+  ctx.fillStyle = C.bg + "cc"; ctx.fillRect(x - w / 2, y - 9, w, 18);
+  ctx.fillStyle = col || C.ink; ctx.fillText(t.toUpperCase(), x, y + 1);
+}
+function tag(x, y, t, col, side) {      // a name tag with a leader line
+  ctx.font = "600 13px " + css("--display"); ctx.textBaseline = "middle";
+  const w = ctx.measureText(t).width + 10, lx = side < 0 ? x - 18 - w : x + 18;
+  ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(side < 0 ? lx + w : lx, y - 10); ctx.stroke();
+  ctx.fillStyle = C.bg + "e6"; ctx.fillRect(lx, y - 19, w, 18);
+  ctx.fillStyle = col; ctx.textAlign = "left"; ctx.fillText(t, lx + 5, y - 9);
+}
+function hash(i, s) { const x = Math.sin(i * 127.1 + s * 311.7) * 43758.5453; return x - Math.floor(x); }
+
+let parts = [];
+function spawn(from, to, color, n) {
+  if (reduce) return;
+  for (let k = 0; k < n; k++) parts.push({ x: from.x, y: from.y, tx: to.x + (Math.random() - .5) * 20, ty: to.y + (Math.random() - .5) * 14,
+    dur: 1400 + Math.random() * 900, color, born: performance.now() + Math.random() * 600 });
+  if (parts.length > 600) parts.splice(0, parts.length - 600);
+}
+// Silicon Lane plots: a grid sized to the run
+let grid = null;
+function laneGrid() {
+  const n = Math.max(1, S().startups.length), cols = Math.ceil(Math.sqrt(n * LANE.w / LANE.h)), rows = Math.ceil(n / cols);
+  grid = { cols, rows, cw: LANE.w / cols, ch: LANE.h / rows };
+}
+const plot = (rec) => ({ x: LANE.x + (rec.id % grid.cols + 0.5) * grid.cw, y: LANE.y + (Math.floor(rec.id / grid.cols) + 0.85) * grid.ch });
+function stateAt(trail, tick) { let st = null; for (const t of trail) { if (t[0] <= tick) st = t; else break; } return st; }
+let psPeak = 0;
+function draw(i, now) {
+  const tick = i + 1;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = C.ground; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = C.water; ctx.beginPath(); ctx.moveTo(0, 470); ctx.bezierCurveTo(300, 430, 380, 520, 620, 470); ctx.bezierCurveTo(820, 430, 960, 520, 1200, 480);
+  ctx.lineTo(1200, 505); ctx.bezierCurveTo(960, 545, 820, 455, 620, 495); ctx.bezierCurveTo(380, 545, 300, 455, 0, 495); ctx.fill();
+  ctx.strokeStyle = C.road; ctx.lineWidth = 12; ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(30, 420); ctx.lineTo(1170, 420); ctx.moveTo(620, 40); ctx.lineTo(620, 680); ctx.stroke();
+  const net = val("adoption/households", i), firms = val("adoption/businesses", i);
+  const emp = (k) => val("employment/" + k, i);
+  const live = tick > START;
+  // the fibre under Main Street: strands laid (capacity) and lit (in use)
+  const cap0 = val("network/capacity", START + 1) || 1, capNow = val("network/capacity", i), util = val("network/utilization", i);
+  if (live && capNow > 0) {
+    const strands = Math.max(1, Math.min(14, Math.round(2 + 3 * Math.log2(Math.max(capNow / cap0, 1)))));
+    const lit = Math.max(1, Math.round(strands * Math.min(util, 1)));
+    for (let k = 0; k < strands; k++) {
+      const y = 430 + k * 2.6, on = k < lit;
+      ctx.strokeStyle = on ? C.nerve : C.dead; ctx.globalAlpha = on ? 0.85 : 0.45; ctx.lineWidth = 1.4;
+      ctx.setLineDash(on ? [] : [6, 5]); ctx.beginPath(); ctx.moveTo(40, y); ctx.lineTo(1160, y); ctx.stroke();
+    }
+    ctx.setLineDash([]); ctx.globalAlpha = 1;
+    ctx.font = "600 12px " + css("--display"); ctx.textAlign = "left"; ctx.fillStyle = C["ink-2"];
+    ctx.fillText(`FIBRE UNDER MAIN STREET · ${pct(Math.min(util, 1))} LIT`, 44, 430 + strands * 2.6 + 12);
+  }
+  // farms
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) rr(40 + c * 34, 515 + r * 30, 30, 24, 2, (r + c) % 2 ? C.field : C.wheat);
+  // factories: smoke by output
+  const fac = emp("factory");
+  for (let k = 0; k < 4; k++) { const x = 70 + k * 52; rr(x, 300, 44, 50, 2, C.brick); rr(x + 30, 270, 8, 32, 1, C.stone);
+    ctx.fillStyle = C.stone + "88"; for (let s = 0; s < 3; s++) { ctx.beginPath(); ctx.arc(x + 34 + s * 6, 260 - s * 10 - ((now / 60 + k * 9) % 12), 5 + s * 2 * fac * 4, 0, 7); ctx.fill(); } }
+  // the carriers: a building, a fibre spool, a debt bar, and a stamp when bankrupt
+  const infra = S().infra || [];
+  const maxDebt = Math.max(1, ...infra.flatMap((f) => f.trail.map((t) => t[5] || 0)));
+  for (const f of infra) {
+    if (f.kind !== "carrier" || !live) continue;
+    const p = CARRIERS[f.name] || { x: 0, y: 0 }, st = stateAt(f.trail, tick);
+    const broke = f.bankrupt > 0 && tick >= f.bankrupt;
+    rr(p.x - 34, p.y - 44, 58, 44, 3, broke ? C.dead : C.glass);
+    for (let w = 0; w < 6; w++) rr(p.x - 28 + (w % 3) * 17, p.y - 38 + Math.floor(w / 3) * 18, 11, 10, 1, broke ? C.window : C.lit);
+    ctx.strokeStyle = broke ? C.dead : C.nerve; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(p.x - 5, p.y + 14, 9, 0, 7); ctx.stroke();
+    const debt = st ? st[5] : 0, hgt = 52 * debt / maxDebt;
+    rr(p.x + 28, p.y - hgt, 9, hgt, 2, C.debt);
+    ctx.font = "600 12px " + css("--display"); ctx.textAlign = "center"; ctx.fillStyle = C.ink;
+    ctx.fillText(f.name.toUpperCase(), p.x - 2, p.y + 34);
+    if (broke) { ctx.save(); ctx.translate(p.x - 5, p.y - 22); ctx.rotate(-0.25); ctx.strokeStyle = C.rose; ctx.lineWidth = 2;
+      ctx.strokeRect(-36, -11, 72, 22); ctx.fillStyle = C.rose; ctx.font = "700 13px " + css("--display"); ctx.fillText("BANKRUPT", 0, 1); ctx.restore(); }
+  }
+  if (live) { ctx.font = "600 12px " + css("--display"); ctx.textAlign = "left"; ctx.fillStyle = C["ink-2"]; ctx.fillText("FIBRE CARRIERS · RED BARS: THEIR DEBTS", 34, 122); }
+  // Corelink, the router works: grows with its sales
+  const rt = infra.find((f) => f.kind === "router"), rst = rt ? stateAt(rt.trail, tick) : null;
+  const rmax = rt ? Math.max(1, ...rt.trail.map((t) => t[2])) : 1, rs = live && rst ? rst[2] / rmax : 0;
+  rr(310, 262, 40 + 70 * rs, 44, 3, C.glass); house(312, 262, 30, 22, C.stone, C.roof, rs > .2);
+  for (let k = 0; k < Math.round(6 * rs); k++) rr(350 + k * 11, 274, 7, 22, 1, C.nerve + "99");
+  // high street: shop fronts lit by retail staff
+  const retail = emp("retail") / Math.max(val("employment/retail", START), 1e-9);
+  for (let k = 0; k < 10; k++) { const open = k / 10 < retail * 0.95; house(385 + k * 22, 545, 18, 26, open ? C.brick : C.dead, C.roof, open); }
+  for (let k = 0; k < 8; k++) house(700 + (k % 4) * 34, 560 + Math.floor(k / 4) * 46, 28, 30, C.stone, C.roof, hash(k, 2) < emp("services") * 2.2);
+  // finance district
+  rr(530, 355, 62, 46, 3, C.stone); rr(650, 355, 64, 46, 3, C.glass); rr(570, 280, 60, 40, 3, C.stone); rr(770, 360, 56, 40, 3, C.glass);
+  // the central bank's dial: its rate, 0-10%
+  const rate = val("policy_rate", i); ctx.strokeStyle = C["ink-3"]; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(600, 300, 16, Math.PI, 2 * Math.PI); ctx.stroke();
+  const a = Math.PI + Math.min(1, rate / 0.1) * Math.PI; ctx.strokeStyle = C.amber; ctx.beginPath(); ctx.moveTo(600, 300); ctx.lineTo(600 + 16 * Math.cos(a), 300 + 16 * Math.sin(a)); ctx.stroke();
+  ctx.font = "600 13px " + css("--mono"); ctx.textAlign = "center"; ctx.fillStyle = C.amber; ctx.fillText(pct(rate, 1), 600, 318);
+  // city hall, university with its laboratory glow
+  rr(520, 130, 80, 50, 3, C.stone); house(530, 130, 60, 18, C.stone, C.roof, true);
+  rr(720, 120, 90, 54, 3, C.brick);
+  const spark = Math.max(0, Math.min(1, (tick - START) / 4));
+  if (spark > 0) { const g = ctx.createRadialGradient(765, 140, 2, 765, 140, 40 + 30 * net); g.addColorStop(0, C.nerve + "cc"); g.addColorStop(1, C.nerve + "00");
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(765, 140, 40 + 30 * net, 0, 7); ctx.fill(); }
+  // homes: a light in the window when online
+  for (let k = 0; k < 40; k++) { const x = 935 + (k % 8) * 30, y = 360 + Math.floor(k / 8) * 26; house(x, y, 22, 16, C.window, C.roof, false);
+    if (hash(k, 7) < net) { ctx.fillStyle = C.nerve; ctx.beginPath(); ctx.arc(x + 11, y + 8, 3, 0, 7); ctx.fill(); } }
+  house(1040, 600, 40, 28, C.stone, C.roof, true); house(1100, 590, 46, 32, C.stone, C.roof, true);
+  ctx.strokeStyle = C.stone; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(400, 430); ctx.lineTo(410, 350); ctx.lineTo(420, 430); ctx.stroke();
+  // the nervous system: nerves branch out as the town adopts; bright when busy, dim when the fibre is idle
+  if (live) {
+    const grown = Math.min(LINKS.length, Math.ceil(LINKS.length * Math.min(1, 0.08 + 1.1 * Math.max(net, firms))));
+    const width = 1 + Math.min(6, Math.log2(1 + capNow / cap0) * 0.9);
+    LINKS.slice(0, grown).forEach(([p, q], k) => { const A = NODES[p], B = NODES[q];
+      const fresh = Math.min(1, (grown - k) / 1.5);
+      ctx.strokeStyle = C.nerve; ctx.globalAlpha = (0.18 + 0.65 * Math.min(util, 1)) * fresh; ctx.lineWidth = width;
+      const mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2 - 30;
+      ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.quadraticCurveTo(mx, my, B.x, B.y); ctx.stroke();
+      const n = reduce ? 0 : Math.min(4, Math.round(net * 6 * Math.min(util * 2, 1)));
+      ctx.globalAlpha = fresh; ctx.fillStyle = C.nerve;
+      for (let m = 0; m < n; m++) { const u = ((now / 2600 + hash(m, k)) % 1);
+        const x = (1 - u) * (1 - u) * A.x + 2 * (1 - u) * u * mx + u * u * B.x, y = (1 - u) * (1 - u) * A.y + 2 * (1 - u) * u * my + u * u * B.y;
+        ctx.beginPath(); ctx.arc(x, y, 2.4, 0, 7); ctx.fill(); }
+    });
+    ctx.globalAlpha = 1;
+  }
+  // the balloon over the exchange: internet share prices / sales
+  const ps = val("price_to_sales", i), pubs = val("startups/public", i);
+  if (live && pubs > 0 && ps > 0) {
+    psPeak = Math.max(psPeak, ps);
+    const r = Math.min(60, 8 + 11 * Math.log1p(ps / 2)), bx = 692, by = 292 - r * 0.55;
+    const crash = ev("crash");
+    const popped = psPeak > 20 && (ps < 0.55 * psPeak || (crash && tick >= crash.tick && ps < 0.85 * psPeak));
+    ctx.strokeStyle = C["ink-3"]; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(682, 355); ctx.quadraticCurveTo(690, by + r + 20, bx, by + r); ctx.stroke();
+    if (!popped) {
+      const g = ctx.createRadialGradient(bx - r * .35, by - r * .35, 2, bx, by, r); g.addColorStop(0, C.lit); g.addColorStop(1, C.balloon);
+      ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(bx, by, r * 0.9, r, 0, 0, 7); ctx.fill();
+      ctx.fillStyle = C.balloon; ctx.beginPath(); ctx.moveTo(bx - 4, by + r + 4); ctx.lineTo(bx + 4, by + r + 4); ctx.lineTo(bx, by + r - 2); ctx.fill();
+    } else {
+      ctx.strokeStyle = C.balloon; ctx.lineWidth = 2;
+      for (let k = 0; k < 7; k++) { const t = k / 7 * Math.PI * 2; ctx.beginPath(); ctx.moveTo(bx + Math.cos(t) * 6, by + Math.sin(t) * 6);
+        ctx.lineTo(bx + Math.cos(t + .3) * 16, by + Math.sin(t + .3) * 16); ctx.stroke(); }
+    }
+    ctx.font = "700 15px " + css("--mono"); ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillStyle = popped ? C.balloon : "#1a1206";
+    ctx.fillText(Math.round(ps) + "×", bx, popped ? by - 26 : by);
+    ctx.font = "600 11px " + css("--display"); ctx.fillStyle = C["ink-2"]; ctx.textAlign = "left";
+    ctx.fillText(popped ? "THE BALLOON HAS BURST" : "SHARE PRICES ÷ SALES", bx + (popped ? 22 : r * 0.9 + 6), by);
+  }
+  // Silicon Lane: every startup a building; the dead leave tombstones
+  rr(LANE.x - 8, LANE.y - 8, LANE.w + 16, LANE.h + 16, 8, C["ground-2"]);
+  const cast = S().cast || {}, castIds = new Map(Object.entries(cast).map(([k, c]) => [c.id, k]));
+  const drawn = [];
+  for (const rec of S().startups) {
+    if (rec.born > tick) continue;
+    const st = stateAt(rec.trail, tick); if (!st) continue;
+    const pos = plot(rec), status = st[4];
+    if (status === 2 || status === 3) {             // failed: a tombstone; bought: a faint outline
+      if (status === 2) { rr(pos.x - 3, pos.y - 7, 6, 7, 2.5, C.dead); }
+      else { ctx.strokeStyle = (rec.cat === "shop" ? C.shop : C.portal) + "77"; ctx.lineWidth = 1; ctx.strokeRect(pos.x - 3, pos.y - 6, 6, 6); }
+      continue;
+    }
+    drawn.push([rec, st, pos]);
+  }
+  drawn.sort((a, b) => a[1][3] - b[1][3]);
+  for (const [rec, st, pos] of drawn) {
+    const [, L, , value, status] = st;
+    const size = Math.max(4, Math.min(34, 3 + Math.sqrt(L) * 3.2 + Math.log10(1 + value) * 1.2));
+    rr(pos.x - size / 2, pos.y - size, size, size, 2, rec.cat === "shop" ? C.shop : C.portal);
+    if (status === 1) { ctx.strokeStyle = C.ink; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(pos.x, pos.y - size); ctx.lineTo(pos.x, pos.y - size - 7); ctx.stroke();
+      ctx.fillStyle = C.amber; ctx.fillRect(pos.x, pos.y - size - 7, 6, 4); }
+  }
+  // the named characters
+  for (const [k, c] of Object.entries(cast)) {
+    const rec = S().startups.find((r) => r.id === c.id); if (!rec || rec.born > tick) continue;
+    const st = stateAt(rec.trail, tick); if (!st) continue;
+    if (k === "flameout" && (st[4] === 0 && st[3] < 1000)) continue;   // introduced once it is somebody
+    if (k !== "flameout" && st[1] < 2) continue;
+    const pos = plot(rec), dead = st[4] === 2;
+    tag(pos.x, pos.y - 8, c.name + (dead ? " †" : ""), dead ? C["ink-3"] : (rec.cat === "shop" ? C.shop : C.portal), pos.x > LANE.x + LANE.w * 0.55 ? -1 : 1);
+  }
+  // flows of money
+  for (const p of parts) { const u = Math.min(1, Math.max(0, (now - p.born) / p.dur)); if (u <= 0) continue;
+    const x = p.x + (p.tx - p.x) * u, y = p.y + (p.ty - p.y) * u - Math.sin(u * Math.PI) * 26;
+    ctx.globalAlpha = 1 - u * 0.4; ctx.fillStyle = p.color; ctx.beginPath(); ctx.arc(x, y, 2.6, 0, 7); ctx.fill(); }
+  ctx.globalAlpha = 1;
+  parts = parts.filter((p) => now - p.born < p.dur);
+  for (const k of ["farms", "factories", "shops", "services", "bank", "exchange", "hall", "uni", "homes", "telecom", "insurer", "owners"]) {
+    const n = NODES[k]; label(n.x, n.y + (k === "homes" ? 120 : k === "uni" || k === "hall" ? 52 : k === "farms" ? 82 : k === "telecom" ? 34 : 34), n.label); }
+  label(600, 262, "Central bank");
+  label(360, 322, NODES.corelink.label);
+  label(LANE.x + LANE.w / 2, LANE.y - 20, "Silicon Lane");
+}
+
+// ------------------------------------------------------------------ vitals, with the town's usual range as a band
+const growthOf = (i) => i >= 4 ? val("real_gdp", i) / val("real_gdp", i - 4) - 1 : 0;
+// a healthy range for each vital sign (the central bank's 2% target, a normal labour market, steady growth, a calm mood)
+const BANDS = { vGrowth: [0.01, 0.045], vInfl: [0.01, 0.03], vJobs: [0.035, 0.06], vMood: [-0.5, 0.5] };
+const VIT = [
+  ["vGrowth", growthOf, (x) => (x >= 0 ? "+" : "") + pct(x, 1)],
+  ["vInfl", (i) => val("inflation", i), (x) => pct(x, 1)],
+  ["vJobs", (i) => val("unemployment", i), (x) => pct(x, 1)],
+  ["vRate", (i) => val("policy_rate", i), (x) => pct(x, 1)],
+  ["vMood", (i) => val("mood", i), (x) => (x >= 0 ? "+" : "") + x.toFixed(1)],
+  ["vNerves", (i) => val("adoption/households", i), (x) => pct(x)],
+  ["vFiber", (i) => i > START ? Math.min(1, val("network/utilization", i)) : 0, (x, i) => i > START ? pct(x) : "—"],
+  ["vStartups", (i) => val("startups/alive", i), (x, i) => Math.round(x) + " · " + Math.round(val("startups/failed", i))],
+];
+function vitals(i) {
+  for (const [id, f, fmtv] of VIT) {
+    const el = $(id), x = f(i), band = BANDS[id];
+    el.querySelector(".v").textContent = fmtv(x, i);
+    const outside = band && (x < band[0] - 0.003 || x > band[1] + 0.003) && i > I0 + 4;
+    el.className = "vital" + (outside ? " out" : "");
+    const c = el.querySelector("canvas"), r = c.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+    if (!r.width) continue;
+    if (c.width !== Math.round(r.width * dpr)) { c.width = Math.round(r.width * dpr); c.height = Math.round(30 * dpr); }
+    const g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, r.width, 30);
+    const lo = Math.max(I0, i - 47), pts = []; for (let k = lo; k <= i; k++) pts.push(f(k));
+    let mn = Math.min(...pts), mx = Math.max(...pts);
+    if (band) { mn = Math.min(mn, band[0]); mx = Math.max(mx, band[1]); }
+    const span = mx - mn || 1, Y = (p) => 27 - (p - mn) / span * 24;
+    if (band) { g.fillStyle = C.band; g.fillRect(0, Y(band[1]), r.width, Y(band[0]) - Y(band[1])); }
+    if (pts.length < 2) continue;
+    g.strokeStyle = outside ? C.rose : C.accent; g.lineWidth = 1.6; g.beginPath();
+    pts.forEach((p, k) => { const xx = (k / 47) * (r.width - 6) + 2; k ? g.lineTo(xx, Y(p)) : g.moveTo(xx, Y(p)); });
+    g.stroke(); g.fillStyle = outside ? C.rose : C.accent; g.beginPath();
+    g.arc(((pts.length - 1) / 47) * (r.width - 6) + 2, Y(pts[pts.length - 1]), 2.6, 0, 7); g.fill();
+  }
+}
+
+// ------------------------------------------------------------------ playback
+let i = I0, playing = false, started = false, speed = 2, acc = 0, last = performance.now(), spoken = new Set();
+const scrub = $("scrub"); scrub.min = I0; scrub.max = N() - 1;
+const chapterAt = (tick) => { let c = 0; CHAPTERS.forEach(([k], n) => { const e = ev(k); if (e && e.tick <= tick) c = n; }); return c; };
+const eventsAt = (tick) => S().events.filter((e) => e.tick === tick);
+function step() {
+  if (i >= N() - 1) { playing = false; $("play").textContent = "Play again"; return; }
+  i += 1;
+  const tick = i + 1;
+  const vc = val("vc_funding", i), ipo = val("ipo_funding", i), ads = val("online_ads", i), shop = val("online_shopping", i);
+  const lend = val("carrier_debt", i) - val("carrier_debt", i - 1), routers = val("router_sales", i), loss = val("carrier_defaults", i);
+  if (vc > 0) spawn(NODES.owners, NODES.lane, C.money, Math.min(16, Math.ceil(vc / 250)));
+  if (ipo > 0) spawn(NODES.exchange, NODES.lane, C.money, Math.min(14, Math.ceil(ipo / 600)));
+  if (ads > 0) { spawn(NODES.shops, NODES.lane, C.ads, Math.min(6, Math.ceil(ads / 120))); spawn(NODES.factories, NODES.lane, C.ads, Math.min(4, Math.ceil(ads / 200))); }
+  if (shop > 0) spawn(NODES.homes, NODES.lane, C.shop, Math.min(10, Math.ceil(shop / 400)));
+  const cs = Object.values(CARRIERS);
+  if (lend > 50) cs.forEach((c) => spawn(NODES.bank, c, C.debt, Math.min(6, Math.ceil(lend / 1500))));
+  if (routers > 50) cs.forEach((c) => spawn(NODES.corelink, c, C.nerve, Math.min(3, Math.ceil(routers / 600))));
+  if (loss > 0) cs.forEach((c) => spawn(c, NODES.bank, C["ink-3"], 10));
+  for (const e of eventsAt(tick)) {
+    const id = e.key + e.tick;
+    if (spoken.has(id)) continue;
+    spoken.add(id);
+    const f = LINES[e.key]; if (f) narrate(f(e));
+  }
+}
+function render(now) {
+  scrub.value = i;
+  $("year").textContent = qName(i);
+  const c = chapterAt(i + 1);
+  $("chapter").textContent = `Chapter ${c + 1} · ${CHAPTERS[c][1]}`;
+  [...$("chapters").children].forEach((b, n) => b.setAttribute("aria-current", n === c ? "true" : "false"));
+  draw(i, now);
+  vitals(i);
+}
+function loop(now) {
+  const dt = Math.min(100, now - last); last = now;
+  const holding = speaking || now < holdUntil;
+  if (playing && !holding) {
+    acc += dt / 1000 * [0, 0.9, 1.8, 3.2, 5][speed];
+    while (acc >= 1 && playing && !(speaking || performance.now() < holdUntil)) { acc -= 1; step(); }
+    if (acc >= 1) acc = 0;
+  }
+  render(now);
+  requestAnimationFrame(loop);
+}
+const markSpoken = (upto) => { spoken = new Set(S().events.filter((e) => e.tick <= upto).map((e) => e.key + e.tick)); };
+function begin(withVoice) {
+  started = true; voiceOn = withVoice && "speechSynthesis" in window; setVoiceBtn();
+  $("curtain").hidden = true; i = I0; psPeak = 0; spoken = new Set(); playing = true; $("play").textContent = "Pause";
+  for (const e of eventsAt(i + 1)) { spoken.add(e.key + e.tick); narrate(LINES[e.key](e)); }
+}
+function setVoiceBtn() { $("voice").setAttribute("aria-pressed", voiceOn ? "true" : "false"); $("voice").textContent = voiceOn ? "Narrator on" : "Narrator off"; }
+function jumpTo(k, speak) {
+  i = Math.max(I0, Math.min(N() - 1, k)); markSpoken(i + 1); psPeak = Math.max(0, ...ser("price_to_sales").slice(0, i + 1));
+  if ("speechSynthesis" in window) speechSynthesis.cancel(); speaking = false; holdUntil = 0; parts = [];
+  const here = S().events.filter((e) => e.tick <= i + 1).pop();
+  if (here && speak) { started = true; $("curtain").hidden = true; narrate(LINES[here.key](here)); }
+  else say(here ? LINES[here.key](here) : "", !here);
+}
+$("startVoice").onclick = () => begin(true);
+$("startSilent").onclick = () => begin(false);
+$("play").onclick = () => { if (!started) return begin(voiceOn);
+  if (i >= N() - 1) { i = I0; psPeak = 0; spoken = new Set(); }
+  playing = !playing; $("play").textContent = playing ? "Pause" : "Play";
+  if (!playing && "speechSynthesis" in window) { speechSynthesis.cancel(); speaking = false; } };
+$("voice").onclick = () => { voiceOn = !voiceOn; setVoiceBtn(); if (!voiceOn && "speechSynthesis" in window) { speechSynthesis.cancel(); speaking = false; } };
+[["sp1", 1], ["sp2", 2], ["sp4", 4]].forEach(([id, s]) => $(id).onclick = () => { speed = s;
+  ["sp1", "sp2", "sp4"].forEach((o) => $(o).setAttribute("aria-pressed", o === id ? "true" : "false")); });
+scrub.oninput = () => jumpTo(+scrub.value, false);
+document.addEventListener("keydown", (e) => { if (e.code === "Space" && e.target === document.body) { e.preventDefault(); $("play").click(); } });
+
+// chapter buttons
+function renderChapters() {
+  $("chapters").innerHTML = "";
+  CHAPTERS.forEach(([k, name], n) => { const e = ev(k); if (!e) return;
+    const b = document.createElement("button"); b.textContent = `${n + 1} · ${name}`;
+    b.onclick = () => { jumpTo(e.tick - 1, voiceOn && started); if (started && !playing) { playing = true; $("play").textContent = "Pause"; } };
+    $("chapters").appendChild(b); });
+}
+// what-if scenarios
+const scenBox = $("scenarios");
+for (const [k, lab] of Object.entries(D.labels)) {
+  const b = document.createElement("button"); b.className = "chip"; b.textContent = lab; b.setAttribute("aria-pressed", k === scen ? "true" : "false");
+  b.onclick = () => { scen = k; [...scenBox.children].forEach((x) => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+    markSpoken(i + 1); parts = []; laneGrid(); renderNotes(); renderChapters(); renderMarks();
+    const t = WHATIF[k](S().facts); if (t) narrate(t); else say("", true); };
+  scenBox.appendChild(b);
+}
+function renderMarks() { const tl = $("timeline"); tl.querySelectorAll(".mark").forEach((m) => m.remove());
+  const span = N() - 1 - I0, keys = new Set(CHAPTERS.map((c) => c[0]));
+  for (const e of S().events) { if (e.tick - 1 < I0) continue;
+    const m = document.createElement("span"); m.className = "mark" + (keys.has(e.key) ? " chap" : "");
+    m.style.left = `calc(${((e.tick - 1 - I0) / span) * 100}% )`; m.title = qName(e.tick - 1); tl.appendChild(m); } }
+
+// fact cards: each opens when the story reaches it
+function renderNotes() {
+  const f = S().facts, h = D.scenarios.history.facts, n = D.scenarios.no_internet.facts, tick = i + 1;
+  const open = (key) => { const e = ev(key); return !e || e.tick <= tick; };
+  const max = (k) => Math.max(...ser(k));
+  const cards = [
+    ["The bubble", "crash", f.net_drop ? `Internet shares peaked in <b>${Math.floor(f.net_peak_year)}</b> at <b>${Math.round(f.peak_price_to_sales)}×</b> their yearly sales, then lost <b>${pct(f.net_drop)}</b> of their value. Established companies' shares fell only <b>${pct(f.old_index_drop)}</b>.` : "No internet companies in this version of history."],
+    ["Many fail, few win", "winners", f.founded ? `<b>${Math.round(f.founded)}</b> startups founded; <b>${Math.round(f.failed)}</b> failed, <b>${Math.round(f.acquired)}</b> were bought, <b>${Math.round(f.ipos)}</b> listed. Of the 1996–2000 class, <b>${pct(f.cohort_gone_2004)}</b> were gone by 2004. The largest portal took <b>${pct(f.leader_portal_2008)}</b> of its market by 2008.` : "—"],
+    ["A new supply chain", "bankruptcy", f.network_use_low !== undefined ? `Investors → startups → servers from Corelink → factories for components; bank → carriers → fibre and routers. At the glut, only <b>${pct(f.network_use_low)}</b> of the fibre was lit, bandwidth prices fell <b>${pct(1 - f.bandwidth_price_low)}</b>, and <b>${Math.round(f.carrier_bankruptcies)}</b> of 3 carriers went bankrupt.` : "—"],
+    ["The central bank", "hold", `Its rate: <b>${pct(f.rate_1997, 1)}</b> in 1997, <b>${pct(f.rate_peak, 1)}</b> at the top of the boom, <b>${pct(f.rate_low, 1)}</b> after the crash. Unemployment ranged from <b>${pct(f.unemployment_low, 1)}</b> to <b>${pct(f.unemployment_high, 1)}</b>.`],
+    ["Where the jobs went", "legacy", `High street: <b>${pct(val("employment/retail", START), 1)}</b> of people in 1993, <b>${pct(val("employment/retail", N() - 1), 1)}</b> in 2010. Startups employed up to <b>${pct(max("employment/internet"), 1)}</b>, the carriers and Corelink up to <b>${pct(max("employment/network"), 1)}</b>.`],
+    ["What it was worth", "coda", scen === "no_internet" ? `Growth 1995–2000: <b>${pct(n.growth_95_00, 1)}</b> a year. By 2010 the wired town produces <b>${pct(h.gdp_2010 / n.gdp_2010 - 1)}</b> more than this one.` : `Despite the crash, by 2010 the town produces <b>${pct(f.gdp_2010 / n.gdp_2010 - 1)}</b> more than it would have without the internet: shops, banks and telecom learned to do more with the same people.`],
+  ];
+  $("notes").innerHTML = cards.map(([t, gate, p]) => open(gate) ? `<div class="note"><h3>${t}</h3><p>${p}</p></div>`
+    : `<div class="note later"><h3>${t}</h3><p>Revealed as the story reaches it.</p></div>`).join("");
+}
+let lastNotesTick = -1;
+setInterval(() => { if (i + 1 !== lastNotesTick) { lastNotesTick = i + 1; renderNotes(); } }, 400);
+// the realism scorecard (mean of all seeds)
+(function score() {
+  const rows = D.scorecard || [];
+  const scored = rows.filter((r) => r.match !== "scripted"), ok = scored.filter((r) => r.match === "✓").length;
+  $("scoreLede").textContent = `The same model, run ${D.n_seeds} times with different luck, against stylized facts of the 1995–2005 dot-com era. ${ok} of ${scored.length} scored facts land in the historical range; the misses are shown too, and rows set by a script are marked. The film above replays run ${D.seed}, the one that matched history best. Only four moments are scripted from history (the 1996 warning, the 1998 rescue cuts, the Y2K cash and the 2003 promise of 1%); the rest emerges from the mechanisms.`;
+  $("scoreTable").innerHTML = "<thead><tr><th>Stylized fact</th><th>History</th><th>Model</th><th>Match</th></tr></thead><tbody>" +
+    rows.map((r) => `<tr><td>${r["stylized fact"]}</td><td>${r.history}</td><td class="num">${r["model (mean of seeds)"]}</td><td class="${r.match === "✓" ? "ok" : r.match === "✗" ? "no" : ""}">${r.match === "✓" ? "✓ yes" : r.match === "✗" ? "✗ no" : "set by script"}</td></tr>`).join("") + "</tbody>";
+})();
+
+laneGrid(); renderChapters(); renderMarks(); renderNotes();
+const hash0 = location.hash.replace("#", "");           // e.g. #crash opens on that moment, paused
+const e0 = D.scenarios.history.events.find((e) => e.key === hash0);
+if (e0) { started = true; voiceOn = false; setVoiceBtn(); $("curtain").hidden = true; jumpTo(e0.tick - 1, false); }
+requestAnimationFrame(loop);
+})();
+</script>

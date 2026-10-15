@@ -1,0 +1,10 @@
+# Stage 3 base scenario: the Stage 2 market plus a bank that takes deposits and lends.
+inherits: stage2_market.yaml
+name: stage3_bank
+description: One bank takes deposits and lends to firms; loans create deposits.
+ticks: 400
+layers:
+  banking:
+    loan_rate: 0.01
+    capital_requirement: 0.08
+    ltv: 0.5

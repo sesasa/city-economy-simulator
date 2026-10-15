@@ -1,0 +1,1836 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head><body>
+<title>Grainbridge Town Twin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a tabletop diorama of the town with its notice board beside it. Two modes:
+   explore one town through guided stories, or compare two towns that differ in one rule. */
+:root {
+  --page: #edf1e8; --panel: #f8faf5; --ink: #1d2a23; --ink-2: #4b5a51; --ink-3: #6f7d74; --line: #d3dccd;
+  --accent: #2b6b6f; --accent-soft: #dcebea; --accent-ink: #ffffff;
+  --good: #2f7a47; --warn: #a8690f; --bad: #b0352b; --veil: rgba(16, 26, 20, .55);
+  --ground: #dde6cc; --ground-2: #d2ddbd; --field: #c9cf7e; --wheat: #d9a520; --dry: #c19a64;
+  --road: #cfc6b3; --road-edge: #b9af99; --water: #4d8dbc; --brick: #a8543a; --roof: #6b4a3d;
+  --stone: #9aa19a; --grass: #a6c784; --tree: #5f8f4e; --window: #f3e7c4; --window-lit: #ffd36e;
+  --shadow: rgba(40, 52, 40, .18); --sign: rgba(248, 250, 245, .92);
+  --job-farm: #eda100; --job-factory: #2a78d6; --job-delivery: #eb6834; --job-repair: #4a3aa7;
+  --job-build: #1baf7a; --job-rest: #e87ba4; --job-idle: #8b8f86;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "Atkinson Hyperlegible Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --page: #111714; --panel: #18201c; --ink: #e5ece6; --ink-2: #b2bfb7; --ink-3: #8c9a91; --line: #2c3832;
+  --accent: #5fb0b3; --accent-soft: #1d3434; --accent-ink: #0d1a1b; --good: #63b97d; --warn: #e0a23a; --bad: #ec6b5f; --veil: rgba(0, 0, 0, .6);
+  --ground: #1f2a22; --ground-2: #243026; --field: #4b5a33; --wheat: #a8862c; --dry: #6e5a3c;
+  --road: #3a3a33; --road-edge: #4a493f; --water: #3a6f99; --brick: #7d4634; --roof: #3f2f29;
+  --stone: #5d645e; --grass: #34502f; --tree: #2f5233; --window: #3a3a33; --window-lit: #ffc95a;
+  --shadow: rgba(0, 0, 0, .35); --sign: rgba(24, 32, 28, .9);
+  --job-farm: #c98500; --job-factory: #3987e5; --job-delivery: #d95926; --job-repair: #9085e9;
+  --job-build: #199e70; --job-rest: #d55181; --job-idle: #7c827b;
+  color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --page: #111714; --panel: #18201c; --ink: #e5ece6; --ink-2: #b2bfb7; --ink-3: #8c9a91; --line: #2c3832;
+  --accent: #5fb0b3; --accent-soft: #1d3434; --accent-ink: #0d1a1b; --good: #63b97d; --warn: #e0a23a; --bad: #ec6b5f; --veil: rgba(0, 0, 0, .6);
+  --ground: #1f2a22; --ground-2: #243026; --field: #4b5a33; --wheat: #a8862c; --dry: #6e5a3c;
+  --road: #3a3a33; --road-edge: #4a493f; --water: #3a6f99; --brick: #7d4634; --roof: #3f2f29;
+  --stone: #5d645e; --grass: #34502f; --tree: #2f5233; --window: #3a3a33; --window-lit: #ffc95a;
+  --shadow: rgba(0, 0, 0, .35); --sign: rgba(24, 32, 28, .9);
+  --job-farm: #c98500; --job-factory: #3987e5; --job-delivery: #d95926; --job-repair: #9085e9;
+  --job-build: #199e70; --job-rest: #d55181; --job-idle: #7c827b;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--page); color: var(--ink); font: 16px/1.5 var(--body); }
+.wrap { max-width: 1320px; margin: 0 auto; padding-inline: 16px; padding-block: 18px 64px; display: grid; gap: 18px; }
+h1, h2, h3 { text-wrap: balance; }
+button { font: 600 14px var(--body); color: var(--ink); background: transparent; border: 1px solid var(--line);
+  border-radius: 999px; padding: 7px 14px; cursor: pointer; line-height: 1.2; }
+button:hover { border-color: var(--ink-3); }
+button:focus-visible, input:focus-visible + label, input[type=range]:focus-visible, input[type=checkbox]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+button.danger { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 45%, var(--line)); }
+button:disabled { opacity: .45; cursor: not-allowed; }
+.eyebrow { font: 700 12px var(--body); letter-spacing: .09em; text-transform: uppercase; color: var(--ink-3); }
+
+/* header */
+header.top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; }
+h1 { font: 800 clamp(32px, 4.6vw, 48px)/1 var(--display); letter-spacing: -0.02em; margin: 0; }
+.lede { margin: 6px 0 0; color: var(--ink-2); max-width: 64ch; }
+.head-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.tabs { display: inline-flex; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; }
+.tabs button { border: 0; padding: 8px 16px; }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--page); }
+
+/* pickers */
+.picker { display: grid; gap: 8px; }
+.picker-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+.chip { flex: 0 0 auto; display: grid; grid-template-columns: 28px auto; gap: 2px 10px; align-items: center; text-align: left;
+  border-radius: 12px; padding: 8px 14px 8px 10px; background: var(--panel); max-width: 260px; }
+.chip svg { grid-row: span 2; width: 28px; height: 28px; }
+.chip b { font: 700 15px var(--display); white-space: nowrap; }
+.chip span { font: 400 13px/1.3 var(--body); color: var(--ink-2); white-space: normal; }
+.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+
+/* transport bar */
+.transport { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 12px; background: var(--panel);
+  border: 1px solid var(--line); border-radius: 14px; }
+.transport .year { font: 800 24px/1 var(--display); min-width: 4.6em; font-variant-numeric: tabular-nums; }
+.transport .spacer { flex: 1 1 auto; }
+#play { min-width: 96px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; gap: 2px; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label { border-radius: 999px; padding: 5px 11px; font: 600 13px var(--body); color: var(--ink-2); cursor: pointer; }
+.seg input:checked + label { background: var(--ink); color: var(--page); }
+.check { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; color: var(--ink-2); cursor: pointer; }
+.check input { accent-color: var(--accent); width: 16px; height: 16px; }
+
+/* explore layout */
+.main { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.left { display: grid; gap: 18px; min-width: 0; }
+@media (max-width: 960px) {
+  .main { grid-template-columns: minmax(0, 1fr); }
+  .left { display: contents; }
+  .stage { order: 1; } .side { order: 2; } .diary { order: 3; }
+}
+.stage { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; min-width: 0; }
+.canvas-wrap { position: relative; overflow: hidden; }
+.canvas-wrap canvas { display: block; width: 100%; height: auto; aspect-ratio: 8 / 5; max-width: 100%; touch-action: manipulation; }
+.scale-note { font: 13px var(--mono); color: var(--ink-3); padding: 8px 12px; display: flex; flex-wrap: wrap; gap: 4px 16px; justify-content: space-between; }
+
+/* overlays on the scene */
+.spot { position: absolute; border-radius: 14px; box-shadow: 0 0 0 9999px var(--veil); pointer-events: none;
+  transition: left .35s ease, top .35s ease, width .35s ease, height .35s ease; outline: 2px solid var(--accent-ink); }
+.bubble { position: absolute; width: min(330px, calc(100% - 24px)); background: var(--panel); color: var(--ink); border: 1px solid var(--line);
+  border-radius: 12px; padding: 12px 14px; box-shadow: 0 10px 30px var(--shadow); display: grid; gap: 6px; z-index: 3; }
+.bubble h3 { margin: 0; font: 700 17px var(--display); }
+.bubble p { margin: 0; font-size: 15px; color: var(--ink-2); }
+.bubble .row { display: flex; gap: 8px; justify-content: space-between; align-items: center; margin-top: 4px; flex-wrap: wrap; }
+.bubble .row span { font: 13px var(--mono); color: var(--ink-3); }
+.tip { position: absolute; pointer-events: none; max-width: 270px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+  padding: 8px 11px; font-size: 14px; line-height: 1.4; box-shadow: 0 6px 18px var(--shadow); z-index: 2; }
+.tip b { display: block; font: 700 15px var(--display); margin-bottom: 2px; }
+.welcome { position: absolute; inset: 0; display: grid; place-items: center; background: var(--veil); z-index: 4; padding: 16px; }
+.welcome > div { background: var(--panel); border-radius: 16px; padding: 20px 22px; max-width: 440px; display: grid; gap: 10px; border: 1px solid var(--line); }
+.welcome h2 { margin: 0; font: 800 26px/1.1 var(--display); }
+.welcome p { margin: 0; color: var(--ink-2); }
+.welcome .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+
+/* rules drawer */
+details.rules { border-top: 1px solid var(--line); }
+details.rules summary { cursor: pointer; padding: 10px 14px; font: 700 15px var(--body); list-style: none; display: flex; justify-content: space-between; align-items: center; }
+details.rules summary::-webkit-details-marker { display: none; }
+details.rules summary::after { content: "Show"; font: 600 13px var(--body); color: var(--accent); }
+details.rules[open] summary::after { content: "Hide"; }
+.rule-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 14px 22px; padding: 4px 14px 16px; }
+.rule { display: grid; gap: 4px; min-width: 0; align-content: start; }
+.rule .t { font-weight: 700; font-size: 15px; display: flex; justify-content: space-between; gap: 8px; }
+.rule output { font: 600 14px var(--mono); color: var(--accent); }
+.rule small { color: var(--ink-3); font-size: 13px; line-height: 1.4; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+.toggle { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+.toggle input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--accent); flex: none; }
+.toggle b { display: block; font-size: 15px; }
+.toggle small { display: block; }
+
+/* side panel */
+.side { display: grid; gap: 14px; min-width: 0; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 14px; min-width: 0; }
+.guide { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.guide h2 { margin: 0; font: 800 22px/1.15 var(--display); }
+.guide .q { margin: 0; font-size: 17px; }
+.guide .watch { margin: 0; color: var(--ink-2); font-size: 15px; display: grid; grid-template-columns: 22px 1fr; gap: 6px; }
+.guide .watch svg { width: 20px; height: 20px; margin-top: 2px; color: var(--accent); }
+.guide .lesson { background: var(--accent-soft); border-radius: 10px; padding: 12px 14px; display: grid; gap: 8px; }
+.guide .lesson p { margin: 0; }
+.guide .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.status { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: space-between; }
+.pill { font: 700 13px var(--body); letter-spacing: .04em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px;
+  border: 1.5px solid currentColor; display: inline-flex; gap: 6px; align-items: center; }
+.pill.good { color: var(--good); } .pill.warn { color: var(--warn); } .pill.bad { color: var(--bad); }
+.pill svg { width: 14px; height: 14px; }
+.story { font-size: 16px; line-height: 1.55; margin: 0; }
+.gauges { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.gauge { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: grid; gap: 4px; }
+.gauge .k { font-size: 13px; color: var(--ink-2); display: flex; gap: 6px; align-items: center; }
+.gauge .k svg { width: 16px; height: 16px; color: var(--ink-3); flex: none; }
+.gauge .v { font: 800 26px/1.05 var(--display); font-variant-numeric: tabular-nums; }
+.gauge .d { font: 13px var(--mono); color: var(--ink-3); min-height: 1.3em; }
+.meter { height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--ink) 10%, transparent); overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--ink-2); border-radius: 3px; transition: width .4s ease; }
+.meter.good i { background: var(--good); } .meter.warn i { background: var(--warn); } .meter.bad i { background: var(--bad); }
+.waffle { display: grid; grid-template-columns: repeat(25, minmax(0, 1fr)); gap: 2px; }
+.waffle span { aspect-ratio: 1; border-radius: 50% 50% 35% 35%; background: var(--job-idle); transition: background .4s; }
+.legend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 12px; margin-top: 8px; font-size: 14px; }
+.legend div { display: flex; gap: 8px; align-items: baseline; min-width: 0; }
+.legend i { width: 10px; height: 10px; border-radius: 50%; flex: none; transform: translateY(1px); }
+.legend b { font: 600 14px var(--mono); margin-left: auto; font-variant-numeric: tabular-nums; }
+.hint { font-size: 13px; color: var(--ink-3); margin: 4px 0 0; }
+.hands { display: grid; gap: 8px; }
+.hands p { margin: 0; color: var(--ink-2); font-size: 15px; }
+.hbar { display: grid; gap: 6px; }
+.hbar div { display: grid; grid-template-columns: 7.5em 1fr; gap: 8px; align-items: center; font-size: 13px; color: var(--ink-2); }
+.hbar span.b { height: 12px; border-radius: 6px; background: var(--ink-2); display: block; transition: width .4s ease; }
+.hbar .need span.b { background: var(--job-repair); }
+.hbar .have span.b { background: var(--good); }
+.hbar .need.over span.b { background: var(--bad); }
+
+.diary { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+.log { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; max-height: 240px; overflow: auto; font-size: 15px; }
+.log li { display: grid; grid-template-columns: 12px 4.8em 1fr; gap: 8px; align-items: baseline; color: var(--ink-2); }
+.log li i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); transform: translateY(-1px); }
+.log li.bad i { background: var(--bad); } .log li.good i { background: var(--good); }
+.log li span { font: 13px var(--mono); color: var(--ink-3); }
+
+/* compare */
+.question { display: grid; gap: 4px; }
+.question h2 { margin: 0; font: 800 clamp(22px, 2.6vw, 30px)/1.15 var(--display); }
+.question p { margin: 0; color: var(--ink-2); }
+.diff-tag { display: inline-flex; gap: 6px; align-items: center; font: 600 14px var(--body); color: var(--accent); }
+.towns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 820px) { .towns { grid-template-columns: minmax(0, 1fr); } }
+.town { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; min-width: 0; }
+.town-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 14px; flex-wrap: wrap; }
+.town-head .name { display: flex; gap: 10px; align-items: center; }
+.town-head .badge { font: 800 15px var(--display); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--ink); color: var(--page); flex: none; }
+.town-head b { font: 700 16px var(--display); }
+.town-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.town-stats div { padding: 8px 12px; display: grid; gap: 2px; border-left: 1px solid var(--line); min-width: 0; }
+.town-stats div:first-child { border-left: 0; }
+.town-stats span { font-size: 12px; color: var(--ink-3); }
+.town-stats b { font: 800 19px/1.1 var(--display); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.town-story { margin: 0; padding: 10px 14px 14px; font-size: 15px; color: var(--ink-2); border-top: 1px solid var(--line); min-height: 5.5em; }
+.score { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 12px; }
+.score .headline { margin: 0; font: 700 19px/1.35 var(--display); }
+.score table { border-collapse: collapse; width: 100%; font-size: 15px; font-variant-numeric: tabular-nums; }
+.score th, .score td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: right; }
+.score th:first-child, .score td:first-child { text-align: left; color: var(--ink-2); font-weight: 400; }
+.score thead th { font: 700 13px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.score td.win { font-weight: 700; color: var(--good); }
+.score td.win::after { content: " ✓"; }
+.tbl { overflow-x: auto; }
+
+/* how it works */
+.how { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 14px 22px; }
+.how div { display: grid; gap: 4px; align-content: start; }
+.how h3 { margin: 0; font: 700 16px var(--display); display: flex; gap: 8px; align-items: center; }
+.how h3 i { width: 12px; height: 12px; border-radius: 50%; }
+.how p { margin: 0; color: var(--ink-2); font-size: 15px; }
+section > h2.sec { font: 700 clamp(22px, 2.4vw, 28px)/1.15 var(--display); margin: 0 0 10px; letter-spacing: -0.01em; }
+footer { color: var(--ink-3); font-size: 14px; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+footer .ok { color: var(--good); font-weight: 700; } footer .ko { color: var(--bad); font-weight: 700; }
+@media (prefers-reduced-motion: reduce) { .meter i, .waffle span, .spot, .hbar span.b { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Grainbridge</h1>
+      <p class="lede">A pocket-sized town with no money. Each year a planner decides who farms wheat, who bakes bread, who delivers it and who repairs the machines. Whoever is left over can build things or rest.</p>
+    </div>
+    <div class="head-actions">
+      <div class="tabs" role="tablist" aria-label="Mode">
+        <button role="tab" id="tabExplore" aria-selected="true">Explore one town</button>
+        <button role="tab" id="tabCompare" aria-selected="false">Compare two towns</button>
+      </div>
+      <button id="tourBtn">Take the tour</button>
+    </div>
+  </header>
+
+  <div class="picker" id="storyPicker">
+    <span class="eyebrow">Pick a story to explore</span>
+    <div class="picker-row" id="stories"></div>
+  </div>
+  <div class="picker" id="comparePicker" hidden>
+    <span class="eyebrow">Pick a comparison</span>
+    <div class="picker-row" id="comparisons"></div>
+  </div>
+
+  <div class="transport" aria-label="Clock">
+    <span class="year" id="yearNum" aria-live="polite">Year 0</span>
+    <button class="primary" id="play" aria-keyshortcuts="Space">Play</button>
+    <button id="step" title="Advance one year">+1 year</button>
+    <div class="seg" role="radiogroup" aria-label="Speed">
+      <input type="radio" name="speed" id="sp1" value="1"><label for="sp1">Slow</label>
+      <input type="radio" name="speed" id="sp3" value="3" checked><label for="sp3">Normal</label>
+      <input type="radio" name="speed" id="sp12" value="12"><label for="sp12">Fast</label>
+      <input type="radio" name="speed" id="sp60" value="60"><label for="sp60">Very fast</label>
+    </div>
+    <label class="check"><input type="checkbox" id="autoPause" checked> Pause at key moments</label>
+    <span class="spacer"></span>
+    <button class="danger" id="drought">Send a drought</button>
+    <button id="reset">Restart</button>
+  </div>
+
+  <!-- ===================== explore one town ===================== -->
+  <div class="main" id="exploreView">
+    <div class="left">
+      <div class="stage">
+        <div class="canvas-wrap" id="wrapA">
+          <canvas id="sceneA" width="960" height="600" role="img" aria-label="Animated view of the town: fields, factory, granary, workshop, homes and park, with townspeople moving between jobs. Hover or tap a place to learn more."></canvas>
+        </div>
+        <div class="scale-note"><span id="scaleNote"></span><span>Hover or tap any place to see what's happening there.</span></div>
+        <details class="rules" id="rulesDrawer" open>
+          <summary>Change the rules</summary>
+          <div class="rule-grid">
+            <div class="rule">
+              <label class="t" for="rN">Starting population <output id="oN">150</output></label>
+              <input type="range" id="rN" min="50" max="400" step="1" value="150">
+              <small id="nHint"></small>
+            </div>
+            <div class="rule">
+              <label class="t" for="rA">Wheat per farmer <output id="oA">5 sacks</output></label>
+              <input type="range" id="rA" min="1" max="10" step="0.5" value="5">
+              <small>How rich the soil is. One sack makes one loaf; each person needs one loaf a year.</small>
+            </div>
+            <div class="rule">
+              <label class="t" for="rS">Spare time spent building <output id="oS">30%</output></label>
+              <input type="range" id="rS" min="0" max="80" step="5" value="30">
+              <small>Irrigation, tools and new factories. The rest of the spare time is rest.</small>
+            </div>
+            <div class="rule">
+              <span class="t">When hands run short</span>
+              <div class="seg" role="radiogroup" aria-label="Planner style">
+                <input type="radio" name="style" id="stP" value="priority" checked><label for="stP">Feed everyone first</label>
+                <input type="radio" name="style" id="stM" value="max_feasible"><label for="stM">Protect the machines</label>
+              </div>
+              <small id="styleHint"></small>
+            </div>
+            <label class="toggle"><input type="checkbox" id="tGrow"><span><b>Families grow when fed</b><small>+1% a year when everyone eats; people die when bread runs short.</small></span></label>
+            <label class="toggle"><input type="checkbox" id="tGran"><span><b>Granary</b><small>Keeps a year of bread in reserve. 10% of it rots each year.</small></span></label>
+            <label class="toggle"><input type="checkbox" id="tLand"><span><b>Limited good farmland</b><small>Room for 500 farmers; beyond that each extra farmer adds less wheat.</small></span></label>
+          </div>
+        </details>
+      </div>
+      <div class="diary">
+        <span class="eyebrow">Town diary</span>
+        <ul class="log" id="log"></ul>
+      </div>
+    </div>
+
+    <aside class="side">
+      <div class="card guide" id="guide" hidden>
+        <span class="eyebrow">Story</span>
+        <h2 id="gTitle"></h2>
+        <p class="q" id="gQ"></p>
+        <p class="watch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span id="gWatch"></span></p>
+        <div class="lesson" id="gLesson" hidden><span class="eyebrow">What happened</span><p id="gLessonText"></p></div>
+        <div class="actions"><button class="primary" id="gSkip">Skip to the key moment</button><button id="gNext" hidden></button></div>
+      </div>
+      <div class="card" aria-label="This year in Grainbridge">
+        <div class="status"><span class="eyebrow" id="thisYear">This year</span><span class="pill good" id="pill">Ready</span></div>
+        <p class="story" id="story" aria-live="polite"></p>
+        <div class="gauges">
+          <div class="gauge"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14c2.8 0 5 2.2 5 5"/></svg>People</span><span class="v" id="gPeople">150</span><span class="d" id="dPeople"></span></div>
+          <div class="gauge"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11c0-3 3.6-5 8-5s8 2 8 5v1H4z"/><path d="M5 12v6h14v-6"/></svg>Bread per person</span><span class="v" id="gFood">100%</span><div class="meter" id="mFood"><i></i></div></div>
+          <div class="gauge"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a7 7 0 0 0-4 12.7V20h8v-4.3A7 7 0 0 0 12 3z"/></svg>Free time</span><span class="v" id="gFree">0%</span><div class="meter" id="mFree"><i></i></div></div>
+          <div class="gauge"><span class="k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>Factory condition</span><span class="v" id="gHealth">100%</span><div class="meter" id="mHealth"><i></i></div></div>
+        </div>
+        <div>
+          <span class="eyebrow">Who did what</span>
+          <div class="waffle" id="waffle" aria-hidden="true" style="margin-top:8px"></div>
+          <div class="legend" id="legend"></div>
+          <p class="hint">Each dot is 2% of the town.</p>
+        </div>
+        <div class="hands">
+          <span class="eyebrow">Hands needed vs hands available</span>
+          <div class="hbar" aria-hidden="true">
+            <div class="need" id="hNeedRow">Work to do<span class="b" id="hNeed"></span></div>
+            <div class="have">People<span class="b" id="hHave"></span></div>
+          </div>
+          <p id="handsText"></p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===================== compare two towns ===================== -->
+  <div id="compareView" hidden>
+    <div style="display:grid;gap:14px">
+      <div class="question"><h2 id="cQuestion"></h2><p id="cSetup"></p><span class="diff-tag" id="cDiff"></span></div>
+      <div class="towns">
+        <div class="town">
+          <div class="town-head"><div class="name"><span class="badge">A</span><b id="cNameA"></b></div><span class="pill good" id="cPillA">Ready</span></div>
+          <div class="canvas-wrap" id="wrapB1"><canvas id="sceneB1" width="960" height="600" role="img" aria-label="Town A"></canvas></div>
+          <div class="town-stats" id="cStatsA"></div>
+          <p class="town-story" id="cStoryA"></p>
+        </div>
+        <div class="town">
+          <div class="town-head"><div class="name"><span class="badge">B</span><b id="cNameB"></b></div><span class="pill good" id="cPillB">Ready</span></div>
+          <div class="canvas-wrap" id="wrapB2"><canvas id="sceneB2" width="960" height="600" role="img" aria-label="Town B"></canvas></div>
+          <div class="town-stats" id="cStatsB"></div>
+          <p class="town-story" id="cStoryB"></p>
+        </div>
+      </div>
+      <div class="score">
+        <span class="eyebrow">What's different so far</span>
+        <p class="headline" id="cHeadline"></p>
+        <div class="tbl"><table><thead><tr><th></th><th>Town A</th><th>Town B</th></tr></thead><tbody id="cTable"></tbody></table></div>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <h2 class="sec">How Grainbridge works</h2>
+    <div class="how">
+      <div><h3><i style="background:var(--job-farm)"></i>Farming</h3><p>Each farmer grows 5 sacks of wheat a year. Feeding 150 people takes 30 farmers.</p></div>
+      <div><h3><i style="background:var(--job-factory)"></i>The factory</h3><p>Turns wheat into bread, up to 1,000 loaves a year. It needs a crew of 50 just to open its doors, plus 1 worker for every 10 loaves.</p></div>
+      <div><h3><i style="background:var(--job-delivery)"></i>Deliveries</h3><p>One carter for every 10 loaves brought to people's homes.</p></div>
+      <div><h3><i style="background:var(--job-repair)"></i>Repairs</h3><p>A factory needs 30 people to stay in shape. Without them it loses up to 5% of its strength a year. Irrigation and tools need upkeep too.</p></div>
+      <div><h3><i style="background:var(--job-build)"></i>Building</h3><p>Spare hands can dig irrigation (more wheat per farmer), make tools (fewer workers per loaf) or build a new factory when the old one is nearly full.</p></div>
+      <div><h3><i style="background:var(--job-rest)"></i>Rest</h3><p>Whatever is left is free time, the town's real wealth. More free time means people are better off.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Same rules as the citysim model, Stage 1. An automated test checks that this page and the model give identical numbers.</span>
+    <span>Every sack and loaf accounted for: <span id="books" class="ok">yes</span></span>
+  </footer>
+</div>
+
+<script>
+/* Grainbridge engine: a line-by-line JavaScript port of citysim Stage 1
+ * (citysim/layers/s1_real_economy/{rules,real_economy,addons}.py).
+ * tests/test_twin_parity.py runs this file under node and checks it against
+ * the Python model, so the town on screen follows the same rules as the report.
+ * Works in the browser (window.CityEngine) and in node (module.exports).
+ */
+(function (root) {
+  "use strict";
+  const EPS = 1e-12;
+  const SECTORS = ["farming", "processing", "distribution", "maintenance"];
+  const CAPITAL_TYPES = ["factory", "land_improvement", "tools_processing", "tools_distribution"];
+  const RELIEVES = { land_improvement: "farming", tools_processing: "processing", tools_distribution: "distribution" };
+
+  // Python >= 3.12 sum() over floats uses Neumaier compensated summation; match it exactly.
+  function psum(xs) {
+    let s = 0.0, c = 0.0;
+    for (const x of xs) {
+      const t = s + x;
+      if (Math.abs(s) >= Math.abs(x)) c += (s - t) + x; else c += (x - t) + s;
+      s = t;
+    }
+    return (c && isFinite(c)) ? s + c : s;
+  }
+  const vals = (o) => SECTORS.map((k) => o[k]);
+
+  // ---------------------------------------------------------------- technology
+  function makeTech(o) {
+    const t = Object.assign({}, o);
+    t.a_x = t.a * Math.pow(1.0 + t.land_improvement, t.land_elasticity);
+    t.v_p_eff = t.v_p * Math.pow(1.0 + t.tools_processing, -t.tool_elasticity);
+    t.v_d_eff = t.v_d * Math.pow(1.0 + t.tools_distribution, -t.tool_elasticity);
+    t.total_capacity = t.capacity * psum(t.conditions);
+    const sorted = t.conditions.slice().sort((x, y) => y - x);
+    let acc = 0.0;
+    t.cum = sorted.map((x) => { acc += x; return t.capacity * acc; });
+    t.sorted = sorted;
+    return t;
+  }
+  function withCapital(t, kind, delta) {
+    const o = Object.assign({}, t);
+    if (kind === "factory") o.conditions = t.conditions.concat([delta]);
+    else o[kind] = t[kind] + delta;
+    return makeTech(o);
+  }
+
+  // ---------------------------------------------------------------- farming
+  function farmOutput(farmers, a_x, limit, beta) {
+    if (farmers <= 0) return 0.0;
+    if (limit === null || farmers <= limit) return a_x * farmers;
+    return a_x * Math.pow(limit, beta) * Math.pow(farmers, 1.0 - beta);
+  }
+  function farmersRequired(raw, a_x, limit, beta) {
+    if (raw <= 0) return 0.0;
+    if (a_x <= 0) return Infinity;
+    if (limit === null || raw <= a_x * limit) return raw / a_x;
+    if (beta >= 1.0) return Infinity;
+    return limit * Math.pow(raw / (a_x * limit), 1.0 / (1.0 - beta));
+  }
+
+  // ---------------------------------------------------------------- factories
+  function bisectLeft(arr, x) {
+    let lo = 0, hi = arr.length;
+    while (lo < hi) { const mid = (lo + hi) >> 1; if (arr[mid] < x) lo = mid + 1; else hi = mid; }
+    return lo;
+  }
+  function operatingFactories(output, t) {
+    if (output <= EPS || t.conditions.length === 0) return [0, 0.0];
+    const k = bisectLeft(t.cum, output * (1 - 1e-12));
+    if (k >= t.cum.length) return [t.cum.length, t.cum[t.cum.length - 1]];
+    return [k + 1, t.cum[k]];
+  }
+  function capacityOfBest(k, t) { return t.capacity * psum(t.sorted.slice(0, k)); }
+
+  // ---------------------------------------------------------------- labor
+  function maintenanceRequired(t) {
+    return (t.F_m * t.conditions.length
+      + t.land_maintenance * t.land_improvement
+      + t.tool_maintenance * (t.tools_processing + t.tools_distribution));
+  }
+  function productionLabor(output, t) {
+    const farmers = farmersRequired(output / t.e, t.a_x, t.land_limit, t.land_exponent);
+    const k = operatingFactories(output, t)[0];
+    return [farmers, t.F_p * k + t.v_p_eff * output];
+  }
+  function laborRequirements(output, t) {
+    const [f, p] = productionLabor(output, t);
+    return { farming: f, processing: p, distribution: t.v_d_eff * output, maintenance: maintenanceRequired(t) };
+  }
+  const totalLabor = (output, t) => psum(vals(laborRequirements(output, t)));
+
+  function allocatePriority(req, workers, order) {
+    let left = workers; const alloc = {};
+    for (const s of order) { const give = Math.min(req[s], Math.max(left, 0.0)); alloc[s] = give; left -= give; }
+    return alloc;
+  }
+  function potentialOutput(workers, t, iters = 60) {
+    const cap = t.total_capacity;
+    if (totalLabor(0.0, t) > workers || cap <= 0) return 0.0;
+    if (totalLabor(cap, t) <= workers) return cap;
+    let lo = 0.0, hi = cap;
+    for (let i = 0; i < iters; i++) { const mid = 0.5 * (lo + hi); if (totalLabor(mid, t) <= workers) lo = mid; else hi = mid; }
+    return lo;
+  }
+  function maxExtra(base, limit, budget, t, iters = 60) {
+    if (limit <= EPS || budget <= EPS) return [0.0, 0.0];
+    const [f0, p0] = productionLabor(base, t);
+    const extra = (x) => { const [f, p] = productionLabor(base + x, t); return (f - f0) + (p - p0); };
+    if (extra(limit) <= budget) return [limit, extra(limit)];
+    let lo = 0.0, hi = limit;
+    for (let i = 0; i < iters; i++) { const mid = 0.5 * (lo + hi); if (extra(mid) <= budget) lo = mid; else hi = mid; }
+    return [lo, extra(lo)];
+  }
+  function makePlan(workers, t, order, rule, restockDemand) {
+    const need = workers * t.c;
+    let core = Math.min(need, t.total_capacity);
+    if (rule === "max_feasible") core = Math.min(core, potentialOutput(workers, t));
+    let required = laborRequirements(core, t);
+    const totalReq = psum(vals(required));
+    if (totalReq > workers * (1 + 1e-12)) {
+      const alloc = allocatePriority(required, workers, order);
+      return { workers, need, core, restock: 0.0, required, alloc, surplus: 0.0,
+               shortfall: Math.max(totalReq - workers, 0.0), k: operatingFactories(core, t)[0], restockLabor: 0.0 };
+    }
+    let alloc = Object.assign({}, required);
+    let surplus = workers - totalReq;
+    const [restock, rl] = maxExtra(core, Math.min(restockDemand, t.total_capacity - core), surplus, t);
+    if (restock > 0) {
+      const [f, p] = productionLabor(core + restock, t);
+      alloc.farming = f; alloc.processing = p;
+      required = Object.assign({}, alloc);
+      surplus = workers - psum(vals(alloc));
+    }
+    return { workers, need, core, restock, required, alloc, surplus: Math.max(surplus, 0.0), shortfall: 0.0,
+             k: operatingFactories(core + restock, t)[0], restockLabor: rl };
+  }
+
+  // ---------------------------------------------------------------- investment
+  function factoriesWanted(need, totalCap, capacity, threshold) {
+    const gap = need / threshold - totalCap;
+    return gap <= 0 ? 0.0 : Math.floor(gap / capacity) + 1;
+  }
+  function netSaving(ctx, kind) {
+    const units = ctx.labor / ctx.costs[kind];
+    return totalLabor(ctx.output, ctx.tech) - totalLabor(ctx.output, withCapital(ctx.tech, kind, units));
+  }
+  function utilization(ctx) { const cap = ctx.tech.total_capacity; return cap <= 0 ? Infinity : ctx.need / cap; }
+  const INVESTMENT_RULES = {
+    bottleneck(ctx) {
+      if (ctx.inProgress || utilization(ctx) >= ctx.threshold) return "factory";
+      const ranked = Object.keys(RELIEVES).slice().sort((x, y) => -(ctx.sectorLabor[RELIEVES[x]] || 0) + (ctx.sectorLabor[RELIEVES[y]] || 0));
+      for (const kind of ranked) if (netSaving(ctx, kind) > EPS) return kind;
+      return null;
+    },
+    best_return(ctx) {
+      if (ctx.inProgress || utilization(ctx) >= ctx.threshold) return "factory";
+      let best = null, bv = -Infinity;
+      for (const k of Object.keys(RELIEVES)) { const v = netSaving(ctx, k); if (v > bv) { bv = v; best = k; } }
+      return bv > EPS ? best : null;
+    },
+  };
+
+  function nextPopulation(n, cons, c, growth, mu) {
+    if (cons >= c * (1 - 1e-9)) return n * (1.0 + growth);
+    return n * Math.max(0.0, 1.0 - mu * (1.0 - cons / c));
+  }
+  function unmaintainedShare(labor, req) {
+    if (req <= EPS) return 0.0;
+    return Math.min(1.0, Math.max(0.0, 1.0 - labor / req));
+  }
+  function analyticalNmin(p, a) {
+    const d = 1.0 - p.c / (p.e * a) - p.v_p * p.c - p.v_d * p.c;
+    return d <= 0 ? Infinity : (p.F_p + p.F_m) / d;
+  }
+
+  // ---------------------------------------------------------------- defaults
+  const DEFAULTS = {
+    a: 5, c: 1, e: 1, F_p: 50, v_p: 0.1, v_d: 0.1, F_m: 30, delta: 0.05, capacity: 1000,
+    N0: 150, initial_factories: 1, scrap_condition: 0.01,
+    land_elasticity: 0.25, tool_elasticity: 0.25, land_maintenance: 1.0, tool_maintenance: 1.0,
+    priority: SECTORS.slice(), shortage_rule: "priority",
+    investment: { enabled: true, s: 0.3, rule: "bottleneck", threshold: 0.9, factory_cost: 1000, land_cost: 200, tool_cost: 200 },
+    demography: { enabled: false, n: 0.01, mu: 0.1 },
+    storage: { enabled: false, spoilage: 0.1, target_ticks: 1.0, initial_stock: 0.0 },
+    land_limits: { enabled: false, limit: 500, beta: 0.5 },
+    shocks: [],
+  };
+  function merge(base, over) {
+    const out = JSON.parse(JSON.stringify(base));
+    for (const k of Object.keys(over || {})) {
+      if (over[k] && typeof over[k] === "object" && !Array.isArray(over[k]) && typeof out[k] === "object") out[k] = Object.assign(out[k], over[k]);
+      else out[k] = over[k];
+    }
+    return out;
+  }
+
+  // ---------------------------------------------------------------- simulation
+  class Town {
+    constructor(params) {
+      this.p = merge(DEFAULTS, params);
+      this.tick = 0;
+      this.N = this.p.N0;
+      this.conditions = Array(this.p.initial_factories).fill(1.0);
+      // stocks (the books): holder -> item -> amount
+      this.stock = { farm: {}, factory: {}, distribution: {}, households: {}, warehouse: {} };
+      this.stock.factory.factory = this.p.initial_factories;
+      if (this.p.storage.enabled && this.p.storage.initial_stock) this.stock.warehouse.final = this.p.storage.initial_stock;
+      this.prevPotential = null;
+      this.booksOk = true;
+    }
+    get(h, i) { return this.stock[h][i] || 0.0; }
+    // flows: "production" adds, outflow flows remove, "transfer" moves. Every change goes through here.
+    post(flow, item, from, to, amt) {
+      if (amt === 0) return;
+      if (amt < 0) throw new Error("negative posting " + flow + " " + item);
+      if (from) this.stock[from][item] = this.get(from, item) - amt;
+      if (to) this.stock[to][item] = this.get(to, item) + amt;
+      const f = this.flows[item] || (this.flows[item] = {});
+      f[flow] = (f[flow] || 0) + amt;
+    }
+    totals() {
+      const t = {};
+      for (const h of Object.keys(this.stock)) for (const [i, v] of Object.entries(this.stock[h])) t[i] = (t[i] || 0) + v;
+      return t;
+    }
+    tech() {
+      const p = this.p;
+      return makeTech({
+        c: p.c, e: p.e, a: p.a, v_p: p.v_p, v_d: p.v_d, F_p: p.F_p, F_m: p.F_m, capacity: p.capacity,
+        land_improvement: this.get("farm", "land_improvement"),
+        tools_processing: this.get("factory", "tools_processing"),
+        tools_distribution: this.get("distribution", "tools_distribution"),
+        land_elasticity: p.land_elasticity, tool_elasticity: p.tool_elasticity,
+        land_maintenance: p.land_maintenance, tool_maintenance: p.tool_maintenance,
+        conditions: this.conditions.slice(),
+        land_limit: p.land_limits.enabled ? p.land_limits.limit : null,
+        land_exponent: p.land_limits.enabled ? p.land_limits.beta : 0.5,
+      });
+    }
+    storageTarget() { return this.p.storage.target_ticks * this.N * this.p.c; }
+
+    step() {
+      const p = this.p;
+      this.tick += 1;
+      this.flows = {};
+      const opening = this.totals();
+      const s = { tick: this.tick, N0: this.N, events: [] };
+
+      // Phase 1: plan, then weather
+      const tech = this.tech();
+      const restock = p.storage.enabled
+        ? Math.max(0.0, this.storageTarget() - this.get("warehouse", "final") * (1 - p.storage.spoilage)) : 0.0;
+      const plan = makePlan(this.N, tech, p.priority, p.shortage_rule, restock);
+      if (this.prevPotential === null) this.prevPotential = potentialOutput(plan.workers, tech);
+      let mult = 1.0;
+      for (const sh of p.shocks) if (sh.start <= this.tick && this.tick < sh.start + sh.duration) mult *= sh.multiplier;
+
+      // Phase 2: farming, then processing
+      const farmers = plan.alloc.farming;
+      const raw = farmOutput(farmers, tech.a_x, tech.land_limit, tech.land_exponent) * mult;
+      this.post("production", "raw", null, "farm", raw);
+      this.post("transfer", "raw", "farm", "factory", raw);
+      const labor = plan.alloc.processing;
+      let k = plan.k;
+      if (tech.F_p > 0) k = Math.min(k, Math.floor(labor / tech.F_p + 1e-9));
+      let final = 0.0;
+      if (k > 0) {
+        const variable = Math.max(labor - tech.F_p * k, 0.0);
+        const byLabor = tech.v_p_eff > 0 ? variable / tech.v_p_eff : Infinity;
+        final = Math.min(raw * tech.e, byLabor, capacityOfBest(k, tech), plan.core + plan.restock);
+      }
+      this.post("use", "raw", "factory", null, Math.min(final / tech.e, this.get("factory", "raw")));
+      this.post("production", "final", null, "factory", final);
+
+      // Phase 3: maintenance and depreciation, then storage spoilage
+      const u = unmaintainedShare(plan.alloc.maintenance, plan.required.maintenance);
+      const loss = p.delta * u;
+      let scrapped = 0;
+      if (loss > 0) {
+        const kept = []; let lost = 0.0;
+        for (const cond of this.conditions) {
+          const after = cond * (1 - loss);
+          if (after < p.scrap_condition) { lost += cond; scrapped += 1; } else { lost += cond - after; kept.push(after); }
+        }
+        this.conditions = kept;
+        this.post("depreciation", "factory", "factory", null, Math.min(lost, this.get("factory", "factory")));
+        for (const [item, holder] of [["land_improvement", "farm"], ["tools_processing", "factory"], ["tools_distribution", "distribution"]])
+          this.post("depreciation", item, holder, null, this.get(holder, item) * loss);
+      }
+      let spoiled = 0.0;
+      // UI only (the Python model cannot switch storage off mid-run): a granary that is
+      // switched off is emptied, its contents written off as waste.
+      if (!p.storage.enabled && this.get("warehouse", "final") > 0) this.post("waste", "final", "warehouse", null, this.get("warehouse", "final"));
+      if (p.storage.enabled) {
+        spoiled = this.get("warehouse", "final") * p.storage.spoilage;
+        this.post("spoilage", "final", "warehouse", null, spoiled);
+      }
+
+      // Phase 5: distribution and consumption
+      const distCap = tech.v_d_eff > 0 ? plan.alloc.distribution / tech.v_d_eff : Infinity;
+      const wanted = Math.min(plan.need, distCap);
+      const fromFactory = Math.min(this.get("factory", "final"), wanted);
+      this.post("transfer", "final", "factory", "households", fromFactory);
+      let delivered = fromFactory, drawn = 0.0, added = 0.0;
+      if (p.storage.enabled && wanted - delivered > EPS) {
+        drawn = Math.min(wanted - delivered, this.get("warehouse", "final"));
+        this.post("transfer", "final", "warehouse", "households", drawn);
+        delivered += drawn;
+      }
+      this.post("consumption", "final", "households", null, this.get("households", "final"));
+      if (p.storage.enabled) {
+        added = this.get("factory", "final");
+        this.post("transfer", "final", "factory", "warehouse", added);
+      }
+      const wastedFinal = this.get("factory", "final"), wastedRaw = this.get("factory", "raw");
+      this.post("waste", "final", "factory", null, wastedFinal);
+      this.post("waste", "raw", "factory", null, wastedRaw);
+      const cons = plan.workers > 0 ? delivered / plan.workers : 0.0;
+
+      // Phase 6: investment
+      const spent = { factory: 0.0, land_improvement: 0.0, tools_processing: 0.0, tools_distribution: 0.0 };
+      let newFactories = 0;
+      const inv = p.investment;
+      if (inv.enabled) {
+        let budget = inv.s * plan.surplus;
+        const costs = { factory: inv.factory_cost, land_improvement: inv.land_cost, tools_processing: inv.tool_cost, tools_distribution: inv.tool_cost };
+        for (let it = 0; it < CAPITAL_TYPES.length; it++) {
+          if (budget <= EPS) break;
+          const t2 = this.tech();
+          const wip = this.get("factory", "factory_wip");
+          const ctx = { labor: budget, output: plan.core, need: plan.need, tech: t2, costs, threshold: inv.threshold,
+                        inProgress: wip > EPS,
+                        sectorLabor: { farming: plan.alloc.farming, processing: t2.v_p_eff * plan.core, distribution: plan.alloc.distribution } };
+          const choice = INVESTMENT_RULES[inv.rule](ctx);
+          if (choice === null || (choice !== "factory" && spent[choice] > 0)) break;
+          let units = budget / costs[choice];
+          if (choice === "factory") {
+            const want = factoriesWanted(plan.need, t2.total_capacity, t2.capacity, inv.threshold);
+            units = Math.min(units, Math.max(want, 1.0) - wip);
+            this.post("production", "factory_wip", null, "factory", units);
+            const done = Math.trunc(this.get("factory", "factory_wip") + 1e-9);
+            if (done) {
+              this.post("use", "factory_wip", "factory", null, Math.min(done, this.get("factory", "factory_wip")));
+              this.post("production", "factory", null, "factory", done);
+              for (let i = 0; i < done; i++) this.conditions.push(1.0);
+              newFactories += done;
+            }
+          } else {
+            const holder = { land_improvement: "farm", tools_processing: "factory", tools_distribution: "distribution" }[choice];
+            this.post("production", choice, null, holder, units);
+          }
+          const lab = units * costs[choice];
+          spent[choice] += lab;
+          budget -= lab;
+        }
+      }
+      const investment = psum(CAPITAL_TYPES.map((k2) => spent[k2]));
+
+      // Phase 8: demography
+      if (p.demography.enabled) this.N = nextPopulation(this.N, cons, p.c, p.demography.n, p.demography.mu);
+
+      // Phase 9: check the books (goods conservation for every item)
+      const closing = this.totals();
+      const items = new Set([...Object.keys(opening), ...Object.keys(closing), ...Object.keys(this.flows)]);
+      let ok = true;
+      for (const item of items) {
+        const f = this.flows[item] || {};
+        const expect = (opening[item] || 0) + (f.production || 0)
+          - (f.use || 0) - (f.consumption || 0) - (f.depreciation || 0) - (f.spoilage || 0) - (f.waste || 0);
+        const got = closing[item] || 0;
+        if (Math.abs(got - expect) > 1e-9 * Math.max(1, Math.abs(got), Math.abs(expect))) ok = false;
+        for (const h of Object.keys(this.stock)) if ((this.stock[h][item] || 0) < -1e-9 * Math.max(1, Math.abs(expect))) ok = false;
+      }
+      this.booksOk = this.booksOk && ok;
+
+      const techEnd = this.tech();
+      const potential = potentialOutput(this.N, techEnd);
+      const growth = this.prevPotential > 0 ? potential / this.prevPotential - 1.0 : 0.0;
+      this.prevPotential = potential;
+
+      return Object.assign(s, {
+        N: this.N, plan, alloc: plan.alloc, required: plan.required, surplus: plan.surplus, shortfall: plan.shortfall,
+        need: plan.need, harvestMultiplier: mult, raw, final, delivered, cons, wastedRaw, wastedFinal,
+        unmaintained: u, scrapped, newFactories, conditions: this.conditions.slice(), factoriesRunning: k,
+        wip: this.get("factory", "factory_wip"),
+        land_improvement: this.get("farm", "land_improvement"),
+        tools_processing: this.get("factory", "tools_processing"),
+        tools_distribution: this.get("distribution", "tools_distribution"),
+        effective_a: farmers > 0 ? raw / farmers : tech.a_x * mult,
+        a_x: techEnd.a_x, capacity: techEnd.total_capacity,
+        storage: this.get("warehouse", "final"), storageTarget: p.storage.enabled ? this.storageTarget() : 0,
+        drawn, spoiled, added, restock: plan.restock, restockLabor: plan.restockLabor,
+        spent, investment, leisure: plan.surplus - investment,
+        potential, growth, booksOk: ok,
+        nMinToday: analyticalNminTech(techEnd, p),
+      });
+    }
+  }
+
+  // Smallest town that keeps everything running with today's capital (fixed overhead / labor left per person).
+  function analyticalNminTech(t, p) {
+    const d = 1.0 - t.c / (t.e * t.a_x) - t.v_p_eff * t.c - t.v_d_eff * t.c;
+    const fixed = t.F_p + maintenanceRequired(t);
+    return d <= 0 ? Infinity : fixed / d;
+  }
+
+  // Workers needed to feed everyone (N*c, capped by factory capacity) and keep all capital repaired.
+  function handsToFeedEveryone(town) {
+    const t = town.tech(), core = Math.min(town.N * t.c, t.total_capacity);
+    return psum(vals(laborRequirements(core, t)));
+  }
+  const api = { Town, DEFAULTS, analyticalNmin, potentialOutput, makeTech, makePlan, psum, handsToFeedEveryone };
+  if (typeof module !== "undefined" && module.exports) module.exports = api;
+  else root.CityEngine = api;
+})(typeof window !== "undefined" ? window : globalThis);
+
+</script>
+<script>
+(() => {
+"use strict";
+const { Town, DEFAULTS, analyticalNmin } = window.CityEngine;
+const $ = (id) => document.getElementById(id);
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+                set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } } };
+
+// ============================================================ theme tokens for the canvas
+let C = {};
+function readTokens() {
+  const cs = getComputedStyle(document.documentElement);
+  for (const k of ["ink","ink-2","ink-3","panel","line","ground","ground-2","field","wheat","dry","road","road-edge","water","brick","roof",
+    "stone","grass","tree","window","window-lit","shadow","sign","good","warn","bad","accent","job-farm","job-factory","job-delivery",
+    "job-repair","job-build","job-rest","job-idle","page"]) C[k] = cs.getPropertyValue("--" + k).trim();
+  const t = document.documentElement.dataset.theme;
+  C.night = t === "dark" || (t !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+}
+readTokens();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", readTokens);
+new MutationObserver(readTokens).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+// ============================================================ formatting
+const fmt = (x) => Math.round(x).toLocaleString("en-US");
+const pct = (x) => (x >= 0.999 && x <= 1.0005 ? 100 : x < 1 && x > 0.99 ? (Math.floor(x * 1000) / 10).toFixed(1) : Math.round(x * 100)) + "%";
+const people = (x) => { const n = Math.round(x); return n === 1 ? "1 person" : fmt(n) + " people"; };
+function compact(x) {
+  if (x >= 1e6) return (x / 1e6).toFixed(x >= 1e7 ? 0 : 1) + "M";
+  if (x >= 1e4) return Math.round(x / 1e3) + "k";
+  return fmt(x);
+}
+const sum4 = (o) => o.farming + o.processing + o.distribution + o.maintenance;
+// short of hands: the planner either skipped work (priority) or cut the bread target (max_feasible)
+const shortOfHands = (s) => s.shortfall > 1e-6 || s.plan.core < Math.min(s.need, s.capacity) * (1 - 1e-9);
+const droughtPct = (s) => Math.round((1 - s.harvestMultiplier) * 100);
+const tickOf = () => Math.max(...views().map((v) => v.snap ? v.snap.tick : 0));
+function nice(x) { if (x <= 1) return 1; const e = Math.pow(10, Math.floor(Math.log10(x)));
+  for (const m of [1, 2, 5, 10]) if (m * e >= x - 1e-9) return m * e; return 10 * e; }
+
+// ============================================================ jobs
+const JOBS = [
+  { id: "farm", label: "Farming", color: "job-farm" }, { id: "factory", label: "Factory", color: "job-factory" },
+  { id: "delivery", label: "Deliveries", color: "job-delivery" }, { id: "repair", label: "Repairs", color: "job-repair" },
+  { id: "build", label: "Building", color: "job-build" }, { id: "rest", label: "Resting", color: "job-rest" },
+];
+function jobPeople(s) {
+  const sp = s.spent;
+  return { farm: s.alloc.farming, factory: s.alloc.processing, delivery: s.alloc.distribution, repair: s.alloc.maintenance,
+    build_land: sp.land_improvement, build_tools: sp.tools_processing + sp.tools_distribution, build_factory: sp.factory,
+    rest: Math.max(0, s.leisure) };
+}
+function apportion(values, total) {
+  const keys = Object.keys(values), sum = keys.reduce((a, k) => a + values[k], 0) || 1;
+  const raw = keys.map((k) => values[k] / sum * total), out = {}; let used = 0;
+  keys.forEach((k, i) => { out[k] = Math.floor(raw[i]); used += out[k]; });
+  keys.map((k, i) => [k, raw[i] - Math.floor(raw[i])]).sort((a, b) => b[1] - a[1]).slice(0, total - used).forEach(([k]) => out[k]++);
+  return out;
+}
+
+// ============================================================ scene geometry (logical 960 x 600)
+const W = 960, H = 600, ROAD_Y = 312, TOWN_X = 652;
+const PLOTS = [];
+(() => { const x0 = 34, y0 = 58, pw = 58, ph = 58, g = 9;
+  for (let r = 0; r < 7; r++) for (let c = 0; c < 5; c++) { if (r === 3) continue;
+    PLOTS.push({ x: x0 + c * (pw + g), y: y0 + r * (ph + g) + (r > 3 ? -ph + 18 : 0), w: pw, h: ph }); } })();
+const FARM_LANE_Y = 58 + 3 * 67 + 6;
+const FACT_SLOTS = [0, 1, 2].map((c) => ({ x: 408 + c * 78, y: 66, w: 64, h: 74 }));
+const YARD = { x: 402, y: 168, w: 236, h: 116 };
+const GRANARY = { x: 412, y: 356, w: 74, h: 124 };
+const WORKSHOP = { x: 514, y: 380, w: 110, h: 68 };
+const HOUSE_SLOTS = [];
+(() => { for (let r = 0; r < 6; r++) for (let c = 0; c < 6; c++) HOUSE_SLOTS.push({ x: 682 + c * 44 + (r % 2) * 8, y: 56 + r * 40, w: 30, h: 24 }); })();
+const PARK = { x: 676, y: 474, w: 268, h: 100 };
+const REGIONS = {   // hover / spotlight areas
+  fields: { x: 22, y: 22, w: 356, h: 560 }, factory: { x: 394, y: 22, w: 254, h: 140 }, yard: { x: 396, y: 160, w: 248, h: 130 },
+  road: { x: 556, y: 292, w: 400, h: 40 }, granary: { x: 400, y: 332, w: 98, h: 182 }, workshop: { x: 502, y: 352, w: 136, h: 150 },
+  homes: { x: 668, y: 22, w: 288, h: 430 }, park: { x: 668, y: 450, w: 288, h: 130 },
+};
+const MAXP = 90;
+const pawnScale = (N) => nice(N / MAXP);
+const houseScale = (N) => nice(Math.max(5, N / HOUSE_SLOTS.length));
+const housesShown = (s) => s && s.N >= 0.5 ? Math.min(HOUSE_SLOTS.length, Math.max(1, Math.ceil(s.N / houseScale(s.N)))) : 0;
+function hash(i, salt) { const x = Math.sin(i * 127.1 + salt * 311.7) * 43758.5453; return x - Math.floor(x); }
+const factoryVisible = (s) => Math.min(s.conditions.length, s.wip > 1e-9 ? 2 : 3);
+const ROLES = ["farm", "factory", "delivery", "repair", "build_land", "build_tools", "build_factory", "rest"];
+const ROLE_COLOR = { farm: "job-farm", factory: "job-factory", delivery: "job-delivery", repair: "job-repair",
+  build_land: "job-build", build_tools: "job-build", build_factory: "job-build", rest: "job-rest" };
+
+function slotPos(role, i, n, s) {
+  switch (role) {
+    case "farm": { const p = PLOTS[(i * 7) % PLOTS.length], k = Math.floor(i / PLOTS.length);
+      return { x: p.x + 16 + ((k * 19 + 7) % (p.w - 30)), y: p.y + 22 + ((k * 23 + 11) % (p.h - 32)) }; }
+    case "factory": { const c = i % 13, r = Math.floor(i / 13); return { x: YARD.x + 12 + c * 17 + (r % 2) * 6, y: YARD.y + 16 + r * 19 }; }
+    case "repair": { const vf = Math.max(1, factoryVisible(s)), f = FACT_SLOTS[i % vf], k = Math.floor(i / vf);
+      const ring = [[-8, 22], [f.w + 8, 22], [-8, 44], [f.w + 8, 44], [-8, 66], [f.w + 8, 66], [14, -2], [f.w - 26, -2], [f.w / 2 - 6, -2], [-8, 0]];
+      const [dx, dy] = ring[k % ring.length]; return { x: f.x + dx, y: f.y + dy + Math.floor(k / ring.length) * 5 }; }
+    case "delivery": { const t = (i + 0.5) / Math.max(n, 1);
+      if (i % 3 === 2) return { x: TOWN_X - 12, y: 64 + (i * 37 % 360) };
+      return { x: 664 + t * 276, y: ROAD_Y + (i % 2 ? 17 : -15) }; }
+    case "build_factory": { const f = FACT_SLOTS[Math.min(2, factoryVisible(s))]; return { x: f.x + 10 + (i % 4) * 15, y: f.y + 30 + Math.floor(i / 4) * 18 }; }
+    case "build_land": { const col = 1 + (i % 4); return { x: 34 + col * 67 - 4, y: 76 + ((i * 41) % 430) }; }
+    case "build_tools": return { x: WORKSHOP.x + 12 + (i % 6) * 17, y: WORKSHOP.y + WORKSHOP.h + 14 + Math.floor(i / 6) * 18 };
+    case "rest": return { x: PARK.x + 18 + hash(i, 3) * (PARK.w - 36), y: PARK.y + 20 + hash(i, 4) * (PARK.h - 34) };
+  }
+  return { x: 760, y: 300 };
+}
+const homeDoor = (i) => { const h = HOUSE_SLOTS[i % HOUSE_SLOTS.length]; return { x: h.x + h.w / 2, y: h.y + h.h + 4 }; };
+
+// ============================================================ a town and its view
+let speed = 3;
+const moveDuration = () => reduceMotion ? 1 : Math.max(140, Math.min(1100, 1000 / speed * 0.85));
+
+class View {
+  constructor(canvas, opts = {}) {
+    this.cv = canvas; this.ctx = canvas.getContext("2d"); this.compact = !!opts.compact;
+    new ResizeObserver(() => this.fit()).observe(canvas); this.fit();
+    this.clear();
+  }
+  fit() { const r = this.cv.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+    if (!r.width) return;
+    this.cv.width = Math.round(r.width * dpr); this.cv.height = Math.round(r.width * dpr * H / W);
+    this.ctx.setTransform(this.cv.width / W, 0, 0, this.cv.height / H, 0, 0); }
+  clear() {
+    this.pawns = []; this.ghosts = []; this.particles = []; this.floaters = []; this.nextId = 0;
+    this.stats = { died: 0, hungryYears: 0, missing: 0, drawn: 0, maxN: 0, shortYears: 0 };
+    this.seen = new Set(); this.everGrew = false; this.ceiling = false; this.milestones = new Set(); this.diary = [];
+    this.prev = null; this.snap = null;
+  }
+  load(params, drought) {
+    this.town = new Town(params);
+    if (drought) this.town.p.shocks.push({ start: drought, duration: 3, multiplier: 0.7 });
+    this.clear(); this.stats.maxN = this.town.N;
+    this.snap = this.preview(); this.syncPawns(true);
+  }
+  preview() {
+    const t = new Town(JSON.parse(JSON.stringify(this.town.p)));
+    const s = t.step();
+    Object.assign(s, { tick: 0, N: this.town.N, N0: this.town.N, preview: true, harvestMultiplier: 1, conditions: this.town.conditions.slice(),
+      land_improvement: 0, tools_processing: 0, tools_distribution: 0, storage: 0, wip: 0, drawn: 0, added: 0 });
+    return s;
+  }
+  step() {
+    this.prev = this.snap && !this.snap.preview ? this.snap : null;
+    this.handsNeeded = window.CityEngine.handsToFeedEveryone(this.town);   // before the step: this year's people and capital
+    const s = this.snap = this.town.step();
+    const st = this.stats;
+    if (s.cons < 0.999) { st.hungryYears++; st.missing += (1 - s.cons) * s.N0; }
+    if (shortOfHands(s)) st.shortYears++;
+    if (s.N < s.N0) st.died += s.N0 - s.N;
+    st.drawn += s.drawn; st.maxN = Math.max(st.maxN, s.N);
+    const m = this.moments();
+    this.syncPawns(false);
+    return m;
+  }
+  addDiary(year, text, cls) { this.diary.unshift({ year, text, cls }); if (this.diary.length > 60) this.diary.pop(); }
+  // key moments: first time each kind of thing happens (pause + callout), plus diary lines
+  moments() {
+    const s = this.snap, p = this.prev, y = s.tick, out = [], tp = this.town.p;
+    const first = (type, region, title, text, cls) => {
+      this.addDiary(y, title + ". " + text, cls);
+      if (!this.seen.has(type)) { this.seen.add(type); out.push({ type, region, title, text, cls }); }
+    };
+    const dry = s.harvestMultiplier < 1, wasDry = p && p.harvestMultiplier < 1;
+    if (dry && !wasDry) first("drought", "fields", "Drought", `This year's harvest is down ${droughtPct(s)}%.${tp.storage.enabled ? " Watch the granary." : " There is no granary to fall back on."}`, "bad");
+    if (!dry && wasDry) this.addDiary(y, "The rains are back.", "good");
+    if (s.drawn > 0.5 && !(p && p.drawn > 0.5)) first("granary", "granary", "The granary opens", `${fmt(s.drawn)} loaves came out of storage to cover the gap.`, "good");
+    const short = shortOfHands(s), wasShort = p && shortOfHands(p);
+    if (short && !wasShort) first("shortage", "factory", "Not enough hands",
+      `Feeding everyone and keeping the machines repaired takes ${fmt(this.handsNeeded)} workers, but the town has ${fmt(s.N0)}. ` +
+      (tp.shortage_rule === "priority" ? "The planner keeps everyone fed and skips repairs, so the factory starts to wear down. Watch its health bar." :
+        "The planner keeps the factory repaired and bakes less bread instead."), "bad");
+    if (!short && wasShort) this.addDiary(y, "Every job is staffed again.", "good");
+    const hungry = s.cons < 0.999, wasHungry = p && p.cons < 0.999;
+    if (hungry && !wasHungry) first("hunger", "homes", "Bread is running short",
+      `Each person got ${pct(s.cons)} of what they need. Dark houses are hungry.${tp.demography.enabled ? " People will start to die." : ""}`, "bad");
+    if (!hungry && wasHungry) this.addDiary(y, "Everyone has enough bread again.", "good");
+    if (s.newFactories) {
+      const n = s.conditions.length;
+      if (!this.seen.has("factory")) first("factory", "factory", "A new factory opens", "The old one was nearly full, so builders spent 1,000 work-years on a second one. It needs its own crew and repairs.", "good");
+      else if ([3, 10, 100, 1000, 10000].some((m) => n >= m && n - s.newFactories < m)) this.addDiary(y, `Grainbridge now has ${fmt(n)} factories.`, "good");
+    }
+    if (s.scrapped) this.addDiary(y, s.scrapped === 1 ? "A worn-out factory was torn down." : `${s.scrapped} worn-out factories were torn down.`, "bad");
+    if (p && s.land_improvement >= 1 && p.land_improvement < 1) first("irrigation", "fields", "Irrigation finished",
+      `Spare hands dug ditches. Each farmer now grows ${s.a_x.toFixed(1)} sacks instead of ${tp.a}.`, "good");
+    if (p && s.tools_processing + s.tools_distribution >= 1 && p.tools_processing + p.tools_distribution < 1) first("tools", "workshop", "Better tools",
+      "The workshop's tools mean each baker and carter can handle more loaves.", "good");
+    if (tp.land_limits.enabled && s.alloc.farming > tp.land_limits.limit && !(p && p.alloc.farming > tp.land_limits.limit))
+      first("crowded", "fields", "The good land is full", "There is room for 500 farmers. From now on every extra farmer adds less wheat than the last.", "bad");
+    for (const ms of [1000, 10000, 100000, 1000000]) if (s.N >= ms && !this.milestones.has(ms)) { this.milestones.add(ms); this.addDiary(y, `Grainbridge passes ${fmt(ms)} people.`, "good"); }
+    if (tp.demography.enabled) {
+      const g = s.N / s.N0 - 1;
+      if (g > 0.005) this.everGrew = true;
+      if (this.everGrew && !this.ceiling && Math.abs(g) < 0.003 && (s.surplus < 1e-6 || s.cons < 0.999)) {
+        this.ceiling = true;
+        first("ceiling", "homes", "Growth has stopped", s.surplus < 1e-6
+          ? `At ${fmt(s.N)} people every hand is needed just to keep everyone fed. Nobody has time to build anything new.`
+          : `At ${fmt(s.N)} people the factories can't bake any more bread, and nobody is building another one.`, "bad");
+      }
+      if (s.N < 1 && !(p && p.N < 1)) first("empty", "homes", "Grainbridge is empty", "The last people have left.", "bad");
+    }
+    return out;
+  }
+  syncPawns(instant) {
+    const s = this.snap, now = performance.now();
+    const F = s.N < 0.5 ? 0 : Math.max(1, Math.round(s.N / pawnScale(s.N)));
+    const want = F ? apportion(jobPeople(s), F) : Object.fromEntries(ROLES.map((r) => [r, 0]));
+    const byRole = Object.fromEntries(ROLES.map((r) => [r, []])), pool = [];
+    for (const p of this.pawns) (byRole[p.role] || pool).push(p);
+    for (const r of ROLES) { const extra = byRole[r].length - want[r]; if (extra > 0) pool.push(...byRole[r].splice(want[r], extra)); }
+    let have = ROLES.reduce((a, r) => a + byRole[r].length, 0) + pool.length;
+    while (have > F && pool.length) { const p = pool.pop(); this.ghosts.push({ x: p.x, y: p.y, t0: now }); have--; }
+    if (this.ghosts.length > 12) this.ghosts.splice(0, this.ghosts.length - 12);
+    while (have < F) { const d = homeDoor(this.nextId); pool.push({ id: this.nextId++, x: d.x, y: d.y, role: null, zone: "home", born: now }); have++; }
+    for (const r of ROLES) while (byRole[r].length < want[r] && pool.length) { const p = pool.shift(); p.role = r; byRole[r].push(p); }
+    this.pawns = [];
+    for (const r of ROLES) byRole[r].sort((a, b) => a.id - b.id).forEach((p, i) => {
+      p.role = r; this.setTarget(p, slotPos(r, i, byRole[r].length, s), now, instant); this.pawns.push(p); });
+    if (!instant && this.town.p.demography.enabled) {
+      const d = s.N - s.N0;
+      if (Math.abs(d) >= 0.5) { this.floaters.push({ text: (d > 0 ? "+" : "−") + compact(Math.abs(d)) + " people", bad: d < 0, t0: now });
+        if (this.floaters.length > 2) this.floaters.splice(0, this.floaters.length - 2); }
+    }
+  }
+  setTarget(p, t, now, instant) {
+    if (instant || reduceMotion) { p.x = t.x; p.y = t.y; p.path = null; p.zone = p.role; return; }
+    if (Math.abs(p.x - t.x) < 0.5 && Math.abs(p.y - t.y) < 0.5) return;
+    const lane = ROAD_Y + (p.id % 3 - 1) * 4;
+    p.path = p.zone === p.role ? [{ x: p.x, y: p.y }, t] : [{ x: p.x, y: p.y }, { x: p.x, y: lane }, { x: t.x, y: lane }, t];
+    p.t0 = now + (p.id % 7) * 25; p.dur = moveDuration(); p.zone = p.role;
+  }
+}
+
+function pawnPos(p, now) {
+  if (!p.path) return p;
+  const u = Math.max(0, Math.min(1, (now - p.t0) / p.dur)), e = u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+  let L = 0; const segs = [];
+  for (let i = 1; i < p.path.length; i++) { const a = p.path[i - 1], b = p.path[i], l = Math.hypot(b.x - a.x, b.y - a.y); segs.push([a, b, l]); L += l; }
+  let d = e * L;
+  for (const [a, b, l] of segs) { if (d <= l || l === 0) { const f = l ? d / l : 1; p.x = a.x + (b.x - a.x) * f; p.y = a.y + (b.y - a.y) * f; break; } d -= l; }
+  if (u >= 1) { const t = p.path[p.path.length - 1]; p.x = t.x; p.y = t.y; p.path = null; }
+  return p;
+}
+function pointOn(path, d) {
+  for (let i = 1; i < path.length; i++) { const a = path[i - 1], b = path[i], l = Math.hypot(b.x - a.x, b.y - a.y);
+    if (d <= l) { const f = l ? d / l : 0; return { x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f }; } d -= l; }
+  return path[path.length - 1];
+}
+const pathLen = (path) => { let L = 0; for (let i = 1; i < path.length; i++) L += Math.hypot(path[i].x - path[i - 1].x, path[i].y - path[i - 1].y); return L; };
+
+// routes for goods
+const WHEAT_ROUTE = [{ x: 200, y: FARM_LANE_Y }, { x: 381, y: FARM_LANE_Y }, { x: 381, y: ROAD_Y }, { x: 520, y: ROAD_Y }, { x: 520, y: 290 }];
+const BREAD_ROUTE = [{ x: 560, y: 290 }, { x: 560, y: ROAD_Y }, { x: TOWN_X, y: ROAD_Y }, { x: TOWN_X, y: 120 }];
+const GRAN_IN = [{ x: 500, y: 290 }, { x: 500, y: ROAD_Y }, { x: 449, y: ROAD_Y }, { x: 449, y: 346 }];
+const GRAN_OUT = [{ x: 449, y: 346 }, { x: 449, y: ROAD_Y + 6 }, { x: TOWN_X, y: ROAD_Y + 6 }, { x: TOWN_X, y: 220 }];
+
+function spawnGoods(v, dt) {
+  const s = v.snap;
+  if (!s || s.preview || s.N < 0.5 || reduceMotion) return;
+  const need = Math.max(s.need, 1e-9);
+  for (const [kind, r] of [["wheat", 4 * s.raw / need], ["bread", 4 * (s.delivered - s.drawn) / need], ["toGranary", 3 * s.added / need], ["fromGranary", 4 * s.drawn / need]]) {
+    if (!(r > 0)) continue;
+    let n = r * dt / 1000 * Math.min(2, Math.sqrt(speed / 3));
+    while (n > 0) { if (Math.random() < n) v.particles.push(makeParticle(v, kind)); n -= 1; }
+  }
+  if (v.particles.length > 140) v.particles.splice(0, v.particles.length - 140);
+}
+function makeParticle(v, kind) {
+  const s = v.snap, lane = ROAD_Y + (Math.random() - 0.5) * 8;
+  const f = FACT_SLOTS[Math.floor(Math.random() * Math.max(1, factoryVisible(s)))];
+  const door = { x: f.x + f.w / 2, y: f.y + f.h + 2 };
+  const house = HOUSE_SLOTS[Math.floor(Math.random() * (housesShown(s) || 1))];
+  const hd = { x: house.x + house.w / 2, y: house.y + house.h + 3 };
+  let path;
+  if (kind === "wheat") { const p = PLOTS[Math.floor(Math.random() * PLOTS.length)];
+    path = [{ x: p.x + p.w / 2, y: FARM_LANE_Y }, { x: 381, y: FARM_LANE_Y }, { x: 381, y: lane }, { x: YARD.x + 20 + Math.random() * 200, y: lane }, { x: door.x, y: YARD.y - 6 }, door]; }
+  else if (kind === "bread") path = [{ x: door.x, y: YARD.y - 6 }, { x: 640, y: YARD.y - 6 }, { x: 640, y: lane }, { x: TOWN_X, y: lane }, { x: TOWN_X, y: hd.y }, hd];
+  else if (kind === "toGranary") path = [{ x: 560, y: 290 }, { x: 560, y: lane }, { x: GRANARY.x + GRANARY.w / 2, y: lane }, { x: GRANARY.x + GRANARY.w / 2, y: GRANARY.y + 8 }];
+  else path = [{ x: GRANARY.x + GRANARY.w / 2, y: GRANARY.y + 8 }, { x: GRANARY.x + GRANARY.w / 2, y: lane }, { x: TOWN_X, y: lane }, { x: TOWN_X, y: hd.y }, hd];
+  const L = pathLen(path);
+  return { kind, path, L, t0: performance.now(), dur: L / 0.16 };
+}
+
+// ============================================================ drawing
+function mix(a, b, t) { const pa = parse(a), pb = parse(b); return `rgb(${pa.map((x, i) => Math.round(x + (pb[i] - x) * t)).join(",")})`; }
+const _pc = {};
+function parse(c) { if (_pc[c]) return _pc[c]; const m = String(c).match(/^#([0-9a-f]{6})$/i);
+  return (_pc[c] = m ? [0, 2, 4].map((i) => parseInt(m[1].slice(i, i + 2), 16)) : [128, 128, 128]); }
+
+function drawView(v, now) {
+  const ctx = v.ctx, s = v.snap; if (!s) return;
+  const rr = (x, y, w, h, r) => { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); };
+  const K = v.compact ? 1.45 : 1;   // label scale (compare view is drawn smaller)
+  const sign = (text, x, y, opts = {}) => {   // signboard label with a soft background
+    const size = (opts.size || 14) * K;
+    ctx.font = `700 ${size}px "Atkinson Hyperlegible", system-ui, sans-serif`;
+    const w = ctx.measureText(text).width, pad = 5 * K;
+    let lx = opts.align === "center" ? x - w / 2 : opts.align === "right" ? x - w : x;
+    lx = Math.max(4, Math.min(W - w - 4, lx));
+    ctx.fillStyle = C.sign; rr(lx - pad, y - size - pad * 0.4, w + pad * 2, size + pad * 1.4, 6); ctx.fill();
+    ctx.fillStyle = opts.color || C.ink; ctx.textAlign = "left"; ctx.textBaseline = "alphabetic"; ctx.fillText(text, lx, y);
+  };
+  const tp = v.town.p;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = C.ground; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = C["ground-2"]; ctx.fillRect(0, 0, 392, H);
+  ctx.fillStyle = C.water; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(18, 0);
+  for (let y = 0; y <= H; y += 30) ctx.lineTo(18 + Math.sin(y / 60) * 4, y); ctx.lineTo(0, H); ctx.fill();
+  ctx.fillStyle = C.road;
+  ctx.fillRect(370, ROAD_Y - 11, W - 370, 22); ctx.fillRect(TOWN_X - 9, 30, 18, 548); ctx.fillRect(370, FARM_LANE_Y - 9, 22, ROAD_Y - FARM_LANE_Y + 9);
+  ctx.fillRect(24, FARM_LANE_Y - 9, 360, 18); ctx.fillRect(630, YARD.y - 12, 22, ROAD_Y - YARD.y + 12);
+  ctx.strokeStyle = C["road-edge"]; ctx.setLineDash([8, 10]); ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(392, ROAD_Y); ctx.lineTo(W, ROAD_Y); ctx.stroke(); ctx.setLineDash([]);
+
+  // ---- fields
+  const dry = s.harvestMultiplier < 1;
+  const lush = Math.min(1, Math.max(0, (s.a_x / Math.max(tp.a, 0.1) - 1) / 1.5));
+  const crowded = tp.land_limits.enabled && s.alloc.farming > tp.land_limits.limit;
+  for (const p of PLOTS) {
+    rr(p.x, p.y, p.w, p.h, 5); ctx.fillStyle = dry ? C.dry : mix(C.field, C.wheat, 0.35 + 0.5 * lush); ctx.fill();
+    ctx.strokeStyle = dry ? C.roof : mix(C.wheat, C.tree, 0.25); ctx.globalAlpha = dry ? 0.35 : 0.5; ctx.lineWidth = 1.4;
+    const rows = 5 + Math.round(lush * 4);
+    for (let i = 1; i < rows; i++) { const yy = p.y + i * p.h / rows; ctx.beginPath(); ctx.moveTo(p.x + 5, yy); ctx.lineTo(p.x + p.w - 5, yy); ctx.stroke(); }
+    ctx.globalAlpha = 1;
+  }
+  const ditches = s.land_improvement > 0.02 ? Math.min(4, 1 + Math.floor(Math.log2(1 + s.land_improvement))) : 0;
+  ctx.strokeStyle = C.water; ctx.lineWidth = 3; ctx.setLineDash([6, 5]); ctx.lineDashOffset = -now / 60;
+  for (let d = 0; d < ditches; d++) { const x = 34 + (d + 1) * 67 - 4.5; ctx.beginPath(); ctx.moveTo(18, 52); ctx.lineTo(x, 52); ctx.lineTo(x, 560); ctx.stroke(); }
+  ctx.setLineDash([]); ctx.lineDashOffset = 0;
+  if (tp.land_limits.enabled) { ctx.strokeStyle = crowded ? C.bad : C.roof; ctx.lineWidth = 2; ctx.setLineDash([3, 4]); rr(28, 50, 340, 524, 8); ctx.stroke(); ctx.setLineDash([]); }
+  if (dry) { const cx = 340, cy = 92; ctx.fillStyle = C.warn; ctx.beginPath(); ctx.arc(cx, cy, 14, 0, 7); ctx.fill();
+    ctx.strokeStyle = C.warn; ctx.lineWidth = 2.5;
+    for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4 + now / 2000; ctx.beginPath(); ctx.moveTo(cx + Math.cos(a) * 19, cy + Math.sin(a) * 19); ctx.lineTo(cx + Math.cos(a) * 26, cy + Math.sin(a) * 26); ctx.stroke(); } }
+
+  // ---- flow arrows (amount per year)
+  if (!s.preview && s.N >= 0.5) {
+    const need = Math.max(s.need, 1e-9);
+    const flow = (route, amount, color) => {
+      const w = 3 + 9 * Math.sqrt(Math.min(1.5, amount / need));
+      ctx.strokeStyle = color; ctx.globalAlpha = 0.28; ctx.lineWidth = w; ctx.lineJoin = "round"; ctx.lineCap = "round";
+      ctx.beginPath(); route.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.stroke();
+      const a = route[route.length - 2], b = route[route.length - 1], ang = Math.atan2(b.y - a.y, b.x - a.x);
+      ctx.globalAlpha = 0.5; ctx.fillStyle = color; ctx.beginPath();
+      ctx.moveTo(b.x + Math.cos(ang) * 10, b.y + Math.sin(ang) * 10);
+      ctx.lineTo(b.x + Math.cos(ang + 2.4) * (w + 4), b.y + Math.sin(ang + 2.4) * (w + 4));
+      ctx.lineTo(b.x + Math.cos(ang - 2.4) * (w + 4), b.y + Math.sin(ang - 2.4) * (w + 4)); ctx.fill();
+      ctx.globalAlpha = 1; ctx.lineCap = "butt";
+    };
+    flow(WHEAT_ROUTE, s.raw, C.wheat);
+    flow(BREAD_ROUTE, s.delivered - s.drawn, C["job-delivery"]);
+    if (s.added > 0.5) flow(GRAN_IN, s.added, C.stone);
+    if (s.drawn > 0.5) flow(GRAN_OUT, s.drawn, C.wheat);
+    if (!v.compact) {
+      sign(`${compact(s.raw)} sacks/yr →`, 236, FARM_LANE_Y + 5, { size: 12, color: dry ? C.bad : C["ink-2"] });
+      sign(`${compact(s.delivered)} loaves/yr →`, 664, ROAD_Y + 38, { size: 12, color: s.cons < 0.999 ? C.bad : C["ink-2"] });
+    }
+  }
+
+  // ---- factories
+  const conds = s.conditions.slice().sort((a, b) => b - a), vf = factoryVisible(s);
+  const running = s.preview ? 1 : s.factoriesRunning, util = s.capacity > 0 ? s.final / s.capacity : 0;
+  ctx.fillStyle = mix(C.ground, C.road, 0.45); rr(YARD.x - 2, YARD.y - 4, YARD.w + 4, YARD.h + 2, 8); ctx.fill();
+  for (let i = 0; i < vf; i++) drawFactory(ctx, FACT_SLOTS[i], conds[i], i < running, util, now, i);
+  if (s.conditions.length > vf) sign(`+${compact(s.conditions.length - vf)} more`, FACT_SLOTS[vf - 1].x + 32, 58, { size: 12, align: "center" });
+  if (s.wip > 1e-9) {
+    const f = FACT_SLOTS[Math.min(2, vf)];
+    ctx.strokeStyle = C.roof; ctx.lineWidth = 1.5; ctx.setLineDash([3, 3]); rr(f.x, f.y, f.w, f.h, 3); ctx.stroke(); ctx.setLineDash([]);
+    const hgt = f.h * s.wip; ctx.fillStyle = mix(C.brick, C.ground, 0.35); ctx.fillRect(f.x, f.y + f.h - hgt, f.w, hgt);
+    ctx.strokeStyle = C.ink; ctx.globalAlpha = 0.5; ctx.lineWidth = 1;
+    for (let x = f.x; x <= f.x + f.w; x += 16) { ctx.beginPath(); ctx.moveTo(x, f.y); ctx.lineTo(x, f.y + f.h); ctx.stroke(); }
+    for (let y = f.y; y <= f.y + f.h; y += 18) { ctx.beginPath(); ctx.moveTo(f.x, y); ctx.lineTo(f.x + f.w, y); ctx.stroke(); }
+    ctx.globalAlpha = 1;
+    if (!v.compact) sign(`${Math.round(s.wip * 100)}% built`, f.x + f.w / 2, f.y + f.h + 18, { size: 11, align: "center" });
+  }
+  if (!s.conditions.length && s.wip <= 1e-9) sign("No factory left", 520, 110, { align: "center", color: C.bad });
+
+  // ---- granary
+  { const g = GRANARY, on = tp.storage.enabled;
+    ctx.fillStyle = C.shadow; rr(g.x + 4, g.y + 6, g.w, g.h, 18); ctx.fill();
+    ctx.fillStyle = on ? C.stone : mix(C.stone, C.ground, 0.6); rr(g.x, g.y, g.w, g.h, 18); ctx.fill();
+    if (on) { const fill = s.storageTarget > 0 ? Math.min(1, s.storage / s.storageTarget) : 0;
+      ctx.save(); rr(g.x + 6, g.y + 10, g.w - 12, g.h - 18, 12); ctx.clip();
+      ctx.fillStyle = C.wheat; const hh = (g.h - 18) * fill; ctx.fillRect(g.x + 6, g.y + g.h - 8 - hh, g.w - 12, hh); ctx.restore();
+      if (!v.compact) sign(`${pct(fill)} full`, g.x + g.w / 2, g.y + g.h + 20, { size: 11, align: "center", color: fill < 0.5 ? C.bad : C["ink-2"] });
+    } else if (!v.compact) sign("not built", g.x + g.w / 2, g.y + g.h / 2 + 6, { size: 11, align: "center", color: C["ink-3"] });
+    ctx.fillStyle = C.roof; ctx.beginPath(); ctx.moveTo(g.x - 4, g.y + 16); ctx.quadraticCurveTo(g.x + g.w / 2, g.y - 18, g.x + g.w + 4, g.y + 16); ctx.fill(); }
+
+  // ---- workshop
+  { const w = WORKSHOP;
+    ctx.fillStyle = C.shadow; rr(w.x + 3, w.y + 5, w.w, w.h, 4); ctx.fill();
+    ctx.fillStyle = mix(C.roof, C.wheat, 0.3); rr(w.x, w.y, w.w, w.h, 4); ctx.fill();
+    ctx.fillStyle = C.roof; ctx.beginPath(); ctx.moveTo(w.x - 4, w.y + 4); ctx.lineTo(w.x + w.w / 2, w.y - 14); ctx.lineTo(w.x + w.w + 4, w.y + 4); ctx.fill();
+    const tools = s.tools_processing + s.tools_distribution;
+    const n = tools > 0.02 ? Math.min(8, 1 + Math.floor(Math.log2(1 + tools) * 2)) : 0;
+    ctx.strokeStyle = C.window; ctx.lineWidth = 2;
+    for (let i = 0; i < n; i++) { const x = w.x + 12 + i * 12, y = w.y + 18; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + 26); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x - 4, y); ctx.lineTo(x + 4, y); ctx.stroke(); } }
+
+  // ---- homes
+  { const n = housesShown(s), fedHouses = Math.round(n * Math.min(1, s.preview ? 1 : s.cons));
+    for (let i = 0; i < HOUSE_SLOTS.length; i++) {
+      const h = HOUSE_SLOTS[i];
+      if (i >= n) { ctx.fillStyle = mix(C.ground, C.grass, 0.4); ctx.globalAlpha = 0.35; rr(h.x, h.y + 6, h.w, h.h - 6, 3); ctx.fill(); ctx.globalAlpha = 1; continue; }
+      const fed = i < fedHouses;
+      ctx.fillStyle = C.shadow; rr(h.x + 2, h.y + 9, h.w, h.h - 6, 3); ctx.fill();
+      ctx.fillStyle = mix(C.window, C.stone, C.night ? 0.7 : 0.15); rr(h.x, h.y + 6, h.w, h.h - 6, 3); ctx.fill();
+      ctx.fillStyle = C.brick; ctx.beginPath(); ctx.moveTo(h.x - 3, h.y + 8); ctx.lineTo(h.x + h.w / 2, h.y - 4); ctx.lineTo(h.x + h.w + 3, h.y + 8); ctx.fill();
+      ctx.fillStyle = fed ? (C.night ? C["window-lit"] : C.wheat) : C.stone;
+      ctx.fillRect(h.x + 6, h.y + 11, 6, 6); ctx.fillRect(h.x + h.w - 12, h.y + 11, 6, 6);
+      if (!fed && !s.preview) { ctx.strokeStyle = C.bad; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.arc(h.x + h.w / 2, h.y - 9, 4, 0, Math.PI); ctx.stroke(); }
+    } }
+
+  // ---- park
+  { const p = PARK; ctx.fillStyle = C.grass; rr(p.x, p.y, p.w, p.h, 14); ctx.fill();
+    for (let i = 0; i < 7; i++) { const x = p.x + 16 + hash(i, 21) * (p.w - 32), y = p.y + 12 + hash(i, 22) * (p.h - 26);
+      ctx.fillStyle = C.shadow; ctx.beginPath(); ctx.ellipse(x + 2, y + 6, 8, 3, 0, 0, 7); ctx.fill();
+      ctx.fillStyle = C.tree; ctx.beginPath(); ctx.arc(x, y, 8, 0, 7); ctx.fill(); } }
+
+  // ---- goods on the move
+  for (let i = v.particles.length - 1; i >= 0; i--) {
+    const q = v.particles[i], u = (now - q.t0) / q.dur;
+    if (u >= 1) { v.particles.splice(i, 1); continue; }
+    if (u < 0) continue;
+    const p = pointOn(q.path, u * q.L);
+    if (q.kind === "wheat") { ctx.fillStyle = C.wheat; ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, 7); ctx.fill();
+      ctx.strokeStyle = C.roof; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(p.x - 2, p.y - 3.4); ctx.lineTo(p.x + 2, p.y - 3.4); ctx.stroke(); }
+    else { ctx.fillStyle = q.kind === "toGranary" ? C.stone : C["job-delivery"]; rr(p.x - 4.5, p.y - 3.5, 9, 7, 2); ctx.fill();
+      ctx.fillStyle = C.window; ctx.fillRect(p.x - 3, p.y - 1, 6, 1.6); }
+  }
+  // ---- people
+  for (const p of v.pawns) { pawnPos(p, now);
+    const born = p.born ? Math.max(0.05, Math.min(1, (now - p.born) / 500)) : 1;
+    drawPawn(ctx, p.x, p.y, C[ROLE_COLOR[p.role]] || C["job-idle"], born, p.role === "repair"); }
+  for (let i = v.ghosts.length - 1; i >= 0; i--) { const g = v.ghosts[i], u = (now - g.t0) / 1400;
+    if (u >= 1) { v.ghosts.splice(i, 1); continue; }
+    ctx.globalAlpha = 0.7 * (1 - Math.max(0, u)); drawPawn(ctx, g.x, g.y - Math.max(0, u) * 22, C["job-idle"], 1, false); ctx.globalAlpha = 1; }
+
+  // ---- zone signs (drawn last so they stay readable)
+  sign("FIELDS", 34, 44, { size: 14 });
+  if (!v.compact) sign(dry ? `DROUGHT −${droughtPct(s)}%` : crowded ? "CROWDED" : `${s.effective_a.toFixed(1)} sacks per farmer`, 112, 44, { size: 12, color: dry || crowded ? C.bad : C["ink-2"] });
+  sign("FACTORY", 408, 44, { size: 14 });
+  if (!v.compact && s.conditions.length) sign(`${fmt(running)} of ${fmt(s.conditions.length)} running`, 496, 44, { size: 12, color: C["ink-2"] });
+  if (!v.compact) sign("factory floor", YARD.x + 6, YARD.y + YARD.h - 6, { size: 11, color: C["ink-3"] });
+  sign("GRANARY", GRANARY.x - 4, GRANARY.y - 16, { size: 13, color: tp.storage.enabled ? C.ink : C["ink-3"] });
+  sign("WORKSHOP", WORKSHOP.x, WORKSHOP.y - 18, { size: 13 });
+  sign("HOMES", 684, 44, { size: 14 });
+  const hungry = !s.preview && s.cons < 0.999;
+  if (!v.compact && hungry) sign(`${pct(1 - s.cons)} of bread missing`, 760, 44, { size: 12, color: C.bad });
+  sign("PARK · free time", PARK.x + 4, PARK.y - 8, { size: 13 });
+  for (let i = v.floaters.length - 1; i >= 0; i--) { const f = v.floaters[i], u = (now - f.t0) / 1700;
+    if (u >= 1) { v.floaters.splice(i, 1); continue; }
+    ctx.globalAlpha = 1 - Math.max(0, u); sign(f.text, 810, 462 - Math.max(0, u) * 14, { size: 14, align: "center", color: f.bad ? C.bad : C.good }); ctx.globalAlpha = 1; }
+  if (s.N < 0.5 && !s.preview) { ctx.fillStyle = C.sign; ctx.fillRect(0, 0, W, H); sign("Grainbridge is empty", W / 2, H / 2, { size: 26, align: "center", color: C.bad }); }
+}
+function drawPawn(ctx, x, y, color, scale, wrench) {
+  const k = scale * 2.1;
+  ctx.fillStyle = C.shadow; ctx.beginPath(); ctx.ellipse(x, y + 4 * k, 4 * k, 1.6 * k, 0, 0, 7); ctx.fill();
+  ctx.fillStyle = color;
+  ctx.beginPath(); ctx.moveTo(x - 3.6 * k, y + 3.5 * k); ctx.quadraticCurveTo(x, y - 6 * k, x + 3.6 * k, y + 3.5 * k); ctx.fill();
+  ctx.beginPath(); ctx.arc(x, y - 4.2 * k, 2.6 * k, 0, 7); ctx.fill();
+  if (wrench) { ctx.strokeStyle = C.ink; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(x + 4, y - 1); ctx.lineTo(x + 9, y - 6); ctx.stroke();
+    ctx.beginPath(); ctx.arc(x + 9.5, y - 6.5, 1.8, 0, 7); ctx.stroke(); }
+}
+function drawFactory(ctx, f, cond, running, util, now, idx) {
+  const rr = (x, y, w, h, r) => { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); };
+  const body = mix(C.brick, C.stone, Math.min(1, (1 - cond) * 1.3));
+  ctx.fillStyle = C.shadow; rr(f.x + 3, f.y + 5, f.w, f.h, 4); ctx.fill();
+  ctx.fillStyle = body; ctx.fillRect(f.x + f.w - 15, f.y - 16, 9, 26);
+  ctx.fillStyle = mix(C.roof, C.stone, (1 - cond) * 0.8); ctx.beginPath(); ctx.moveTo(f.x, f.y + 16);
+  const tw = f.w / 3;
+  for (let i = 0; i < 3; i++) { ctx.lineTo(f.x + i * tw, f.y + 4 + (cond < 0.35 && i === 1 ? 7 : 0)); ctx.lineTo(f.x + (i + 1) * tw, f.y + 16); }
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = body; rr(f.x, f.y + 16, f.w, f.h - 16, 3); ctx.fill();
+  for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) {
+    ctx.fillStyle = running ? (C.night ? C["window-lit"] : C.window) : mix(C.window, C.stone, 0.6);
+    ctx.fillRect(f.x + 8 + c * 18, f.y + 24 + r * 16, 10, 9); }
+  ctx.fillStyle = C.roof; ctx.fillRect(f.x + f.w / 2 - 6, f.y + f.h - 14, 12, 14);
+  const cracks = Math.round((1 - cond) * 7);
+  ctx.strokeStyle = C.ink; ctx.globalAlpha = 0.6; ctx.lineWidth = 1.2;
+  for (let i = 0; i < cracks; i++) { const x = f.x + 6 + hash(i, idx + 9) * (f.w - 12), y = f.y + 20 + hash(i, idx + 3) * (f.h - 30);
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + 4, y + 5); ctx.lineTo(x + 1, y + 9); ctx.lineTo(x + 5, y + 13); ctx.stroke(); }
+  ctx.globalAlpha = 1;
+  if (running && !reduceMotion) { for (let k = 0; k < 4; k++) { const ph = ((now / 1600 + k / 4 + idx * 0.13) % 1);
+    ctx.fillStyle = C.stone; ctx.globalAlpha = (1 - ph) * 0.45 * Math.min(1, 0.3 + util);
+    ctx.beginPath(); ctx.arc(f.x + f.w - 10 + ph * 12, f.y - 18 - ph * 30, 3 + ph * 7, 0, 7); ctx.fill(); } ctx.globalAlpha = 1; }
+  ctx.fillStyle = mix(C.stone, C.ground, 0.5); rr(f.x, f.y + f.h + 4, f.w, 4, 2); ctx.fill();
+  ctx.fillStyle = cond > 0.95 ? C.good : cond > 0.5 ? C.warn : C.bad; rr(f.x, f.y + f.h + 4, f.w * cond, 4, 2); ctx.fill();
+}
+
+// ============================================================ words: status, story, tooltips
+function status(v) {
+  const s = v.snap, tp = v.town.p;
+  if (s.preview) return ["good", "Ready"];
+  if (s.N < 1) return ["bad", "Empty"];
+  if (s.cons < 0.999) return ["bad", "Going hungry"];
+  if (s.shortfall > 1e-6) return ["warn", "Wearing out"];
+  if (tp.demography.enabled && s.N > s.N0 * 1.002) return ["good", "Growing"];
+  if (s.surplus / Math.max(s.N0, 1) < 0.02) return ["warn", "Just getting by"];
+  return ["good", "Thriving"];
+}
+const ICON = {
+  good: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 8.5l3.2 3L13 4.5"/></svg>',
+  warn: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 2.5l6 11H2z"/><path d="M8 7v3"/></svg>',
+  bad: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4l8 8M12 4l-8 8"/></svg>',
+};
+function setPill(el, v) { const [cls, label] = status(v); el.className = "pill " + cls; el.innerHTML = ICON[cls] + label; }
+function storyText(v, short) {
+  const s = v.snap, tp = v.town.p, out = [];
+  if (s.preview) return `<strong>${people(s.N)}</strong> live in Grainbridge. Press play to start the first year.`;
+  if (s.N < 1) return "Nobody is left in Grainbridge.";
+  const dry = s.harvestMultiplier < 1;
+  if (s.cons >= 0.999) {
+    if (dry && s.drawn > 0.5) out.push(`A drought cut the harvest by ${droughtPct(s)}%, but the granary handed out ${fmt(s.drawn)} loaves and <strong>everyone still ate</strong>.`);
+    else if (dry) out.push("A drought ruined part of the harvest, yet <strong>everyone had enough bread</strong>.");
+    else out.push("<strong>Everyone had enough bread.</strong>");
+  } else out.push(`${dry ? `A drought cut the harvest by ${droughtPct(s)}%. ` : ""}<strong>Bread ran short</strong>: each person got ${pct(s.cons)} of what they need.`);
+  if (s.shortfall <= 1e-6 && shortOfHands(s)) out.push(`There weren't enough hands to bake for everyone, so the planner baked only ${fmt(s.plan.core)} loaves and kept the machines repaired.`);
+  if (s.shortfall > 1e-6) {
+    const m = s.required.maintenance - s.alloc.maintenance, wear = s.unmaintained * tp.delta * 100;
+    if (m > 0.05) out.push(`The repair crew was ${people(m)} short, so the machines wore down ${wear < 0.1 ? "a little" : wear.toFixed(1) + "%"}.`);
+    if (s.required.processing - s.alloc.processing > 0.05) out.push("Even the factory was short of workers.");
+  }
+  const sp = s.spent;
+  if (s.surplus > 0.05) {
+    const doing = [];
+    if (sp.land_improvement > 0.05) doing.push(`${people(sp.land_improvement)} dug irrigation`);
+    if (sp.tools_processing + sp.tools_distribution > 0.05) doing.push(`${people(sp.tools_processing + sp.tools_distribution)} made tools`);
+    if (sp.factory > 0.05) doing.push(`${people(sp.factory)} worked on a new factory`);
+    if (doing.length) out.push(`${people(s.surplus)} had spare time: ${doing.join(", ")}, the rest rested.`);
+    else if (tp.investment.s === 0) out.push(`${people(s.surplus)} had spare time and rested. Nobody builds, so nothing improves.`);
+    else out.push(`${people(s.surplus)} had spare time. Nothing was worth building, so they rested.`);
+  } else if (s.shortfall <= 1e-6) out.push("Every hand was needed; nobody had time to rest or build.");
+  if (!short && s.restockLabor > 0.5) out.push(`${people(s.restockLabor)} made extra bread for the granary.`);
+  if (tp.demography.enabled) { const d = s.N - s.N0;
+    if (d > 0.5) out.push(`${people(d)} were born.`); else if (d < -0.5) out.push(`<strong>${people(-d)} died of hunger.</strong>`); }
+  if (!short && tp.land_limits.enabled && s.alloc.farming > tp.land_limits.limit)
+    out.push(`The good farmland is crowded: ${fmt(s.alloc.farming)} farmers share room for 500, so each harvests only ${s.effective_a.toFixed(1)} sacks.`);
+  return out.join(" ");
+}
+function tipFor(region, v) {
+  const s = v.snap, tp = v.town.p; if (!s) return null;
+  const L = [];
+  switch (region) {
+    case "fields":
+      L.push(`${fmt(s.alloc.farming)} farmers grow ${compact(s.raw)} sacks of wheat a year (${s.effective_a.toFixed(1)} each).`);
+      if (s.land_improvement > 0.01) L.push(`Irrigation makes each farmer ${pct(s.a_x / tp.a - 1)} more productive.`);
+      if (tp.land_limits.enabled) L.push(`Good land has room for 500 farmers${s.alloc.farming > 500 ? `; with ${compact(s.alloc.farming)} it's crowded.` : "."}`);
+      if (s.harvestMultiplier < 1) L.push(`Drought: harvest down ${droughtPct(s)}% this year.`);
+      return ["Fields", L];
+    case "factory": {
+      const n = s.conditions.length, h = n ? s.conditions.reduce((a, b) => a + b, 0) / n : 0;
+      if (!n) return ["Factory", ["No factory is left standing."]];
+      L.push(`${fmt(n)} ${n === 1 ? "factory" : "factories"}, condition ${pct(h)}. Can bake up to ${compact(s.capacity)} loaves a year.`);
+      L.push(`Repair crew: ${fmt(s.alloc.maintenance)} of the ${fmt(s.required.maintenance)} needed.`);
+      if (s.wip > 1e-9) L.push(`A new factory is ${Math.round(s.wip * 100)}% built.`);
+      return ["Factory", L]; }
+    case "yard": {
+      const fixed = tp.F_p * (s.preview ? 1 : s.factoriesRunning);
+      L.push(`${fmt(s.alloc.processing)} bakers: ${fmt(Math.min(fixed, s.alloc.processing))} just to keep the doors open, ${fmt(Math.max(0, s.alloc.processing - fixed))} for the loaves.`);
+      L.push(`They baked ${compact(s.final)} loaves this year.`);
+      return ["Factory floor", L]; }
+    case "road": L.push(`${fmt(s.alloc.distribution)} carters delivered ${compact(s.delivered)} loaves to homes.`); return ["Carts", L];
+    case "granary":
+      if (!tp.storage.enabled) return ["Granary", ["Not built. Switch on the granary in the rules to keep a year of bread in reserve."]];
+      L.push(`${compact(s.storage)} loaves stored, aiming for ${compact(s.storageTarget)}. 10% rots each year.`);
+      if (s.drawn > 0.5) L.push(`${compact(s.drawn)} loaves handed out this year.`);
+      if (s.restockLabor > 0.5) L.push(`${fmt(s.restockLabor)} people made extra bread to refill it.`);
+      return ["Granary", L];
+    case "workshop": {
+      const tb = Math.pow(1 + s.tools_processing, tp.tool_elasticity) - 1, tc = Math.pow(1 + s.tools_distribution, tp.tool_elasticity) - 1;
+      L.push(s.tools_processing + s.tools_distribution > 0.01 ? `Tools let bakers work ${pct(tb)} faster and carters ${pct(tc)} faster.` : "No tools made yet. Spare hands make them when it saves more work than their upkeep.");
+      L.push(`${fmt(s.spent.tools_processing + s.spent.tools_distribution)} people made tools this year.`);
+      return ["Workshop", L]; }
+    case "homes":
+      L.push(`${fmt(s.N)} people in ${housesShown(s)} houses (${compact(houseScale(s.N))} per house).`);
+      L.push(s.cons >= 0.999 ? "Everyone got the bread they need." : `Each person got ${pct(s.cons)} of the bread they need.`);
+      return ["Homes", L];
+    case "park": L.push(`${fmt(Math.max(0, s.leisure))} people had free time this year (${pct(Math.max(0, s.leisure) / Math.max(s.N0, 1))} of the town).`); return ["Park", L];
+  }
+  return null;
+}
+function hitRegion(x, y) {
+  for (const k of ["granary", "workshop", "yard", "factory", "road", "park", "homes", "fields"]) {
+    const r = REGIONS[k]; if (x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h) return k; }
+  return null;
+}
+
+// ============================================================ stories (explore) and comparisons
+const IC = {
+  sprout: '<path d="M12 21v-9"/><path d="M12 12c0-4 3-7 7-7 0 4-3 7-7 7z"/><path d="M12 14c0-3-2.5-5.5-6-5.5 0 3 2.5 5.5 6 5.5z"/>',
+  wrench: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>',
+  scale: '<path d="M12 3v18M5 7h14"/><path d="M5 7l-3 6a3 3 0 0 0 6 0zM19 7l-3 6a3 3 0 0 0 6 0z"/>',
+  up: '<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  pause: '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>',
+  shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
+  heart: '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+  barn: '<path d="M3 10l9-6 9 6v10H3z"/><path d="M9 20v-6h6v6"/>',
+  people: '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14c2.8 0 5 2.2 5 5"/>',
+  field: '<path d="M3 20h18M5 20V9M10 20V6M15 20V9M20 20V6"/>',
+  hammer: '<path d="M14 4l6 6-3 3-6-6z"/><path d="M11 7L3 15l3 3 8-8"/>',
+};
+const icon = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent)">${IC[k]}</svg>`;
+
+const BASE = { N0: 150, a: 5, s: 30, style: "priority", grow: false, granary: false, land: false };
+const STORIES = [
+  { id: "healthy", icon: "sprout", title: "A healthy village", blurb: "Enough hands, time to spare",
+    q: "What does a town that works look like?",
+    watch: "The green builders digging irrigation in the fields, and the park slowly filling with people at rest.",
+    set: {}, max: 160, trigger: (v) => v.snap.land_improvement >= 1,
+    lesson: (v) => `After ${v.snap.tick} years of spare hands digging ditches, each farmer grows ${v.snap.a_x.toFixed(1)} sacks instead of ${v.town.p.a}. The same town needs fewer farmers, so more people get free time. Spare time spent building today means less work tomorrow.`,
+    next: "build" },
+  { id: "few", icon: "wrench", title: "Too few hands", blurb: "120 people for a 134-person job",
+    q: "Can 120 people keep the town running?",
+    watch: "The purple repair crew around the factory, and the factory's health bar under it.",
+    set: { N0: 120 }, max: 300, trigger: (v) => v.snap.cons < 0.999,
+    lesson: (v) => { const p = v.town.p, nmin = analyticalNmin(p, p.a);
+      return `The factory needs ${p.F_p + p.F_m} workers (${p.F_p} to run it, ${p.F_m} to repair it) before it bakes a single loaf, so the town needs at least ${isFinite(nmin) ? Math.ceil(nmin) : "more"} people. With ${fmt(v.town.p.N0)}, the planner kept everyone fed and skipped repairs. For ${v.snap.tick} years nobody noticed, until the worn-out factory could no longer bake enough bread.`; },
+    next: "hands" },
+  { id: "edge", icon: "scale", title: "On the knife's edge", blurb: "Exactly enough people",
+    q: "What if there are just barely enough people?",
+    watch: "The park and the 'Hands needed' bars on the right: they almost touch.",
+    set: { N0: 134 }, max: 30, trigger: (v) => v.snap.tick >= 20,
+    lesson: () => "With 134 people every job is filled and almost nothing is left over. This is the smallest town that can keep itself going. A bigger town spreads the factory's fixed crew over more people, which is why bigger towns have more free time.",
+    next: "hands" },
+  { id: "boom", icon: "up", title: "Boomtown", blurb: "Families grow on limited land",
+    q: "If families grow whenever there's enough bread, where does it stop?",
+    watch: "The fields: as farmers crowd onto the good land, each one harvests less, and the park empties.",
+    set: { grow: true, land: true }, speed: 12, max: 1600, trigger: (v) => v.seen.has("ceiling"),
+    lesson: (v) => `Growth stopped at ${fmt(v.snap.N)} people. On crowded farmland each extra farmer adds less wheat, until every spare hand is needed just to grow food. Irrigation pushed the ceiling higher but could not remove it.`,
+    next: "land" },
+  { id: "drought", icon: "sun", title: "The drought", blurb: "Three bad harvests",
+    q: "Can a granary protect the town from a three-year drought?",
+    watch: "The brown fields, how full the granary is, and whether any houses go dark.",
+    set: { grow: true, granary: true }, drought: 12, max: 30, trigger: (v) => v.snap.tick >= 16,
+    lesson: (v) => v.stats.hungryYears ? `Even with the granary, bread ran short for ${v.stats.hungryYears} years.` :
+      `The granary handed out ${fmt(v.stats.drawn)} loaves and nobody went hungry. It isn't free: keeping it full means a few people bake extra bread every year instead of building.`,
+    next: "granary" },
+  { id: "nosave", icon: "pause", title: "No building, no growth", blurb: "Spare time, but nobody builds",
+    q: "What if nobody ever builds anything?",
+    watch: "The factory site: no second factory ever appears. Watch the homes fill up.",
+    set: { grow: true, s: 0 }, speed: 12, max: 400, trigger: (v) => v.everGrew && v.snap.N > 950 && Math.abs(v.snap.N / v.snap.N0 - 1) < 0.003,
+    lesson: (v) => `The town stopped at about ${fmt(v.snap.N)} people, which is all its single factory can bake for. There were spare hands, but nobody used them to build a second factory.`,
+    next: "build" },
+  { id: "strict", icon: "shield", title: "Strict planner", blurb: "Protect the machines first",
+    q: "A small town where the planner protects the machines and rations the bread. What happens?",
+    watch: "The houses going dark, and the number of people.",
+    set: { N0: 120, grow: true, style: "max_feasible" }, max: 400, trigger: (v) => v.snap.N < 60,
+    lesson: () => "The factory stayed in perfect shape but bread was rationed from the start. People died, and with fewer hands the town could bake even less: a downward spiral.",
+    next: "planner" },
+  { id: "generous", icon: "heart", title: "Generous planner", blurb: "Feed everyone first",
+    q: "Same 120 people, but the planner feeds everyone and lets repairs slip. Does it survive?",
+    watch: "The factory's health bar and the number of people.",
+    set: { N0: 120, grow: true }, max: 200, trigger: (v) => v.snap.N >= 134.5,
+    lesson: (v) => `Everyone ate, so families kept growing. The factory wore down to ${pct(Math.min(...v.snap.conditions))}, but by year ${v.snap.tick} the town had ${fmt(v.snap.N)} people, enough to staff every job again. It borrowed from its machines and paid back with people.`,
+    next: "planner" },
+];
+const COMPARISONS = [
+  { id: "granary", icon: "barn", title: "Granary or not", blurb: "A drought hits in year 12",
+    q: "Does a granary protect a town from a drought?", diff: "Only difference: town A has a granary.",
+    base: { grow: true }, drought: 12, a: { label: "With a granary", set: { granary: true } }, b: { label: "No granary", set: { granary: false } }, years: 40 },
+  { id: "planner", icon: "shield", title: "Strict vs generous planner", blurb: "120 people, families grow",
+    q: "When hands run short, is it better to protect the machines or feed everyone?", diff: "Only difference: the planner's choice when hands run short.",
+    base: { N0: 120, grow: true }, a: { label: "Protects the machines", set: { style: "max_feasible" } }, b: { label: "Feeds everyone first", set: { style: "priority" } }, years: 200 },
+  { id: "build", icon: "hammer", title: "Building vs resting", blurb: "30% of spare time vs none",
+    q: "Is spare time better spent building or resting?", diff: "Only difference: town B never builds anything.",
+    base: { grow: true }, speed: 12, a: { label: "Builds with 30% of spare time", set: { s: 30 } }, b: { label: "Never builds", set: { s: 0 } }, years: 400 },
+  { id: "hands", icon: "people", title: "150 vs 120 people", blurb: "Fixed population",
+    q: "Does a smaller town just have less, or does it break?", diff: "Only difference: the number of people.",
+    base: {}, a: { label: "150 people", set: { N0: 150 } }, b: { label: "120 people", set: { N0: 120 } }, years: 250 },
+  { id: "soil", icon: "field", title: "Rich vs poor soil", blurb: "5 vs 3.5 sacks per farmer",
+    q: "How much does the soil matter?", diff: "Only difference: how much wheat each farmer grows.",
+    base: {}, a: { label: "5 sacks per farmer", set: { a: 5 } }, b: { label: "3.5 sacks per farmer", set: { a: 3.5 } }, years: 250 },
+  { id: "land", icon: "up", title: "Open vs limited farmland", blurb: "Families grow",
+    q: "What stops a growing town?", diff: "Only difference: town B has room for only 500 farmers on good land.",
+    base: { grow: true }, speed: 60, a: { label: "Unlimited good land", set: { land: false } }, b: { label: "Room for 500 farmers", set: { land: true } }, years: 1100 },
+];
+function toParams(c) {
+  return { N0: c.N0, a: c.a, shortage_rule: c.style, investment: { enabled: true, s: c.s / 100 },
+    demography: { enabled: c.grow }, storage: { enabled: c.granary }, land_limits: { enabled: c.land }, shocks: [] };
+}
+
+// ============================================================ app state
+const viewA = new View($("sceneA"));
+const viewB1 = new View($("sceneB1"), { compact: true }), viewB2 = new View($("sceneB2"), { compact: true });
+let mode = "explore", playing = false, acc = 0, story = null, lessonShown = false, comparison = null, callout = null, tour = null;
+const views = () => mode === "explore" ? [viewA] : [viewB1, viewB2];
+
+function settingsFromUI() {
+  return { N0: +$("rN").value, a: +$("rA").value, s: +$("rS").value, style: document.querySelector("input[name=style]:checked").value,
+    grow: $("tGrow").checked, granary: $("tGran").checked, land: $("tLand").checked };
+}
+function settingsToUI(c) {
+  $("rN").value = c.N0; $("rA").value = c.a; $("rS").value = c.s; $("tGrow").checked = c.grow; $("tGran").checked = c.granary; $("tLand").checked = c.land;
+  $(c.style === "priority" ? "stP" : "stM").checked = true; updateLabels();
+}
+function applyLive() {
+  updateLabels();
+  if (mode !== "explore" || !viewA.town) return;
+  const c = settingsFromUI(), p = viewA.town.p;
+  p.a = c.a; p.shortage_rule = c.style; p.investment.s = c.s / 100;
+  p.demography.enabled = c.grow; p.storage.enabled = c.granary; p.land_limits.enabled = c.land;
+  render();
+}
+function setSpeed(sp) { speed = sp; const r = $("sp" + sp); if (r) r.checked = true; }
+
+function startExplore(drought) {
+  closeCallout();
+  viewA.load(toParams(settingsFromUI()), drought || 0);
+  viewA.addDiary(0, `Grainbridge starts with ${people(viewA.town.N)}, one factory and plain fields.`);
+  if (story) viewA.addDiary(0, `Story: ${story.title}.`);
+  lessonShown = false;
+  render();
+}
+function loadStory(id) {
+  story = STORIES.find((x) => x.id === id);
+  settingsToUI(Object.assign({}, BASE, story.set)); setSpeed(story.speed || 3);
+  startExplore(story.drought);
+  $("guide").hidden = false; $("gTitle").textContent = story.title; $("gQ").textContent = story.q; $("gWatch").textContent = story.watch;
+  $("gLesson").hidden = true; $("gNext").hidden = true; $("gSkip").hidden = false;
+  markPressed("stories", id);
+  setPlaying(true);
+}
+function loadComparison(id) {
+  comparison = COMPARISONS.find((x) => x.id === id);
+  const base = Object.assign({}, BASE, comparison.base);
+  viewB1.load(toParams(Object.assign({}, base, comparison.a.set)), comparison.drought || 0);
+  viewB2.load(toParams(Object.assign({}, base, comparison.b.set)), comparison.drought || 0);
+  setSpeed(comparison.speed || 3);
+  $("cQuestion").textContent = comparison.q; $("cDiff").textContent = comparison.diff;
+  $("cSetup").textContent = setupText(base) + (comparison.drought ? ` A drought hits both towns in year ${comparison.drought}.` : "");
+  $("cNameA").textContent = comparison.a.label; $("cNameB").textContent = comparison.b.label;
+  markPressed("comparisons", id);
+  render(); setPlaying(true);
+}
+function setupText(c) {
+  return `Both towns start with ${c.N0} people${c.grow ? " and grow when fed" : ""}${c.land ? " on limited farmland" : ""}.`;
+}
+function markPressed(container, id) { document.querySelectorAll(`#${container} .chip`).forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.id === id))); }
+function setMode(m) {
+  mode = m; setPlaying(false); closeCallout(); endTour();
+  $("tabExplore").setAttribute("aria-selected", String(m === "explore")); $("tabCompare").setAttribute("aria-selected", String(m === "compare"));
+  $("exploreView").hidden = m !== "explore"; $("compareView").hidden = m !== "compare";
+  $("storyPicker").hidden = m !== "explore"; $("comparePicker").hidden = m !== "compare";
+  $("autoPause").parentElement.hidden = m !== "explore";
+  if (m === "compare") { viewB1.fit(); viewB2.fit(); if (!comparison) loadComparison("granary"); else render(); }
+  else { viewA.fit(); render(); }
+}
+
+// ============================================================ stepping, moments, lessons
+function stepAll(opts = {}) {
+  let moments = [];
+  for (const v of views()) { if (v.snap.N >= 0.5 || v.snap.preview) moments = moments.concat(v.step()); }
+  if (mode === "explore") {
+    if (story && !lessonShown && story.trigger(viewA)) { showLesson(); return "lesson"; }
+    if (moments.length && !opts.silent && $("autoPause").checked) { showCallout(moments[0]); return "moment"; }
+  }
+  return null;
+}
+function showLesson() {
+  lessonShown = true; setPlaying(false);
+  $("gLesson").hidden = false; $("gLessonText").textContent = story.lesson(viewA); $("gSkip").hidden = true;
+  const nx = COMPARISONS.find((c) => c.id === story.next);
+  if (nx) { $("gNext").hidden = false; $("gNext").textContent = `Compare side by side: ${nx.title}`; $("gNext").dataset.id = nx.id; }
+  const region = { healthy: "fields", few: "factory", edge: "park", boom: "fields", drought: "granary", nosave: "factory", strict: "homes", generous: "factory" }[story.id];
+  showCallout({ region, title: "What happened", text: story.lesson(viewA), lesson: true });
+  render();
+}
+function skipToMoment() {
+  if (!story) return;
+  setPlaying(false); closeCallout();
+  for (let i = 0; i < story.max && viewA.snap.N >= 0.5; i++) { if (stepAll({ silent: true }) === "lesson") break; }
+  if (!lessonShown) showLesson();
+  render();
+}
+
+// ============================================================ overlays: spotlight bubble, tooltip, tour, welcome
+const wrapA = $("wrapA");
+function regionRect(name, pad = 6) {
+  const r = REGIONS[name], cw = wrapA.clientWidth, ch = cw * H / W, k = cw / W;
+  return { left: (r.x - pad) * k, top: (r.y - pad) * k, width: (r.w + 2 * pad) * k, height: (r.h + 2 * pad) * k, cw, ch };
+}
+let lastOverlay = null;
+function placeOverlay(region, title, text, buttons, foot) {
+  closeCallout();
+  lastOverlay = [region, title, text, buttons, foot];
+  const R = regionRect(region);
+  const spot = document.createElement("div"); spot.className = "spot";
+  Object.assign(spot.style, { left: R.left + "px", top: R.top + "px", width: R.width + "px", height: R.height + "px" });
+  const b = document.createElement("div"); b.className = "bubble"; b.setAttribute("role", "dialog"); b.setAttribute("aria-label", title);
+  b.innerHTML = `<h3></h3><p></p><div class="row"><span></span><div style="display:flex;gap:8px"></div></div>`;
+  b.querySelector("h3").textContent = title; b.querySelector("p").textContent = text; b.querySelector(".row span").textContent = foot || "";
+  const btns = b.querySelector(".row div");
+  for (const [label, fn, primary] of buttons) { const x = document.createElement("button"); x.textContent = label; if (primary) x.className = "primary"; x.addEventListener("click", fn); btns.appendChild(x); }
+  wrapA.append(spot, b);
+  // place the bubble beside the spotlight, inside the scene
+  const bw = b.offsetWidth, bh = b.offsetHeight, gap = 12;
+  let left = R.left + R.width + gap, top = R.top;
+  if (left + bw > R.cw - 8) left = R.left - bw - gap;
+  if (left < 8) { left = Math.min(Math.max(8, R.left), R.cw - bw - 8); top = R.top + R.height + gap; if (top + bh > R.ch - 8) top = R.top - bh - gap; }
+  top = Math.max(8, Math.min(top, R.ch - bh - 8));
+  b.style.left = left + "px"; b.style.top = top + "px";
+  callout = { spot, b };
+  btns.querySelector("button")?.focus({ preventScroll: true });
+}
+function closeCallout() { if (callout) { callout.spot.remove(); callout.b.remove(); callout = null; } lastOverlay = null; }
+function showCallout(m) {
+  setPlaying(false);
+  if (m.lesson) placeOverlay(m.region, m.title, m.text, [["Got it", closeCallout, true]], `Year ${viewA.snap.tick}`);
+  else placeOverlay(m.region, m.title, m.text, [["Keep going", () => { closeCallout(); setPlaying(true); }, true]], `Year ${viewA.snap.tick}`);
+}
+const TOUR = [
+  ["fields", "Fields", "Farmers (gold) grow wheat here. Each farmer grows 5 sacks a year, and one sack makes one loaf of bread."],
+  ["yard", "Factory floor", "Bakers (blue) turn wheat into bread. The factory needs 50 people just to open its doors, plus 1 baker for every 10 loaves."],
+  ["road", "Carts", "Carters (orange) bring the bread to every home: 1 carter for every 10 loaves. The arrows show how much moves each year."],
+  ["factory", "Repairs", "The repair crew (purple, with wrenches) keeps the factory working. Skip repairs and it wears down: watch the bar under each building."],
+  ["workshop", "Building", "Anyone left over can build (green): irrigation for the fields, tools in the workshop, or a new factory when the old one is full."],
+  ["park", "Free time", "Whoever isn't needed rests in the park (pink). Free time is the town's real wealth."],
+  ["homes", "Homes", "Lit windows mean the family ate. Dark houses with a frown are hungry. Hover over any place for details, or pick a story above."],
+];
+function startTour() {
+  if (mode !== "explore") setMode("explore");
+  setPlaying(false); tour = 0; showTourStep();
+  wrapA.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+}
+function showTourStep() {
+  const [region, title, text] = TOUR[tour];
+  const last = tour === TOUR.length - 1;
+  placeOverlay(region, title, text, [
+    ["Skip", endTour, false],
+    [last ? "Start the town" : "Next", () => { if (last) { endTour(); setPlaying(true); } else { tour++; showTourStep(); } }, true],
+  ], `${tour + 1} of ${TOUR.length}`);
+}
+function endTour() { tour = null; closeCallout(); }
+function welcome() {
+  if (store.get("gb-welcomed")) return false;
+  const w = document.createElement("div"); w.className = "welcome";
+  w.innerHTML = `<div role="dialog" aria-label="Welcome"><span class="eyebrow">Welcome</span><h2>This is Grainbridge</h2>
+    <p>A small town with no money. You'll watch people farm, bake, deliver and repair, year after year. Want a one-minute tour of who does what?</p>
+    <div class="row"><button class="primary" id="wTour">Take the tour</button><button id="wSkip">Just let it run</button></div></div>`;
+  wrapA.appendChild(w);
+  const done = () => { store.set("gb-welcomed", "1"); w.remove(); };
+  w.querySelector("#wTour").addEventListener("click", () => { done(); startTour(); });
+  w.querySelector("#wSkip").addEventListener("click", () => { done(); setPlaying(true); });
+  w.querySelector("#wTour").focus({ preventScroll: true });
+  return true;
+}
+// tooltips (hover on desktop, tap on touch)
+function attachTips(view, wrap) {
+  const tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; wrap.appendChild(tip);
+  const show = (e) => {
+    const r = view.cv.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * W, y = (e.clientY - r.top) / r.height * H;
+    const region = hitRegion(x, y), t = region && tipFor(region, view);
+    if (!t) { tip.hidden = true; return; }
+    tip.innerHTML = `<b></b>${t[1].map(() => "<div></div>").join("")}`;
+    tip.querySelector("b").textContent = t[0]; t[1].forEach((line, i) => { tip.querySelectorAll("div")[i].textContent = line; });
+    tip.hidden = false;
+    const px = e.clientX - r.left, py = e.clientY - r.top, tw = tip.offsetWidth, th = tip.offsetHeight;
+    tip.style.left = Math.max(6, Math.min(r.width - tw - 6, px + 14)) + "px";
+    tip.style.top = Math.max(6, Math.min(r.height - th - 6, py + 14)) + "px";
+  };
+  view.cv.addEventListener("pointermove", (e) => { if (e.pointerType === "mouse") show(e); });
+  view.cv.addEventListener("pointerdown", (e) => { if (e.pointerType !== "mouse") { if (!tip.hidden) tip.hidden = true; else show(e); } });
+  view.cv.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") tip.hidden = true; });
+}
+attachTips(viewA, wrapA); attachTips(viewB1, $("wrapB1")); attachTips(viewB2, $("wrapB2"));
+
+// ============================================================ rendering the panels
+function setMeter(id, val, cls) { const m = $(id); m.className = "meter " + cls; m.firstElementChild.style.width = Math.max(0, Math.min(1, val)) * 100 + "%"; }
+function render() {
+  $("yearNum").textContent = "Year " + tickOf();
+  const anyLeft = views().some((v) => v.snap.N >= 0.5);
+  $("drought").disabled = !anyLeft || views().some((v) => v.town.p.shocks.some((sh) => sh.start <= v.snap.tick + 3 && sh.start + sh.duration > v.snap.tick + 1));
+  $("books").textContent = views().every((v) => v.town.booksOk) ? "yes" : "NO — please report";
+  $("books").className = views().every((v) => v.town.booksOk) ? "ok" : "ko";
+  if (mode === "explore") renderExplore(); else renderCompare();
+}
+function renderExplore() {
+  const v = viewA, s = v.snap;
+  setPill($("pill"), v);
+  $("thisYear").textContent = s.preview ? "Before the first year" : `Year ${s.tick}`;
+  $("story").innerHTML = storyText(v, false);
+  $("gPeople").textContent = fmt(s.N);
+  const d = s.N - s.N0;
+  $("dPeople").textContent = s.preview || Math.abs(d) < 0.5 ? (v.town.p.demography.enabled ? "families grow when fed" : "fixed size") : (d > 0 ? "+" : "−") + fmt(Math.abs(d)) + " this year";
+  $("gFood").textContent = pct(s.cons); setMeter("mFood", s.cons, s.cons >= 0.999 ? "good" : "bad");
+  const free = Math.max(0, s.leisure) / Math.max(s.N0, 1);
+  $("gFree").textContent = pct(free); setMeter("mFree", Math.min(1, free / 0.6), free > 0.02 ? "good" : "warn");
+  const n = s.conditions.length, health = n ? s.conditions.reduce((a, b) => a + b, 0) / n : 0;
+  $("gHealth").textContent = n ? pct(health) : "none"; setMeter("mHealth", health, health > 0.95 ? "good" : health > 0.5 ? "warn" : "bad");
+  const jp = jobPeople(s);
+  const g = { farm: jp.farm, factory: jp.factory, delivery: jp.delivery, repair: jp.repair, build: jp.build_land + jp.build_tools + jp.build_factory, rest: jp.rest };
+  const sq = apportion(g, 50), cells = [];
+  for (const j of JOBS) for (let i = 0; i < sq[j.id]; i++) cells.push(`<span style="background:var(--${j.color})"></span>`);
+  while (cells.length < 50) cells.push("<span></span>");
+  $("waffle").innerHTML = cells.join("");
+  $("legend").innerHTML = JOBS.map((j) => `<div><i style="background:var(--${j.color})"></i>${j.label}<b>${compact(g[j.id])}</b></div>`).join("");
+  const need = s.preview ? window.CityEngine.handsToFeedEveryone(v.town) : (v.handsNeeded ?? sum4(s.required)), N = s.N0, top = Math.max(need, N) || 1;
+  $("hNeed").style.width = need / top * 100 + "%"; $("hHave").style.width = N / top * 100 + "%";
+  $("hNeedRow").classList.toggle("over", need > N + 0.5);
+  $("handsText").innerHTML = need <= N + 0.5
+    ? `Feeding all ${fmt(N)} people and keeping every machine repaired takes <strong>${fmt(need)}</strong> workers. That leaves ${people(Math.max(0, N - need))} free to build or rest.`
+    : `Feeding all ${fmt(N)} people and keeping every machine repaired would take <strong>${fmt(need)}</strong> workers. The town is ${people(need - N)} short, so something has to give.`;
+  const per = pawnScale(s.N);
+  $("scaleNote").textContent = s.N < 1 ? "" : (per === 1 ? "Each figure is one person." : `Each figure stands for ${compact(per)} people.`) + ` Each house is home to ${compact(houseScale(s.N))}.`;
+  $("log").innerHTML = v.diary.map((x) => `<li class="${x.cls || ""}"><i></i><span>Year ${x.year}</span><div></div></li>`).join("");
+  $("log").querySelectorAll("li div").forEach((el, i) => { el.textContent = v.diary[i].text; });
+}
+function renderCompare() {
+  const A = viewB1, B = viewB2;
+  setPill($("cPillA"), A); setPill($("cPillB"), B);
+  for (const [v, el, st] of [[A, "cStatsA", "cStoryA"], [B, "cStatsB", "cStoryB"]]) {
+    const s = v.snap, n = s.conditions.length, h = n ? s.conditions.reduce((a, b) => a + b, 0) / n : 0;
+    $(el).innerHTML = [["People", compact(s.N)], ["Bread", pct(s.cons)], ["Free time", pct(Math.max(0, s.leisure) / Math.max(s.N0, 1))], ["Factory", n ? pct(h) : "none"]]
+      .map(([k, x]) => `<div><span>${k}</span><b>${x}</b></div>`).join("");
+    $(st).innerHTML = storyText(v, true);
+  }
+  // scoreboard
+  const rows = [
+    ["People now", (v) => v.snap.N, compact, "high"],
+    ["Most people ever", (v) => v.stats.maxN, compact, "high"],
+    ["People lost to hunger", (v) => v.stats.died, compact, "low"],
+    ["Years with bread short", (v) => v.stats.hungryYears, fmt, "low"],
+    ["Years short of hands", (v) => v.stats.shortYears, fmt, "low"],
+    ["Free time now", (v) => Math.max(0, v.snap.leisure) / Math.max(v.snap.N0, 1), pct, "high"],
+    ["Factory condition", (v) => { const c = v.snap.conditions; return c.length ? c.reduce((a, b) => a + b, 0) / c.length : 0; }, pct, "high"],
+  ];
+  $("cTable").innerHTML = rows.map(([label, f, fm, better]) => {
+    const a = f(A), b = f(B), tol = Math.max(Math.abs(a), Math.abs(b)) * 0.005 + 1e-9;
+    const aw = Math.abs(a - b) > tol && (better === "high" ? a > b : a < b), bw = Math.abs(a - b) > tol && !aw;
+    return `<tr><td>${label}</td><td class="${aw ? "win" : ""}">${fm(a)}</td><td class="${bw ? "win" : ""}">${fm(b)}</td></tr>`;
+  }).join("");
+  $("cHeadline").textContent = headline(A, B);
+}
+function headline(A, B) {
+  if (A.snap.preview) return "Press play to run both towns side by side.";
+  const a = A.snap, b = B.snap, nA = comparison.a.label.toLowerCase(), nB = comparison.b.label.toLowerCase();
+  if (a.N < 1 && b.N >= 1) return `By year ${a.tick}, town A (${nA}) is empty; town B (${nB}) has ${fmt(b.N)} people.`;
+  if (b.N < 1 && a.N >= 1) return `By year ${b.tick}, town B (${nB}) is empty; town A (${nA}) has ${fmt(a.N)} people.`;
+  if (A.stats.died > 0.5 || B.stats.died > 0.5) {
+    if (Math.abs(A.stats.died - B.stats.died) > 0.5) return `So far ${people(A.stats.died)} died of hunger in town A and ${people(B.stats.died)} in town B.`;
+  }
+  if (Math.abs(a.N / Math.max(b.N, 1e-9) - 1) > 0.02) return `Town A has ${fmt(a.N)} people; town B has ${fmt(b.N)}.`;
+  if (A.stats.hungryYears !== B.stats.hungryYears) return `Bread ran short for ${A.stats.hungryYears} years in town A and ${B.stats.hungryYears} in town B.`;
+  const hA = a.conditions.length ? a.conditions.reduce((x, y) => x + y, 0) / a.conditions.length : 0, hB = b.conditions.length ? b.conditions.reduce((x, y) => x + y, 0) / b.conditions.length : 0;
+  if (Math.abs(hA - hB) > 0.02) return `Town A's factory is at ${pct(hA)} condition; town B's at ${pct(hB)}.`;
+  const fA = Math.max(0, a.leisure) / a.N0, fB = Math.max(0, b.leisure) / b.N0;
+  if (Math.abs(fA - fB) > 0.005) return `Town A gives ${pct(fA)} of its people free time; town B gives ${pct(fB)}.`;
+  return "So far the two towns look the same. Keep watching.";
+}
+
+// ============================================================ clock
+let lastT = performance.now();
+function setPlaying(p) { playing = p; $("play").textContent = p ? "Pause" : "Play"; }
+function frame() {
+  const now = performance.now(), dt = Math.min(250, now - lastT); lastT = now;
+  if (playing) {
+    if (!views().some((v) => v.snap.N >= 0.5)) setPlaying(false);
+    else if (mode === "compare" && comparison && tickOf() >= comparison.years) setPlaying(false);
+    else {
+      acc += dt * speed / 1000; let steps = 0, stop = null;
+      while (acc >= 1 && steps < 8 && !stop) { acc -= 1; steps++; stop = stepAll(); }
+      if (stop) acc = 0; if (acc > 4) acc = 0;
+      if (steps) render();
+    }
+  }
+  for (const v of views()) { spawnGoods(v, dt); drawView(v, now); }
+  requestAnimationFrame(frame);
+}
+
+// ============================================================ wiring
+function updateLabels() {
+  $("oN").textContent = $("rN").value; $("oA").textContent = (+$("rA").value) + " sacks"; $("oS").textContent = $("rS").value + "%";
+  const a = +$("rA").value, nmin = analyticalNmin(Object.assign({}, DEFAULTS, { a }), a);
+  $("nHint").textContent = isFinite(nmin) ? `With ${a} sacks per farmer, a new town needs at least ${Math.ceil(nmin)} people to staff every job. Changing this restarts the town.`
+    : `With ${a} sacks per farmer, no town can feed itself.`;
+  $("styleHint").textContent = document.querySelector("input[name=style]:checked").value === "priority"
+    ? "Farms, factory and carts come first. A small shortage falls on repairs: people eat, machines wear down."
+    : "Machines stay repaired and fewer loaves are baked. A shortage means hunger right away.";
+}
+$("stories").innerHTML = STORIES.map((s) => `<button class="chip" data-id="${s.id}" aria-pressed="false">${icon(s.icon)}<b>${s.title}</b><span>${s.blurb}</span></button>`).join("");
+$("comparisons").innerHTML = COMPARISONS.map((s) => `<button class="chip" data-id="${s.id}" aria-pressed="false">${icon(s.icon)}<b>${s.title}</b><span>${s.blurb}</span></button>`).join("");
+$("stories").addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (b) { endTour(); loadStory(b.dataset.id); } });
+$("comparisons").addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (b) loadComparison(b.dataset.id); });
+$("tabExplore").addEventListener("click", () => setMode("explore"));
+$("tabCompare").addEventListener("click", () => setMode("compare"));
+$("tourBtn").addEventListener("click", startTour);
+$("play").addEventListener("click", () => { closeCallout(); endTour(); setPlaying(!playing); });
+$("step").addEventListener("click", () => { setPlaying(false); closeCallout(); if (views().some((v) => v.snap.N >= 0.5)) { stepAll(); render(); } });
+$("reset").addEventListener("click", () => { setPlaying(false); if (mode === "explore") { startExplore(story ? story.drought : 0); if (story) { $("gLesson").hidden = true; $("gSkip").hidden = false; $("gNext").hidden = true; } } else loadComparison(comparison.id); setPlaying(false); });
+$("drought").addEventListener("click", () => {
+  for (const v of views()) { v.town.p.shocks.push({ start: v.town.tick + 1, duration: 3, multiplier: 0.7 }); v.addDiary(v.town.tick, "Dry winds are coming: the next three harvests will be poor.", "bad"); }
+  render();
+});
+$("gSkip").addEventListener("click", skipToMoment);
+$("gNext").addEventListener("click", () => { setMode("compare"); loadComparison($("gNext").dataset.id); });
+document.querySelectorAll("input[name=speed]").forEach((r) => r.addEventListener("change", () => { speed = +r.value; }));
+["rA", "rS"].forEach((id) => $(id).addEventListener("input", applyLive));
+["tGrow", "tGran", "tLand"].forEach((id) => $(id).addEventListener("change", applyLive));
+document.querySelectorAll("input[name=style]").forEach((r) => r.addEventListener("change", applyLive));
+$("rN").addEventListener("input", updateLabels);
+$("rN").addEventListener("change", () => { setPlaying(false); leaveStory(); startExplore(0); });
+function leaveStory() { story = null; lessonShown = false; $("guide").hidden = true; markPressed("stories", ""); }
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") { endTour(); closeCallout(); }
+  if (e.code === "Space" && !["INPUT", "BUTTON", "SUMMARY"].includes(document.activeElement.tagName)) { e.preventDefault(); closeCallout(); setPlaying(!playing); }
+});
+let resizeTimer = 0;
+window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { if (callout && lastOverlay) placeOverlay(...lastOverlay); }, 120); });
+
+// start: the healthy village at year 0, so the first frame is complete
+settingsToUI(BASE);
+story = STORIES[0];
+$("guide").hidden = false; $("gTitle").textContent = story.title; $("gQ").textContent = story.q; $("gWatch").textContent = story.watch;
+markPressed("stories", story.id);
+startExplore(0);
+requestAnimationFrame(frame);
+if (!welcome()) setTimeout(() => setPlaying(true), 700);
+})();
+</script>
+
+</body></html>

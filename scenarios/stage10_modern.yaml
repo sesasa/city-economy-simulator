@@ -1,0 +1,23 @@
+# Stage 10: the modern mixed economy — every layer, calibrated loosely to rich economies today
+# (few farmers, a modest industrial sector, mostly services, money held as bank deposits).
+inherits: stage7_markets.yaml
+name: stage10_modern
+description: All layers combined (market, services, bank, central bank, government, stock market, insurance, technology).
+ticks: 600
+layers:
+  agent_market:
+    initial_population: 1000
+    farm_output_per_worker: 40.0
+    factory_variable_labor: 0.06
+    factory_fixed_crew: 30.0
+    distribution_labor: 0.06
+    maintenance_fixed_crew: 20.0
+  services:
+    necessity_band: 0.3              # households a little short of bread still buy some services
+  stock_market:
+    trend_followers: 0.1             # fewer trend-chasers than the Stage 7 bubble experiments
+  risk_sharing:
+    insurance_cover: 0.5
+  technology:
+    research_share: 0.03
+    lbd_exponent: 0.05

@@ -1,0 +1,27 @@
+# Stage 4 base scenario: individual households, several firms per sector, owners,
+# a services sector, entry and exit. 600 people so several firms are viable.
+name: stage4_competition
+description: Agent households, many firms with owners, services, entry and exit.
+seed: 42
+ticks: 400
+layers:
+  agent_market:
+    initial_population: 600
+    initial_factories: 2
+    farm_firms: 3
+    factory_firms: 2
+    distribution_firms: 3
+    maintenance_firms: 2
+    ownership: founders
+  services:
+    firms: 3
+  banking:
+    enabled: true
+  entry_exit:
+    enabled: true
+  demography:
+    enabled: false
+  land_limits:
+    enabled: false
+  harvest_shocks:
+    enabled: false

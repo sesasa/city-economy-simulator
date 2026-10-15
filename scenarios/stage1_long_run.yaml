@@ -1,0 +1,8 @@
+# Experiment 4: demography and land limits on.
+inherits: stage1_base.yaml
+name: stage1_long_run
+description: Long run with demography and land limits; growth should slow to a plateau.
+ticks: 2000
+layers:
+  demography: {enabled: true}
+  land_limits: {enabled: true}

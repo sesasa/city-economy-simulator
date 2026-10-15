@@ -1,0 +1,9 @@
+# Stage 11: a modern town before the internet (1976 onwards, one tick = one quarter; the first
+# twelve years let it settle into its steady state).
+name: stage11_town
+description: A modern pre-internet town with firms, a bank, a central bank, a government, a stock market, insurance and research.
+seed: 7
+ticks: 140
+layers:
+  modern_town:
+    start_year: 1976

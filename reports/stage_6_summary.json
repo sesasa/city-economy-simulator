@@ -1,0 +1,243 @@
+{
+  "taylor_vs_money": [
+    {
+      "shock": "demand: spending -40% for 20 ticks",
+      "rule": "Taylor rule",
+      "bread_lost": 7106.4003608354205,
+      "services_lost": 8020.338978831077,
+      "peak_unemployment": 0.3700892330287584,
+      "extra_unemployment": 8.396442475253888,
+      "price_swing": 0.12464035593574496,
+      "lowest_rate": 0.0,
+      "highest_rate": 0.032400506951351715
+    },
+    {
+      "shock": "demand: spending -40% for 20 ticks",
+      "rule": "fixed money stock",
+      "bread_lost": 6314.171892149541,
+      "services_lost": 3756.8636894697497,
+      "peak_unemployment": 0.3065472473831687,
+      "extra_unemployment": 5.300518484251641,
+      "price_swing": 0.15775732558560038,
+      "lowest_rate": 0.003121007885201999,
+      "highest_rate": 0.007446138658229395
+    },
+    {
+      "shock": "demand: spending -40% for 20 ticks",
+      "rule": "fixed interest rate",
+      "bread_lost": 7410.103065968234,
+      "services_lost": 4982.637852076762,
+      "peak_unemployment": 0.31709349868003156,
+      "extra_unemployment": 5.833389543400678,
+      "price_swing": 0.14052007998527694,
+      "lowest_rate": 0.0030000000000000005,
+      "highest_rate": 0.0030000000000000005
+    },
+    {
+      "shock": "supply: harvest -50% for 5 ticks",
+      "rule": "Taylor rule",
+      "bread_lost": 16261.906129431185,
+      "services_lost": 11754.381153218506,
+      "peak_unemployment": 0.43078125249619964,
+      "extra_unemployment": 11.845774877228985,
+      "price_swing": 0.1488194820380622,
+      "lowest_rate": 0.0,
+      "highest_rate": 0.03435773534065151
+    },
+    {
+      "shock": "supply: harvest -50% for 5 ticks",
+      "rule": "fixed money stock",
+      "bread_lost": 21670.46908144865,
+      "services_lost": 15296.580608137125,
+      "peak_unemployment": 0.523951351259987,
+      "extra_unemployment": 15.345513066605962,
+      "price_swing": 0.19354788874267684,
+      "lowest_rate": 0.0031736934295598304,
+      "highest_rate": 0.013427576406434563
+    },
+    {
+      "shock": "supply: harvest -50% for 5 ticks",
+      "rule": "fixed interest rate",
+      "bread_lost": 16754.313795699996,
+      "services_lost": 13320.846993806996,
+      "peak_unemployment": 0.522861172393331,
+      "extra_unemployment": 13.050344705646998,
+      "price_swing": 0.2002426000049031,
+      "lowest_rate": 0.0030000000000000005,
+      "highest_rate": 0.0030000000000000005
+    }
+  ],
+  "inflation": [
+    {
+      "printing": "0.00% per tick",
+      "money_growth_per_tick": 6.707012455371262e-05,
+      "inflation_per_tick": -0.0010728063272378047,
+      "price_volatility": 0.007615831401759441,
+      "bread": 1.0983893688555897,
+      "services": 0.5791024220654862,
+      "unemployment": 0.03520974912007848,
+      "hungry": 0.5042000000000001,
+      "real_wage": 0.7812651926804647,
+      "bank_failures": 0.0
+    },
+    {
+      "printing": "0.25% per tick",
+      "money_growth_per_tick": 0.0024843957975942093,
+      "inflation_per_tick": 0.0026722726291690557,
+      "price_volatility": 0.01325663341518749,
+      "bread": 1.0610940678693717,
+      "services": 0.6557508832379991,
+      "unemployment": 0.008460573145770815,
+      "hungry": 0.5328722222222222,
+      "real_wage": 0.725522935386761,
+      "bank_failures": 0.0
+    },
+    {
+      "printing": "0.50% per tick",
+      "money_growth_per_tick": 0.004929404239856432,
+      "inflation_per_tick": 0.004012030902283827,
+      "price_volatility": 0.018869843700841687,
+      "bread": 0.8870812621642599,
+      "services": 0.6607032871010742,
+      "unemployment": 0.030017612759263235,
+      "hungry": 0.7351972222222223,
+      "real_wage": 0.5935742334287268,
+      "bank_failures": 1.3333333333333333
+    },
+    {
+      "printing": "1.00% per tick",
+      "money_growth_per_tick": 0.00990057919890225,
+      "inflation_per_tick": 0.005271428281424934,
+      "price_volatility": 0.04005286894095235,
+      "bread": 0.9037140399545663,
+      "services": 0.44611900741901983,
+      "unemployment": 0.06421066172411559,
+      "hungry": 0.6458194444444445,
+      "real_wage": 0.6703913312378473,
+      "bank_failures": 6.666666666666667
+    }
+  ],
+  "zero_lower_bound": [
+    {
+      "policy": "fixed rate",
+      "bread_lost": 9661.813465946185,
+      "services_lost": 11465.915413478857,
+      "peak_unemployment": 0.3684053978951624,
+      "extra_unemployment": 10.705679518639764,
+      "price_swing": 0.20740195675405293,
+      "lowest_rate": 0.0030000000000000005,
+      "highest_rate": 0.0030000000000000005
+    },
+    {
+      "policy": "Taylor, floor at 0 (base)",
+      "bread_lost": 10050.461337787667,
+      "services_lost": 11299.77212518017,
+      "peak_unemployment": 0.39833626424315155,
+      "extra_unemployment": 11.817033835123858,
+      "price_swing": 0.22413317097885319,
+      "lowest_rate": 0.0,
+      "highest_rate": 0.030067176175544597
+    },
+    {
+      "policy": "Taylor, no floor (rates down to -5%)",
+      "bread_lost": 6260.321930307975,
+      "services_lost": 8134.760513468209,
+      "peak_unemployment": 0.3416995754260474,
+      "extra_unemployment": 7.507285330615986,
+      "price_swing": 0.1451291061697181,
+      "lowest_rate": -0.03244053821170483,
+      "highest_rate": 0.02875117369866465
+    },
+    {
+      "policy": "Taylor, floor at 0, higher neutral rate (1%)",
+      "bread_lost": 4544.049318173973,
+      "services_lost": 6108.417276189026,
+      "peak_unemployment": 0.36681374822302687,
+      "extra_unemployment": 6.285076105589858,
+      "price_swing": 0.1905125735532265,
+      "lowest_rate": 0.0,
+      "highest_rate": 0.03684915201825701
+    }
+  ],
+  "lender_of_last_resort": [
+    {
+      "policy": "no lender of last resort",
+      "failure_episodes": 1.0,
+      "emergency_lending": 0.0,
+      "deposit_haircut": 0.0,
+      "withdrawals_blocked_ticks": 4.0,
+      "credit_frozen_ticks": 13.0,
+      "lending_in_window": 474.8401782189374,
+      "lowest_reserves": 65.41578435012131,
+      "cash_hoarded_peak": 391.4402156498789,
+      "bread": 1.0964551300088905,
+      "unemployment": 0.043063201033837824
+    },
+    {
+      "policy": "central bank lends in the run",
+      "failure_episodes": 0.0,
+      "emergency_lending": 243.4468546263162,
+      "deposit_haircut": 0.0,
+      "withdrawals_blocked_ticks": 0.0,
+      "credit_frozen_ticks": 0.0,
+      "lending_in_window": 596.5818596591408,
+      "lowest_reserves": 0.0,
+      "cash_hoarded_peak": 700.3028546263164,
+      "bread": 1.0832748801095455,
+      "unemployment": 0.05531814106551627
+    }
+  ],
+  "moral_hazard": [
+    {
+      "policy": "bail-in (depositors pay)",
+      "loans_peak": 497.60540293918336,
+      "loans_average": 90.40120368868868,
+      "lending_loosening": 1.3035899960062756,
+      "defaults": 948.6666452932361,
+      "failure_episodes": 14.4,
+      "bank_runs": 8.0,
+      "deposit_haircuts": 856.1814060253121,
+      "bailout_money": 0.0,
+      "bread": 0.8003531819374812,
+      "unemployment": 0.16760703342560088
+    },
+    {
+      "policy": "surprise bailouts",
+      "loans_peak": 514.518985072651,
+      "loans_average": 134.34318687881176,
+      "lending_loosening": 2.357569582165568,
+      "defaults": 1045.690583269635,
+      "failure_episodes": 0.8,
+      "bank_runs": 13.2,
+      "deposit_haircuts": 23.68624649188062,
+      "bailout_money": 1074.762765870456,
+      "bread": 0.9293343755285812,
+      "unemployment": 0.139665312922543
+    },
+    {
+      "policy": "expected bailouts (moral hazard)",
+      "loans_peak": 544.3674156177558,
+      "loans_average": 184.07118776404468,
+      "lending_loosening": 2.7111888964073225,
+      "defaults": 1707.2575967721932,
+      "failure_episodes": 0.0,
+      "bank_runs": 0.0,
+      "deposit_haircuts": 0.0,
+      "bailout_money": 1084.2104382389641,
+      "bread": 1.0294554183978293,
+      "unemployment": 0.0509717659341539
+    }
+  ],
+  "tally": {
+    "runs": 93,
+    "ticks": 26760,
+    "seconds": 126.39665143075399,
+    "by_experiment": {
+      "1": 36,
+      "2": 12,
+      "3": 24,
+      "4": 6,
+      "5": 15
+    }
+  }
+}

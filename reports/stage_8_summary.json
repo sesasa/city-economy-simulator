@@ -1,0 +1,320 @@
+{
+  "comparative_advantage": [
+    {
+      "towns": "different strengths",
+      "case": "autarky",
+      "grainbridge.bread": 1.0107554395484961,
+      "grainbridge.services": 0.49583518553154676,
+      "grainbridge.unemployment": 0.01106356519881723,
+      "grainbridge.farm_labor": 0.09963333333333331,
+      "grainbridge.bakery_labor": 0.37304999999999994,
+      "millford.bread": 0.8160265149772572,
+      "millford.services": 0.39676191493578933,
+      "millford.unemployment": 0.25470607246862925,
+      "millford.farm_labor": 0.18110555555555555,
+      "millford.bakery_labor": 0.16630555555555557,
+      "shipped_per_tick": 0.0,
+      "grainbridge.total": 1.506590625080043,
+      "millford.total": 1.2127884299130465
+    },
+    {
+      "towns": "different strengths",
+      "case": "trade, transport 2%",
+      "grainbridge.bread": 1.0077570281430328,
+      "grainbridge.services": 0.3156706429151717,
+      "grainbridge.unemployment": 0.040460875632342345,
+      "grainbridge.farm_labor": 0.1863888888888889,
+      "grainbridge.bakery_labor": 0.34284444444444445,
+      "millford.bread": 0.9963002246656454,
+      "millford.services": 1.039208474713188,
+      "millford.unemployment": 0.03168372794693836,
+      "millford.farm_labor": 0.012838888888888888,
+      "millford.bakery_labor": 0.20454999999999993,
+      "shipped_per_tick": 883.4047962022601,
+      "grainbridge.total": 1.3234276710582045,
+      "millford.total": 2.035508699378833
+    },
+    {
+      "towns": "different strengths",
+      "case": "trade, transport 5% (base)",
+      "grainbridge.bread": 0.9680301795972458,
+      "grainbridge.services": 0.3029249337905036,
+      "grainbridge.unemployment": 0.043368758293161135,
+      "grainbridge.farm_labor": 0.19459999999999997,
+      "grainbridge.bakery_labor": 0.3357277777777778,
+      "millford.bread": 1.0781601712734712,
+      "millford.services": 1.0016308106135863,
+      "millford.unemployment": 0.04231220652492862,
+      "millford.farm_labor": 0.012394444444444444,
+      "millford.bakery_labor": 0.20734444444444444,
+      "shipped_per_tick": 973.6707671525692,
+      "grainbridge.total": 1.2709551133877495,
+      "millford.total": 2.0797909818870575
+    },
+    {
+      "towns": "different strengths",
+      "case": "trade, transport 10%",
+      "grainbridge.bread": 0.9896383152184492,
+      "grainbridge.services": 0.31307548689888154,
+      "grainbridge.unemployment": 0.03765285557762407,
+      "grainbridge.farm_labor": 0.18720555555555554,
+      "grainbridge.bakery_labor": 0.34402777777777777,
+      "millford.bread": 1.0116780702064314,
+      "millford.services": 0.9479050669765647,
+      "millford.unemployment": 0.04278950304670672,
+      "millford.farm_labor": 0.04198333333333334,
+      "millford.bakery_labor": 0.20479999999999998,
+      "shipped_per_tick": 881.4157898243328,
+      "grainbridge.total": 1.3027138021173308,
+      "millford.total": 1.9595831371829961
+    },
+    {
+      "towns": "different strengths",
+      "case": "trade, transport 25%",
+      "grainbridge.bread": 1.0055849301028768,
+      "grainbridge.services": 0.2996893438318819,
+      "grainbridge.unemployment": 0.04371061704204543,
+      "grainbridge.farm_labor": 0.18856111111111115,
+      "grainbridge.bakery_labor": 0.3432555555555556,
+      "millford.bread": 1.1112359846631108,
+      "millford.services": 0.7207744681460119,
+      "millford.unemployment": 0.0429646288289659,
+      "millford.farm_labor": 0.13761666666666664,
+      "millford.bakery_labor": 0.20825555555555555,
+      "shipped_per_tick": 879.4025571229736,
+      "grainbridge.total": 1.3052742739347587,
+      "millford.total": 1.8320104528091226
+    },
+    {
+      "towns": "identical (control)",
+      "case": "autarky",
+      "grainbridge.bread": 1.1126725004314488,
+      "grainbridge.services": 0.6031792465612047,
+      "grainbridge.unemployment": 0.027178331803007123,
+      "grainbridge.farm_labor": 0.17474444444444445,
+      "grainbridge.bakery_labor": 0.24398888888888892,
+      "millford.bread": 1.098887708334915,
+      "millford.services": 0.6217145606447083,
+      "millford.unemployment": 0.03197164720851809,
+      "millford.farm_labor": 0.17289444444444443,
+      "millford.bakery_labor": 0.2287111111111111,
+      "shipped_per_tick": 0.0,
+      "grainbridge.total": 1.7158517469926535,
+      "millford.total": 1.7206022689796232
+    },
+    {
+      "towns": "identical (control)",
+      "case": "trade, transport 5%",
+      "grainbridge.bread": 1.1277403559271457,
+      "grainbridge.services": 0.5560343306160674,
+      "grainbridge.unemployment": 0.041793634120429496,
+      "grainbridge.farm_labor": 0.1829611111111111,
+      "grainbridge.bakery_labor": 0.24358888888888888,
+      "millford.bread": 1.161662844236619,
+      "millford.services": 0.5366469343072005,
+      "millford.unemployment": 0.044156575322402684,
+      "millford.farm_labor": 0.18089444444444447,
+      "millford.bakery_labor": 0.24696666666666664,
+      "shipped_per_tick": 73.11499312954983,
+      "grainbridge.total": 1.683774686543213,
+      "millford.total": 1.6983097785438195
+    }
+  ],
+  "money_regimes": [
+    {
+      "regime": "floating currencies",
+      "grainbridge.bread": 0.9680301795972458,
+      "grainbridge.services": 0.3029249337905036,
+      "grainbridge.unemployment": 0.043368758293161135,
+      "grainbridge.farm_labor": 0.19459999999999997,
+      "grainbridge.bakery_labor": 0.3357277777777778,
+      "millford.bread": 1.0781601712734712,
+      "millford.services": 1.0016308106135863,
+      "millford.unemployment": 0.04231220652492862,
+      "millford.farm_labor": 0.012394444444444444,
+      "millford.bakery_labor": 0.20734444444444444,
+      "shipped_per_tick": 973.6707671525692,
+      "grainbridge.money_end": 2726.0667778626703,
+      "millford.money_end": 2659.0395987979946,
+      "grainbridge.trade_balance": -2.3142913425041254,
+      "grainbridge.total": 1.2709551133877495,
+      "millford.total": 2.0797909818870575
+    },
+    {
+      "regime": "currency union",
+      "grainbridge.bread": 0.9510044049942112,
+      "grainbridge.services": 0.3771542667510841,
+      "grainbridge.unemployment": 0.03435760365857464,
+      "grainbridge.farm_labor": 0.14836111111111114,
+      "grainbridge.bakery_labor": 0.3501666666666667,
+      "millford.bread": 0.8582589131342232,
+      "millford.services": 0.8387991848482496,
+      "millford.unemployment": 0.07001786285329789,
+      "millford.farm_labor": 0.0864111111111111,
+      "millford.bakery_labor": 0.19852777777777778,
+      "shipped_per_tick": 526.1333648315957,
+      "grainbridge.money_end": 3164.594487247671,
+      "millford.money_end": 2547.107918657059,
+      "grainbridge.trade_balance": 0.29744522027576054,
+      "grainbridge.total": 1.3281586717452953,
+      "millford.total": 1.6970580979824728
+    },
+    {
+      "regime": "union + fiscal transfers 10%",
+      "grainbridge.bread": 0.9509755021844061,
+      "grainbridge.services": 0.3750724260251253,
+      "grainbridge.unemployment": 0.0369146295159992,
+      "grainbridge.farm_labor": 0.14832222222222222,
+      "grainbridge.bakery_labor": 0.3498444444444444,
+      "millford.bread": 0.9061601996640366,
+      "millford.services": 0.8978713543988409,
+      "millford.unemployment": 0.05327620693834916,
+      "millford.farm_labor": 0.07111666666666666,
+      "millford.bakery_labor": 0.19982777777777774,
+      "shipped_per_tick": 602.5292216334901,
+      "grainbridge.money_end": 2704.327716045206,
+      "millford.money_end": 2648.629234344778,
+      "grainbridge.trade_balance": 4.4407936772233425,
+      "grainbridge.total": 1.3260479282095314,
+      "millford.total": 1.8040315540628775
+    }
+  ],
+  "regional_shock": [
+    {
+      "regime": "autarky",
+      "grainbridge.bread_lost": 32620.48016683382,
+      "grainbridge.peak_unemployment": 0.6022222222222222,
+      "millford.bread_lost": 0.0,
+      "millford.peak_unemployment": 0.285941656713343,
+      "grainbridge.currency_low": 1.0
+    },
+    {
+      "regime": "floating currencies",
+      "grainbridge.bread_lost": 29843.54349651457,
+      "grainbridge.peak_unemployment": 0.5991151738150351,
+      "millford.bread_lost": 39805.86439372034,
+      "millford.peak_unemployment": 0.6233333333333334,
+      "grainbridge.currency_low": 0.7706738755007381
+    },
+    {
+      "regime": "currency union",
+      "grainbridge.bread_lost": 17997.29322816391,
+      "grainbridge.peak_unemployment": 0.4604777380650937,
+      "millford.bread_lost": 28521.76379126609,
+      "millford.peak_unemployment": 0.6033333333333334,
+      "grainbridge.currency_low": 1.0
+    },
+    {
+      "regime": "union + transfers 10%",
+      "grainbridge.bread_lost": 21439.574652220825,
+      "grainbridge.peak_unemployment": 0.47883542541684987,
+      "millford.bread_lost": 31693.79176849281,
+      "millford.peak_unemployment": 0.6216666666666667,
+      "grainbridge.currency_low": 1.0
+    },
+    {
+      "regime": "union + capital flight",
+      "grainbridge.bread_lost": 14882.929388244002,
+      "grainbridge.peak_unemployment": 0.4210295890339007,
+      "millford.bread_lost": 14983.819787299222,
+      "millford.peak_unemployment": 0.5655555555555556,
+      "grainbridge.currency_low": 1.0
+    },
+    {
+      "regime": "floating + capital flight",
+      "grainbridge.bread_lost": 22496.01175580063,
+      "grainbridge.peak_unemployment": 0.5021189184230929,
+      "millford.bread_lost": 18149.93444696951,
+      "millford.peak_unemployment": 0.5582871312545676,
+      "grainbridge.currency_low": 0.6061461502065518
+    }
+  ],
+  "single_partner": [
+    {
+      "case": "two towns, no embargo",
+      "millford_bread_in_embargo": 0.907741618447179,
+      "millford_lowest_bread": 0.8316096721814815,
+      "millford_hungry": 0.7362962962962962,
+      "millford_unemployment": 0.06653563858674168
+    },
+    {
+      "case": "two towns, embargo",
+      "millford_bread_in_embargo": 0.5320667681162697,
+      "millford_lowest_bread": 0.24529883635443916,
+      "millford_hungry": 0.9116122004357298,
+      "millford_unemployment": 0.29097912122348285
+    },
+    {
+      "case": "three towns, no embargo",
+      "millford_bread_in_embargo": 0.9108454026006556,
+      "millford_lowest_bread": 0.7980686741964166,
+      "millford_hungry": 0.7041067538126361,
+      "millford_unemployment": 0.07519075624453364
+    },
+    {
+      "case": "three towns, embargo",
+      "millford_bread_in_embargo": 0.87898449641879,
+      "millford_lowest_bread": 0.7395491495573271,
+      "millford_hungry": 0.7300000000000001,
+      "millford_unemployment": 0.08660858097523737
+    }
+  ],
+  "migration": [
+    {
+      "regime": "floating",
+      "migration": 0.0,
+      "grainbridge.population": 600.0,
+      "millford.population": 600.0,
+      "grainbridge.real_income": 0.6433063437567476,
+      "millford.real_income": 0.6982649386639371,
+      "grainbridge.unemployment": 0.043368758293161135,
+      "millford.unemployment": 0.04231220652492862,
+      "region_bread": 1.0230951754353583
+    },
+    {
+      "regime": "floating",
+      "migration": 0.05,
+      "grainbridge.population": 1186.3333333333333,
+      "millford.population": 13.666666666666666,
+      "grainbridge.real_income": 0.7502816064592802,
+      "millford.real_income": 0.24255915183281296,
+      "grainbridge.unemployment": 0.10680534121568647,
+      "millford.unemployment": 0.20322030393956325,
+      "region_bread": 0.9950485777124198
+    },
+    {
+      "regime": "currency union",
+      "migration": 0.0,
+      "grainbridge.population": 600.0,
+      "millford.population": 600.0,
+      "grainbridge.real_income": 0.6380393503042431,
+      "millford.real_income": 0.5235660384675539,
+      "grainbridge.unemployment": 0.03435760365857464,
+      "millford.unemployment": 0.07001786285329789,
+      "region_bread": 0.9046316590642175
+    },
+    {
+      "regime": "currency union",
+      "migration": 0.05,
+      "grainbridge.population": 1091.0,
+      "millford.population": 109.0,
+      "grainbridge.real_income": 0.7651495029106163,
+      "millford.real_income": 0.30766782431241907,
+      "grainbridge.unemployment": 0.025243783460728798,
+      "millford.unemployment": 0.27069119224761434,
+      "region_bread": 1.0366980608812133
+    }
+  ],
+  "tally": {
+    "runs": 90,
+    "ticks": 48660,
+    "seconds": 224.56480630405713,
+    "by_experiment": {
+      "1": 21,
+      "2": 9,
+      "3": 36,
+      "4": 12,
+      "5": 12
+    }
+  }
+}

@@ -1,0 +1,9 @@
+# Stage 9: the Stage 1 long run (demography, land limits, investment) plus technology.
+inherits: stage1_long_run.yaml
+name: stage9_plateau
+description: The Stage 1 plateau economy with research, diffusion and learning by doing.
+ticks: 1500
+layers:
+  technology:
+    research_share: 0.02
+    lbd_exponent: 0.05

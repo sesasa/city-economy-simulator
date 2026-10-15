@@ -1,0 +1,16 @@
+# Stage 8 base region: two Stage 5 towns with opposite strengths.
+# Grainbridge has rich land but clumsy bakers; Millford has poor land but skilled bakers.
+name: stage8_two_cities
+description: Two towns trading wheat and bread with floating currencies, with comparative advantage.
+seed: 42
+ticks: 300
+cities:
+  grainbridge:
+    scenario: stage5_government.yaml
+    params: {farm_output_per_worker: 9.0, factory_variable_labor: 0.35}
+  millford:
+    scenario: stage5_government.yaml
+    params: {farm_output_per_worker: 3.5, factory_variable_labor: 0.04}
+trade:
+  currency: floating
+  transport_cost: 0.05

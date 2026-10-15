@@ -1,0 +1,32 @@
+# Stage 1 base scenario: planner economy, fixed population, SPEC defaults.
+name: stage1_base
+description: Central planner, four sectors, no money. Fixed population; investment on.
+seed: 42
+ticks: 200
+layers:
+  real_economy:
+    farm_output_per_worker: 5        # a
+    consumption_per_person: 1        # c
+    conversion_rate: 1               # e
+    factory_fixed_crew: 50           # F_p
+    factory_variable_labor: 0.1      # v_p
+    distribution_labor: 0.1          # v_d
+    maintenance_fixed_crew: 30       # F_m
+    depreciation_rate: 0.05          # delta
+    factory_capacity: 1000
+    initial_population: 150          # N0
+    priority: [farming, processing, distribution, maintenance]
+  investment:
+    investment_share: 0.3            # s
+  demography:
+    enabled: false
+    population_growth: 0.01          # n
+  storage:
+    enabled: false
+    storage_spoilage: 0.1
+  land_limits:
+    enabled: false
+    land_limit: 500
+    land_exponent: 0.5               # beta
+  harvest_shocks:
+    enabled: false

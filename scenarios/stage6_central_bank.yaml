@@ -1,0 +1,11 @@
+# Stage 6 base scenario: the Stage 5 economy plus a central bank following a Taylor rule.
+inherits: stage5_government.yaml
+name: stage6_central_bank
+description: A central bank sets the interest rate (Taylor rule), lends in a run, and may bail out the bank.
+ticks: 400
+layers:
+  demand_shocks:
+    enabled: false
+  central_bank:
+    rule: taylor
+    reserve_ratio: 0.2

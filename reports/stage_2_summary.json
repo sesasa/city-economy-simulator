@@ -1,0 +1,561 @@
+{
+  "barter": [
+    {
+      "exchange": "barter",
+      "meetings": 1.0,
+      "trade_completion": 0.0625,
+      "consumption": 0.0,
+      "unemployment": 0.990624999979712,
+      "output": 0.0
+    },
+    {
+      "exchange": "barter",
+      "meetings": 2.0,
+      "trade_completion": 0.12109375,
+      "consumption": 0.0,
+      "unemployment": 0.9818359374645498,
+      "output": 0.0
+    },
+    {
+      "exchange": "barter",
+      "meetings": 4.0,
+      "trade_completion": 0.2275238037109375,
+      "consumption": 0.0,
+      "unemployment": 0.9658714294050865,
+      "output": 0.0
+    },
+    {
+      "exchange": "barter",
+      "meetings": 8.0,
+      "trade_completion": 0.4032805261667818,
+      "consumption": 0.0,
+      "unemployment": 0.9395079210187964,
+      "output": 0.0
+    },
+    {
+      "exchange": "barter",
+      "meetings": 16.0,
+      "trade_completion": 0.6439258695482072,
+      "consumption": 0.0,
+      "unemployment": 0.9034111194142993,
+      "output": 0.0
+    },
+    {
+      "exchange": "barter",
+      "meetings": 32.0,
+      "trade_completion": 0.8732112136229997,
+      "consumption": 0.48403329175092646,
+      "unemployment": 0.20661804351458696,
+      "output": 76.42630922383056
+    },
+    {
+      "exchange": "barter",
+      "meetings": 48.0,
+      "trade_completion": 0.9548537931397715,
+      "consumption": 0.959283537654229,
+      "unemployment": 0.09816076958642045,
+      "output": 152.1762994919079
+    },
+    {
+      "exchange": "barter",
+      "meetings": 64.0,
+      "trade_completion": 0.9839246036490473,
+      "consumption": 0.9931173969617959,
+      "unemployment": 0.08845361731289633,
+      "output": 159.47286472941855
+    },
+    {
+      "exchange": "barter",
+      "meetings": 96.0,
+      "trade_completion": 0.9979618200061334,
+      "consumption": 1.0264840617765743,
+      "unemployment": 0.07494175700049552,
+      "output": 165.7657179260389
+    },
+    {
+      "exchange": "barter",
+      "meetings": 128.0,
+      "trade_completion": 0.9997415816321598,
+      "consumption": 1.0405585977228045,
+      "unemployment": 0.06996316877447854,
+      "output": 168.13261812583423
+    },
+    {
+      "exchange": "barter",
+      "meetings": 256.0,
+      "trade_completion": 0.9999999332199472,
+      "consumption": 1.0429115682270513,
+      "unemployment": 0.06922379212753388,
+      "output": 168.51758071261784
+    },
+    {
+      "exchange": "money",
+      "meetings": NaN,
+      "trade_completion": 1.0,
+      "consumption": 1.0429122274653244,
+      "unemployment": 0.06922358574973547,
+      "output": 168.51769147117568
+    }
+  ],
+  "planner_vs_market": [
+    {
+      "N0": 100,
+      "market_consumption": 0.0,
+      "market_unemployment": 0.8499999999969323,
+      "market_settle": 13.0,
+      "planner_consumption": 0.5000270902914596,
+      "planner_leisure": 0.0,
+      "market_price_end": 1.448344999227509e-06
+    },
+    {
+      "N0": 110,
+      "market_consumption": 0.5620696703362437,
+      "market_unemployment": 0.03397987274487961,
+      "market_settle": NaN,
+      "planner_consumption": 0.6818192432646437,
+      "planner_leisure": 0.0,
+      "market_price_end": 7.693090132796197
+    },
+    {
+      "N0": 120,
+      "market_consumption": 0.7063830796353501,
+      "market_unemployment": 0.041880544840724995,
+      "market_settle": 248.0,
+      "planner_consumption": 0.8333344726350844,
+      "planner_leisure": 0.0,
+      "market_price_end": 4.266223077723419
+    },
+    {
+      "N0": 130,
+      "market_consumption": 0.8616685201892348,
+      "market_unemployment": 0.041237959685291,
+      "market_settle": 174.0,
+      "planner_consumption": 1.0,
+      "planner_leisure": 0.0,
+      "market_price_end": 3.2364911217879784
+    },
+    {
+      "N0": 140,
+      "market_consumption": 0.9828034455174607,
+      "market_unemployment": 0.04968348332027981,
+      "market_settle": 11.0,
+      "planner_consumption": 1.0,
+      "planner_leisure": 0.0504861280056431,
+      "market_price_end": 2.5289461402724682
+    },
+    {
+      "N0": 150,
+      "market_consumption": 1.1835480690011373,
+      "market_unemployment": 0.03331276797422694,
+      "market_settle": 317.0,
+      "planner_consumption": 1.0,
+      "planner_leisure": 0.11844741770439167,
+      "market_price_end": 1.1322272593993634
+    },
+    {
+      "N0": 160,
+      "market_consumption": 1.326273675147509,
+      "market_unemployment": 0.03217449504189372,
+      "market_settle": 226.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.164346204863991,
+      "market_price_end": 1.0370358744368724
+    },
+    {
+      "N0": 170,
+      "market_consumption": 1.42653217683495,
+      "market_unemployment": 0.03506491131362719,
+      "market_settle": 182.0,
+      "planner_consumption": 1.0,
+      "planner_leisure": 0.19692689840593636,
+      "market_price_end": 0.9610361643766431
+    },
+    {
+      "N0": 180,
+      "market_consumption": 1.489049065448751,
+      "market_unemployment": 0.04903830308771618,
+      "market_settle": 153.0,
+      "planner_consumption": 1.0,
+      "planner_leisure": 0.2260687159506634,
+      "market_price_end": 0.7018096446027429
+    },
+    {
+      "N0": 190,
+      "market_consumption": 1.4998560794235518,
+      "market_unemployment": 0.08141697903839493,
+      "market_settle": 130.0,
+      "planner_consumption": 1.0,
+      "planner_leisure": 0.25230549494109406,
+      "market_price_end": 0.44372390930283295
+    },
+    {
+      "N0": 200,
+      "market_consumption": 1.4999938781665814,
+      "market_unemployment": 0.10833390298627892,
+      "market_settle": 114.0,
+      "planner_consumption": 1.0,
+      "planner_leisure": 0.2760637697737522,
+      "market_price_end": 0.2803645687799811
+    },
+    {
+      "N0": 210,
+      "market_consumption": 1.4999936365464912,
+      "market_unemployment": 0.13165959403647962,
+      "market_settle": 103.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.2976887495791998,
+      "market_price_end": 0.1799092989273558
+    },
+    {
+      "N0": 220,
+      "market_consumption": 1.499993555288194,
+      "market_unemployment": 0.1532501313018113,
+      "market_settle": 95.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.31746173487511575,
+      "market_price_end": 0.11800869468955233
+    },
+    {
+      "N0": 230,
+      "market_consumption": 1.4999931885399622,
+      "market_unemployment": 0.17272198135728378,
+      "market_settle": 89.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.335625673598785,
+      "market_price_end": 0.0793814065732344
+    },
+    {
+      "N0": 240,
+      "market_consumption": 1.499993165049318,
+      "market_unemployment": 0.1911253631501759,
+      "market_settle": 83.0,
+      "planner_consumption": 1.0,
+      "planner_leisure": 0.3523680596061717,
+      "market_price_end": 0.05467560202139703
+    },
+    {
+      "N0": 250,
+      "market_consumption": 1.4999929736038626,
+      "market_unemployment": 0.20798454149285273,
+      "market_settle": 79.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.3678574852994205,
+      "market_price_end": 0.03845563285388292
+    },
+    {
+      "N0": 260,
+      "market_consumption": 1.4999928001890896,
+      "market_unemployment": 0.22366038579142408,
+      "market_settle": 76.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.3822376397630922,
+      "market_price_end": 0.027605943977283127
+    },
+    {
+      "N0": 270,
+      "market_consumption": 1.4999926280028815,
+      "market_unemployment": 0.23827453584129338,
+      "market_settle": 74.0,
+      "planner_consumption": 1.0,
+      "planner_leisure": 0.39562512449659243,
+      "market_price_end": 0.02021383575233802
+    },
+    {
+      "N0": 280,
+      "market_consumption": 1.4999924392605073,
+      "market_unemployment": 0.2519423133381697,
+      "market_settle": 72.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.4081194406773978,
+      "market_price_end": 0.015064047980206248
+    },
+    {
+      "N0": 290,
+      "market_consumption": 1.499992270748358,
+      "market_unemployment": 0.26475642852147574,
+      "market_settle": 70.0,
+      "planner_consumption": 1.0,
+      "planner_leisure": 0.419820077687597,
+      "market_price_end": 0.01141762310028269
+    },
+    {
+      "N0": 300,
+      "market_consumption": 1.499992108816575,
+      "market_unemployment": 0.2767991638748143,
+      "market_settle": 69.0,
+      "planner_consumption": 1.0,
+      "planner_leisure": 0.43079729554408336,
+      "market_price_end": 0.008787425352274697
+    },
+    {
+      "N0": 310,
+      "market_consumption": 1.4999915793233074,
+      "market_unemployment": 0.28776180423282927,
+      "market_settle": 67.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.4411183950781725,
+      "market_price_end": 0.006859969370679878
+    },
+    {
+      "N0": 320,
+      "market_consumption": 1.4999917992241079,
+      "market_unemployment": 0.29885437289735406,
+      "market_settle": 66.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.4508473904633636,
+      "market_price_end": 0.005429363622308692
+    },
+    {
+      "N0": 330,
+      "market_consumption": 1.4999912350130484,
+      "market_unemployment": 0.3085643622731363,
+      "market_settle": 65.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.4600325210626382,
+      "market_price_end": 0.004345694359589326
+    },
+    {
+      "N0": 340,
+      "market_consumption": 1.4999910666501932,
+      "market_unemployment": 0.31814567598308996,
+      "market_settle": 64.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.4687147083420649,
+      "market_price_end": 0.0035194426089960526
+    },
+    {
+      "N0": 350,
+      "market_consumption": 1.499990116315773,
+      "market_unemployment": 0.32649619093215015,
+      "market_settle": 63.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.476953719132866,
+      "market_price_end": 0.0028793769448579656
+    },
+    {
+      "N0": 360,
+      "market_consumption": 1.499991208207823,
+      "market_unemployment": 0.3363572983856301,
+      "market_settle": 64.0,
+      "planner_consumption": 1.0,
+      "planner_leisure": 0.48476370028084936,
+      "market_price_end": 0.0023760231970048635
+    },
+    {
+      "N0": 370,
+      "market_consumption": 1.4999910781064683,
+      "market_unemployment": 0.34460502568873297,
+      "market_settle": 63.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.492186263315339,
+      "market_price_end": 0.001978982606000489
+    },
+    {
+      "N0": 380,
+      "market_consumption": 1.499990950061125,
+      "market_unemployment": 0.3524699557841503,
+      "market_settle": 62.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.4992652058693261,
+      "market_price_end": 0.0016621786565014802
+    },
+    {
+      "N0": 390,
+      "market_consumption": 1.4999908252487089,
+      "market_unemployment": 0.3599793514146147,
+      "market_settle": 62.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.5060043658120685,
+      "market_price_end": 0.0014064399240485258
+    },
+    {
+      "N0": 400,
+      "market_consumption": 1.4999907048470096,
+      "market_unemployment": 0.36715407584911913,
+      "market_settle": 61.0,
+      "planner_consumption": 0.9999999999999999,
+      "planner_leisure": 0.5124349292246757,
+      "market_price_end": 0.0011978311631603991
+    }
+  ],
+  "neutrality": [
+    {
+      "money": 100,
+      "price_level": 0.14700379306116465,
+      "velocity": 0.23193895147384824,
+      "consumption": 1.042912227446863,
+      "unemployment": 0.06922358575522765
+    },
+    {
+      "money": 300,
+      "price_level": 0.4410113791884488,
+      "velocity": 0.2319389514794355,
+      "consumption": 1.042912227460759,
+      "unemployment": 0.06922358575109346
+    },
+    {
+      "money": 875,
+      "price_level": 1.286283189304382,
+      "velocity": 0.23193895148127033,
+      "consumption": 1.0429122274653255,
+      "unemployment": 0.06922358574973556
+    },
+    {
+      "money": 3000,
+      "price_level": 4.410113791906788,
+      "velocity": 0.23193895148194932,
+      "consumption": 1.0429122274670113,
+      "unemployment": 0.06922358574923321
+    },
+    {
+      "money": 10000,
+      "price_level": 14.700379306361743,
+      "velocity": 0.23193895148214505,
+      "consumption": 1.0429122274674956,
+      "unemployment": 0.06922358574908902
+    }
+  ],
+  "scarce_money": [
+    {
+      "money": 150,
+      "consumption": 0.0,
+      "min_consumption": 0.0,
+      "price_end": 2.1140919399868277e-05,
+      "unemployment": 0.8500000105660851
+    },
+    {
+      "money": 250,
+      "consumption": 0.0,
+      "min_consumption": 0.0,
+      "price_end": 2.5534075793097523e-05,
+      "unemployment": 0.8500000069793553
+    },
+    {
+      "money": 400,
+      "consumption": 1.0039802284710142,
+      "min_consumption": 0.6921309205224608,
+      "price_end": 0.5758598594463571,
+      "unemployment": 0.0891465686263381
+    },
+    {
+      "money": 600,
+      "consumption": 1.0084955688745116,
+      "min_consumption": 0.8965088730008657,
+      "price_end": 0.9172687497310664,
+      "unemployment": 0.0843822649777562
+    },
+    {
+      "money": 875,
+      "consumption": 1.0427912477781645,
+      "min_consumption": 0.9915276447282986,
+      "price_end": 1.1646297110676584,
+      "unemployment": 0.06925950551853984
+    },
+    {
+      "money": 1500,
+      "consumption": 1.141324664116394,
+      "min_consumption": 0.9577231429820618,
+      "price_end": 2.2784940876994764,
+      "unemployment": 0.03251508151430911
+    },
+    {
+      "money": 3000,
+      "consumption": 1.1350120252124676,
+      "min_consumption": 0.8441448744545699,
+      "price_end": 6.36892995147753,
+      "unemployment": 0.00020732160611270368
+    }
+  ],
+  "growth_deflation": {
+    "pop_factor": 16279.0645048685,
+    "price_factor": 5.626596226476761e-05
+  },
+  "price_speed": [
+    {
+      "price_speed": 0.005,
+      "consumption": 1.1491266578861774,
+      "price_volatility": 0.012001139270656224,
+      "inventory_volatility": 0.023008645063670292,
+      "unemployment": 0.03885123084886029,
+      "settle": 251.0
+    },
+    {
+      "price_speed": 0.01,
+      "consumption": 1.1517810576599192,
+      "price_volatility": 0.013525814001807242,
+      "inventory_volatility": 0.02603758663263946,
+      "unemployment": 0.03864930121722689,
+      "settle": 253.0
+    },
+    {
+      "price_speed": 0.02,
+      "consumption": 1.1485004327349884,
+      "price_volatility": 0.024473870091976015,
+      "inventory_volatility": 0.03970872628359679,
+      "unemployment": 0.04024556825462062,
+      "settle": 275.0
+    },
+    {
+      "price_speed": 0.05,
+      "consumption": 1.113230148233231,
+      "price_volatility": 0.07954724629467667,
+      "inventory_volatility": 0.06975989525867782,
+      "unemployment": 0.05126817686198121,
+      "settle": 317.0
+    },
+    {
+      "price_speed": 0.1,
+      "consumption": 1.0681006524157706,
+      "price_volatility": 0.13082037195802848,
+      "inventory_volatility": 0.0615666353049826,
+      "unemployment": 0.06510231972266606,
+      "settle": NaN
+    },
+    {
+      "price_speed": 0.2,
+      "consumption": 1.1232875148408683,
+      "price_volatility": 0.07996508537045413,
+      "inventory_volatility": 0.07531856057125114,
+      "unemployment": 0.05111074007039965,
+      "settle": NaN
+    },
+    {
+      "price_speed": 0.4,
+      "consumption": 1.078208999285872,
+      "price_volatility": 0.14182726306842836,
+      "inventory_volatility": 0.06242167168420423,
+      "unemployment": 0.06700093027451358,
+      "settle": NaN
+    }
+  ],
+  "shock": [
+    {
+      "system": "planner",
+      "min_consumption": 0.7,
+      "consumption_lost": 135.00000000000003,
+      "ticks_to_recover": 3,
+      "price_peak_vs_before": NaN
+    },
+    {
+      "system": "market",
+      "min_consumption": 0.9892140989454173,
+      "consumption_lost": 31.01420329625753,
+      "ticks_to_recover": 97,
+      "price_peak_vs_before": 0.10617156770500857
+    }
+  ],
+  "sfc_row_sums_max": 2.4868995751603507e-14,
+  "sfc_col_sums_max": 0.0,
+  "tally": {
+    "runs": 110,
+    "ticks": 40260,
+    "seconds": 25.057112367241643,
+    "by_experiment": {
+      "1": 15,
+      "2": 71,
+      "3": 13,
+      "4": 7,
+      "5": 4
+    }
+  }
+}

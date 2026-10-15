@@ -1,0 +1,218 @@
+{
+  "n_min": {
+    "analytical": 133.33333333333331,
+    "simulated": 133.33333358168602,
+    "error": 2.483527055119339e-07,
+    "fed_for_horizon": {
+      "20": 83.3338737487793,
+      "100": 111.41061782836914,
+      "300": 126.44100189208984,
+      "1000": 131.30359649658203
+    }
+  },
+  "survival_threshold": {
+    "priority": 83.3338737487793,
+    "max_feasible": 133.33368301391602
+  },
+  "a_min": [
+    {
+      "N0": 150,
+      "a_min_analytical": 3.749999999999999,
+      "a_min_simulated": 3.750000238418579
+    },
+    {
+      "N0": 200,
+      "a_min_analytical": 2.5,
+      "a_min_simulated": 2.5000001788139343
+    },
+    {
+      "N0": 300,
+      "a_min_analytical": 1.8749999999999996,
+      "a_min_simulated": 1.8750004172325134
+    },
+    {
+      "N0": 400,
+      "a_min_analytical": 1.6666666666666665,
+      "a_min_simulated": 1.6666668057441711
+    },
+    {
+      "N0": 1000,
+      "a_min_analytical": 1.3888888888888886,
+      "a_min_simulated": 1.388889193534851
+    }
+  ],
+  "s_zero_max_abs_growth": 0.0,
+  "growth_vs_s": [
+    {
+      "s": 0.0,
+      "growth_per_tick": 0.0
+    },
+    {
+      "s": 0.05,
+      "growth_per_tick": 0.0002132924802884517
+    },
+    {
+      "s": 0.1,
+      "growth_per_tick": 0.0003286299088292033
+    },
+    {
+      "s": 0.15,
+      "growth_per_tick": 0.00038707809237137347
+    },
+    {
+      "s": 0.2,
+      "growth_per_tick": 0.00046876807784079766
+    },
+    {
+      "s": 0.25,
+      "growth_per_tick": 0.0006154056115748041
+    },
+    {
+      "s": 0.3,
+      "growth_per_tick": 0.0006922707611929368
+    },
+    {
+      "s": 0.35,
+      "growth_per_tick": 0.000712659195318599
+    },
+    {
+      "s": 0.4,
+      "growth_per_tick": 0.0007123883076767257
+    },
+    {
+      "s": 0.45,
+      "growth_per_tick": 0.0007124390246027179
+    },
+    {
+      "s": 0.5,
+      "growth_per_tick": 0.0007118723258199289
+    },
+    {
+      "s": 0.55,
+      "growth_per_tick": 0.0007125824040628004
+    },
+    {
+      "s": 0.6,
+      "growth_per_tick": 0.0007109588324487603
+    },
+    {
+      "s": 0.65,
+      "growth_per_tick": 0.0007129452827014937
+    },
+    {
+      "s": 0.7,
+      "growth_per_tick": 0.0007123955221781664
+    },
+    {
+      "s": 0.75,
+      "growth_per_tick": 0.0007127139243072733
+    },
+    {
+      "s": 0.8,
+      "growth_per_tick": 0.0007130355759186191
+    }
+  ],
+  "long_run": [
+    {
+      "variant": "default (land limits + land improvements)",
+      "ticks": 2000,
+      "pop_end": 4301097.785909984,
+      "pop_peak": 5018450.0919042975,
+      "tick_growth_below_0_1pct": 1065.0,
+      "drift_last200": -0.006067238211507786,
+      "farm_share_end": 0.8236150347066211,
+      "eff_a_end": 1.2140222667245508,
+      "eff_a_peak": 19.789198994201257,
+      "leisure_peak": 0.7575099570826673,
+      "leisure_end": 0.0
+    },
+    {
+      "variant": "land limits, no land improvements",
+      "ticks": 2000,
+      "pop_end": 10180.899135970692,
+      "pop_peak": 10821.363498502682,
+      "tick_growth_below_0_1pct": 450.0,
+      "drift_last200": -0.0026080550722505924,
+      "farm_share_end": 0.8144713920549694,
+      "eff_a_end": 1.2277897806661981,
+      "eff_a_peak": 5.0,
+      "leisure_peak": 0.5945849598157552,
+      "leisure_end": 0.0
+    },
+    {
+      "variant": "no land limits",
+      "ticks": 1200,
+      "pop_end": 23000633.52082928,
+      "pop_peak": 23000633.52082928,
+      "tick_growth_below_0_1pct": NaN,
+      "drift_last200": 6.243582031514808,
+      "farm_share_end": 0.012485425723013758,
+      "eff_a_end": 80.09338425334991,
+      "eff_a_peak": 80.09338425334991,
+      "leisure_peak": 0.8727107046368391,
+      "leisure_end": 0.8727107046368391
+    }
+  ],
+  "shock": [
+    {
+      "case": "no storage, fixed population",
+      "min_consumption_per_person": 0.7,
+      "consumption_lost": 135.00000000000003,
+      "ticks_to_full_consumption": 3,
+      "ticks_to_full_recovery": 3,
+      "investment_lost": 0.0,
+      "steady_investment": 4.169498066029647,
+      "pop_loss": 0.0,
+      "ticks_to_regain_population": NaN,
+      "pop_gap_vs_no_shock_end": 0.0
+    },
+    {
+      "case": "storage, fixed population",
+      "min_consumption_per_person": 1.0,
+      "consumption_lost": 0.0,
+      "ticks_to_full_consumption": 0,
+      "ticks_to_full_recovery": 5,
+      "investment_lost": 12.491985794323258,
+      "steady_investment": 2.508113871930274,
+      "pop_loss": 0.0,
+      "ticks_to_regain_population": NaN,
+      "pop_gap_vs_no_shock_end": 0.0
+    },
+    {
+      "case": "no storage, demography",
+      "min_consumption_per_person": 0.7,
+      "consumption_lost": 228.54545408560753,
+      "ticks_to_full_consumption": 3,
+      "ticks_to_full_recovery": 3,
+      "investment_lost": 125.49818984509943,
+      "steady_investment": 28.217587733069994,
+      "pop_loss": 0.08732700000000015,
+      "ticks_to_regain_population": 12.0,
+      "pop_gap_vs_no_shock_end": -0.11416857792043289
+    },
+    {
+      "case": "storage, demography",
+      "min_consumption_per_person": 0.9999999999999998,
+      "consumption_lost": 6.577048006787969e-13,
+      "ticks_to_full_consumption": 0,
+      "ticks_to_full_recovery": 3,
+      "investment_lost": 21.13182873492458,
+      "steady_investment": 25.975226387323346,
+      "pop_loss": -0.010000000000000009,
+      "ticks_to_regain_population": 0.0,
+      "pop_gap_vs_no_shock_end": 0.0
+    }
+  ],
+  "tally": {
+    "runs": 1949,
+    "ticks": 197330,
+    "seconds": 37.772960078087635,
+    "by_experiment": {
+      "1": 332,
+      "2": 1547,
+      "3": 43,
+      "4": 3,
+      "5": 24
+    }
+  }
+}

@@ -1,0 +1,308 @@
+{
+  "calibration": [
+    {
+      "measure": "agriculture",
+      "model": 0.016306,
+      "rich_economies_today": "1\u20133%"
+    },
+    {
+      "measure": "manufacturing",
+      "model": 0.19375866483045115,
+      "rich_economies_today": "10\u201320%"
+    },
+    {
+      "measure": "services",
+      "model": 0.688787,
+      "rich_economies_today": "the large majority"
+    },
+    {
+      "measure": "unemployed",
+      "model": 0.10138333516954887,
+      "rich_economies_today": "low (3\u20138%)"
+    },
+    {
+      "measure": "deposits_share_of_money",
+      "model": 1.0,
+      "rich_economies_today": "most"
+    }
+  ],
+  "systems": [
+    {
+      "system": "central planning",
+      "output": 2.298024735590681,
+      "bread": 1.0,
+      "services": 1.298024735590681,
+      "growth": 0.01625220872529165,
+      "technology": 2.7316018904695496,
+      "instability": 0.019808031413710896,
+      "unemployment": 0.0,
+      "unemployment_sd": 0.0,
+      "inequality": 0.0,
+      "harvest_shock_loss": 0.1867783319656584,
+      "demand_shock_loss": NaN
+    },
+    {
+      "system": "free market",
+      "output": 2.6754711649278207,
+      "bread": 1.3402407233910072,
+      "services": 1.335230441536814,
+      "growth": -0.09168476050082237,
+      "technology": 2.34703514273765,
+      "instability": 0.15762319454395857,
+      "unemployment": 0.054876190292567725,
+      "unemployment_sd": 0.03187833782985023,
+      "inequality": 0.2361433897322199,
+      "harvest_shock_loss": 60.914482386475356,
+      "demand_shock_loss": 47.53662889340026
+    },
+    {
+      "system": "mixed economy",
+      "output": 2.4253487674717156,
+      "bread": 1.249801185840449,
+      "services": 1.1755475816312662,
+      "growth": -0.17916976937720794,
+      "technology": 2.3480870806953607,
+      "instability": 0.33254344138265635,
+      "unemployment": 0.08717766640306314,
+      "unemployment_sd": 0.091541742873385,
+      "inequality": 0.08515264088417833,
+      "harvest_shock_loss": 69.25446248015004,
+      "demand_shock_loss": 28.909773686992246
+    }
+  ],
+  "ablation": [
+    {
+      "without": "(nothing: full mixed economy)",
+      "output": 2.4253487674717156,
+      "bread": 1.249801185840449,
+      "services": 1.1755475816312662,
+      "growth": -0.17916976937720794,
+      "technology": 2.3480870806953607,
+      "instability": 0.33254344138265635,
+      "unemployment": 0.08717766640306314,
+      "unemployment_sd": 0.091541742873385,
+      "inequality": 0.08515264088417833,
+      "harvest_shock_loss": 69.25446248015004
+    },
+    {
+      "without": "services",
+      "output": 1.075232726521207,
+      "bread": 1.075232726521207,
+      "services": 0.0,
+      "growth": -0.2624560055912226,
+      "technology": 2.2929364695456558,
+      "instability": 0.17747344509031626,
+      "unemployment": 0.7161275337980151,
+      "unemployment_sd": 0.038363227537980285,
+      "inequality": 0.4108851517473823,
+      "harvest_shock_loss": 37.84996607256325
+    },
+    {
+      "without": "banking (with central bank and stock market)",
+      "output": 1.524595015475384,
+      "bread": 0.7607756599726592,
+      "services": 0.7638193555027246,
+      "growth": -0.6319205360936595,
+      "technology": 2.3210629760858144,
+      "instability": 0.7868747033653263,
+      "unemployment": 0.1716056372684875,
+      "unemployment_sd": 0.2222140720602054,
+      "inequality": 0.2288528161913712,
+      "harvest_shock_loss": 102.65566103654487
+    },
+    {
+      "without": "entry and exit",
+      "output": 2.812191843109679,
+      "bread": 1.4502321420363902,
+      "services": 1.3619597010732882,
+      "growth": -0.026758973610017844,
+      "technology": 2.448147463332388,
+      "instability": 0.154782384166481,
+      "unemployment": 0.06406559635881401,
+      "unemployment_sd": 0.06473752480203351,
+      "inequality": 0.07907186129121675,
+      "harvest_shock_loss": 60.41393178128332
+    },
+    {
+      "without": "government",
+      "output": 2.48196873198578,
+      "bread": 1.2471014773184599,
+      "services": 1.2348672546673205,
+      "growth": -0.1553671935163809,
+      "technology": 2.3320367850733548,
+      "instability": 0.26581639231055587,
+      "unemployment": 0.0714743593563069,
+      "unemployment_sd": 0.059008467198905755,
+      "inequality": 0.25297343983045095,
+      "harvest_shock_loss": 68.06295499460524
+    },
+    {
+      "without": "central bank",
+      "output": 2.7015159418491415,
+      "bread": 1.3822142741653214,
+      "services": 1.3193016676838198,
+      "growth": -0.0472820689991468,
+      "technology": 2.3502615993406017,
+      "instability": 0.22643411261345642,
+      "unemployment": 0.0849133574683226,
+      "unemployment_sd": 0.09668632135877284,
+      "inequality": 0.07749422818609261,
+      "harvest_shock_loss": 66.5735332311807
+    },
+    {
+      "without": "stock market",
+      "output": 2.3290058738396984,
+      "bread": 1.1860092035899847,
+      "services": 1.1429966702497136,
+      "growth": -0.2003119298229108,
+      "technology": 2.3033039334233854,
+      "instability": 0.3780881464578087,
+      "unemployment": 0.0971579769217457,
+      "unemployment_sd": 0.1034133095237135,
+      "inequality": 0.26412081072071025,
+      "harvest_shock_loss": 53.085983338899624
+    },
+    {
+      "without": "insurance and futures",
+      "output": 2.3147702150299914,
+      "bread": 1.198058726849046,
+      "services": 1.116711488180945,
+      "growth": -0.22532913874893984,
+      "technology": 2.323325391428939,
+      "instability": 0.38306086411420254,
+      "unemployment": 0.09237145401246775,
+      "unemployment_sd": 0.10070098212948546,
+      "inequality": 0.08856416818755775,
+      "harvest_shock_loss": 67.35466788499635
+    },
+    {
+      "without": "technology",
+      "output": 1.964224196814855,
+      "bread": 1.0543021318969044,
+      "services": 0.9099220649179504,
+      "growth": -0.3089048612365282,
+      "technology": 1.0,
+      "instability": 0.5306937141401357,
+      "unemployment": 0.09952728108159495,
+      "unemployment_sd": 0.10979895380876023,
+      "inequality": 0.09805457694287266,
+      "harvest_shock_loss": 51.361722664928756
+    }
+  ],
+  "ablation_delta": [
+    {
+      "without": "services",
+      "output": -1.3501160409505086,
+      "bread": -0.17456845931924203,
+      "services": -1.1755475816312662,
+      "growth": -0.08328623621401468,
+      "technology": -0.055150611149704876,
+      "instability": -0.15506999629234008,
+      "unemployment": 0.628949867394952,
+      "unemployment_sd": -0.053178515335404714,
+      "inequality": 0.325732510863204,
+      "harvest_shock_loss": -31.40449640758679
+    },
+    {
+      "without": "banking (with central bank and stock market)",
+      "output": -0.9007537519963316,
+      "bread": -0.4890255258677898,
+      "services": -0.41172822612854154,
+      "growth": -0.45275076671645154,
+      "technology": -0.027024104609546296,
+      "instability": 0.45433126198266993,
+      "unemployment": 0.08442797086542435,
+      "unemployment_sd": 0.13067232918682042,
+      "inequality": 0.14370017530719287,
+      "harvest_shock_loss": 33.40119855639483
+    },
+    {
+      "without": "entry and exit",
+      "output": 0.3868430756379633,
+      "bread": 0.2004309561959412,
+      "services": 0.18641211944202207,
+      "growth": 0.1524107957671901,
+      "technology": 0.10006038263702743,
+      "instability": -0.17776105721617536,
+      "unemployment": -0.02311207004424913,
+      "unemployment_sd": -0.026804218071351485,
+      "inequality": -0.006080779592961577,
+      "harvest_shock_loss": -8.840530698866722
+    },
+    {
+      "without": "government",
+      "output": 0.05661996451406459,
+      "bread": -0.002699708521989086,
+      "services": 0.05931967303605434,
+      "growth": 0.02380257586082704,
+      "technology": -0.016050295622005883,
+      "instability": -0.06672704907210047,
+      "unemployment": -0.015703307046756237,
+      "unemployment_sd": -0.032533275674479244,
+      "inequality": 0.1678207989462726,
+      "harvest_shock_loss": -1.191507485544804
+    },
+    {
+      "without": "central bank",
+      "output": 0.2761671743774259,
+      "bread": 0.13241308832487242,
+      "services": 0.1437540860525537,
+      "growth": 0.13188770037806113,
+      "technology": 0.002174518645241097,
+      "instability": -0.10610932876919993,
+      "unemployment": -0.0022643089347405415,
+      "unemployment_sd": 0.005144578485387838,
+      "inequality": -0.0076584126980857176,
+      "harvest_shock_loss": -2.680929248969335
+    },
+    {
+      "without": "stock market",
+      "output": -0.0963428936320172,
+      "bread": -0.06379198225046423,
+      "services": -0.03255091138155253,
+      "growth": -0.021142160445702857,
+      "technology": -0.0447831472719753,
+      "instability": 0.04554470507515235,
+      "unemployment": 0.009980310518682561,
+      "unemployment_sd": 0.0118715666503285,
+      "inequality": 0.1789681698365319,
+      "harvest_shock_loss": -16.168479141250415
+    },
+    {
+      "without": "insurance and futures",
+      "output": -0.11057855244172421,
+      "bread": -0.05174245899140306,
+      "services": -0.05883609345032115,
+      "growth": -0.0461593693717319,
+      "technology": -0.024761689266421527,
+      "instability": 0.05051742273154619,
+      "unemployment": 0.005193787609404615,
+      "unemployment_sd": 0.00915923925610046,
+      "inequality": 0.0034115273033794163,
+      "harvest_shock_loss": -1.8997945951536934
+    },
+    {
+      "without": "technology",
+      "output": -0.4611245706568605,
+      "bread": -0.1954990539435446,
+      "services": -0.2656255167133158,
+      "growth": -0.12973509185932028,
+      "technology": -1.3480870806953607,
+      "instability": 0.19815027275747932,
+      "unemployment": 0.012349614678531809,
+      "unemployment_sd": 0.01825721093537523,
+      "inequality": 0.01290193605869433,
+      "harvest_shock_loss": -17.892739815221283
+    }
+  ],
+  "tally": {
+    "runs": 135,
+    "ticks": 81000,
+    "seconds": 408.52830885676667,
+    "by_experiment": {
+      "1": 5,
+      "2": 40,
+      "3": 90
+    }
+  }
+}
