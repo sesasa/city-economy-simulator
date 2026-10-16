@@ -11,7 +11,7 @@
 - **Grainbridge town twin.** An animated, narrated view of the Stage 1 economy for non-specialists. Its JavaScript engine is checked tick by tick against the Python model to 1e-9.
 - **178 tests:** unit tests, invariant tampering, analytical checks, golden regressions and twin parity.
 
-**Built with Claude Code** from a written specification ([`SPEC.md`](SPEC.md)) under strict working rules: build one stage at a time, run its experiments, report and stop for review. Every ambiguous design choice is recorded in [`DECISIONS.md`](DECISIONS.md), and stage-by-stage results are in [`STAGES.md`](STAGES.md).
+**Built with Claude Code**, with OpenAI Codex consulted for review, from a written specification ([`SPEC.md`](SPEC.md)) under strict working rules: build one stage at a time, run its experiments, report and stop for review. Every ambiguous design choice is recorded in [`DECISIONS.md`](DECISIONS.md), and stage-by-stage results are in [`STAGES.md`](STAGES.md).
 
 ## Stages
 
